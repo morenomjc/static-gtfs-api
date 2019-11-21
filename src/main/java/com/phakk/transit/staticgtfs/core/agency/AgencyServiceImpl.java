@@ -4,6 +4,8 @@ import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyRepository
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class AgencyServiceImpl implements AgencyService{
@@ -15,12 +17,14 @@ public class AgencyServiceImpl implements AgencyService{
     }
 
     @Override
+    public List<Agency> getAgencies() {
+        List<Agency> agencies = agencyRepository.getAgencies();
+        log.info("Result: {}", agencies.size());
+        return agencies;
+    }
+
+    @Override
     public Agency getAgency(String id){
-        try {
-            return agencyRepository.getAgency(id);
-        }catch (Exception e){
-            log.error("Exception occurred: {}", e.getLocalizedMessage());
-            throw e;
-        }
+        return agencyRepository.getAgency(id);
     }
 }
