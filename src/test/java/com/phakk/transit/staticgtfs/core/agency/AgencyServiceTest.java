@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,26 +29,42 @@ public class AgencyServiceTest {
     }
 
     @Test
-    public void getAgency_whenExists_returnDetails(){
-        givenAgencyDetails();
+    public void testGetAgencyBydId(){
+        Agency expected = buildAgency();
+        givenAnAgency(expected);
 
-        Agency agency = agencyService.getAgency("1");
+        Agency result = agencyService.getAgency("1");
 
-        assertThat(agency).isNotNull();
+        assertThat(result).isEqualTo(expected);
     }
 
-    private void givenAgencyDetails(){
-        when(agencyRepository.getAgency(anyString())).thenReturn(
-                Agency.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name("agency")
-                        .url("http://gtfs.com")
-                        .timezone("Asia/Manila")
-                        .lang("en")
-                        .phone("8888")
-                        .fareUrl("http://gtfs.com/fares")
-                        .email("support@gtfs.com")
-                        .build()
-        );
+    @Test
+    public void testGetAgencies(){
+        givenAgencies();
+
+        List<Agency> result = agencyService.getAgencies();
+
+        assertThat(result).hasSize(1);
+    }
+
+    private void givenAnAgency(Agency agency){
+        when(agencyRepository.getAgency(anyString())).thenReturn(agency);
+    }
+
+    private void givenAgencies(){
+        when(agencyRepository.getAgencies()).thenReturn(Collections.singletonList(buildAgency()));
+    }
+
+    private Agency buildAgency(){
+        return Agency.builder()
+                .id(UUID.randomUUID().toString())
+                .name("agency")
+                .url("http://gtfs.com")
+                .timezone("Asia/Manila")
+                .lang("en")
+                .phone("8888")
+                .fareUrl("http://gtfs.com/fares")
+                .email("support@gtfs.com")
+                .build();
     }
 }

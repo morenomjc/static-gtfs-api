@@ -4,13 +4,13 @@ import com.phakk.transit.staticgtfs.api.rest.dto.AgencyDto;
 import com.phakk.transit.staticgtfs.api.rest.resource.AgencyResource;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.agency.AgencyService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
-@RequestMapping("/agencies")
 public class AgencyController implements AgencyResource {
 
     private AgencyService agencyService;
@@ -21,8 +21,19 @@ public class AgencyController implements AgencyResource {
     }
 
     @Override
+    public ResponseEntity getAgencies() {
+        log.info("Action: getAgencies");
+        return ResponseEntity.ok(
+                agencyService.getAgencies().stream().map(this::mapToDto)
+        );
+    }
+
+    @Override
     public ResponseEntity getAgency(String agencyId) {
-        return ResponseEntity.ok(mapToDto(agencyService.getAgency(agencyId)));
+        log.info("Action: getAgency [{}]", agencyId);
+        return ResponseEntity.ok(
+                mapToDto(agencyService.getAgency(agencyId))
+        );
     }
 
     private AgencyDto mapToDto(Agency agency){

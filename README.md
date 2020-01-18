@@ -26,7 +26,7 @@ TODO
 
 ### Coverage Tests
 ```shell script
-docker run -d --name sonarqube -p 9000:9000 sonarqube
+docker run -d -p 9000:9000 sonarqube
 ./gradlew clean sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=<token>
 ```
 

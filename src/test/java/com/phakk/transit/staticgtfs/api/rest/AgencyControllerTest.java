@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
@@ -38,9 +39,9 @@ public class AgencyControllerTest {
     }
 
     @Test
-    public void getAgency_ShouldReturnDetails() throws Exception{
+    public void testGetAgencyEndpoint() throws Exception{
         //arrange
-        givenAgencyDetails();
+        givenAnAgency(buildAgency());
 
         //act and assert
         this.mockMvc.perform(get("/agencies/1")
@@ -52,18 +53,39 @@ public class AgencyControllerTest {
         );
     }
 
-    private void givenAgencyDetails(){
-        when(agencyService.getAgency(anyString())).thenReturn(
-                Agency.builder()
-                        .id(UUID.randomUUID().toString())
-                        .name("agency")
-                        .url("http://gtfs.com")
-                        .timezone("Asia/Manila")
-                        .lang("en")
-                        .phone("8888")
-                        .fareUrl("http://gtfs.com/fares")
-                        .email("support@gtfs.com")
-                        .build()
+    @Test
+    public void testGetAgenciesEndpoint() throws Exception{
+        //arrange
+        givenAgencies(buildAgency());
+
+        //act and assert
+        this.mockMvc.perform(get("/agencies")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                status().isOk()
+        ).andExpect(
+                jsonPath("$[0].agency_id", is(notNullValue()))
         );
+    }
+
+    private void givenAnAgency(Agency agency){
+        when(agencyService.getAgency(anyString())).thenReturn(agency);
+    }
+
+    private void givenAgencies(Agency agency){
+        when(agencyService.getAgencies()).thenReturn(Collections.singletonList(agency));
+    }
+
+    private Agency buildAgency(){
+        return Agency.builder()
+                .id(UUID.randomUUID().toString())
+                .name("agency")
+                .url("http://gtfs.com")
+                .timezone("Asia/Manila")
+                .lang("en")
+                .phone("8888")
+                .fareUrl("http://gtfs.com/fares")
+                .email("support@gtfs.com")
+                .build();
     }
 }

@@ -6,15 +6,24 @@ import com.phakk.transit.staticgtfs.datastore.entity.jpa.AgencyEntity;
 import com.phakk.transit.staticgtfs.datastore.repository.jpa.AgencyJpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
-public class AgencyRepositoryImpl implements AgencyRepository{
+public class AgencyRepositoryJpaImpl implements AgencyRepository{
 
     private AgencyJpaRepository agencyJpaRepository;
 
-    public AgencyRepositoryImpl(AgencyJpaRepository agencyJpaRepository) {
+    public AgencyRepositoryJpaImpl(AgencyJpaRepository agencyJpaRepository) {
         this.agencyJpaRepository = agencyJpaRepository;
+    }
+
+    @Override
+    public List<Agency> getAgencies() {
+        return agencyJpaRepository.findAll().stream()
+                .map(this::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override

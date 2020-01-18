@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -29,6 +31,17 @@ public class AgencyJpaRepositoryTest {
         AgencyEntity agencyEntity = agencyJpaRepository.findByAgencyId("1");
 
         assertThat(agencyEntity).isEqualTo(expected);
+    }
+
+    @Test
+    public void testFindAll(){
+        AgencyEntity expected = buildAgencyEntity();
+        givenExistingAgency(expected);
+
+        List<AgencyEntity> agencyEntities = agencyJpaRepository.findAll();
+
+        assertThat(agencyEntities).hasSize(1);
+        assertThat(agencyEntities).contains(expected);
     }
 
     private void givenExistingAgency(AgencyEntity agencyEntity){
