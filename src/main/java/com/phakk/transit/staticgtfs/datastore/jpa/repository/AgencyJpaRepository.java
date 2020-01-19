@@ -1,6 +1,6 @@
-package com.phakk.transit.staticgtfs.datastore.repository.jpa;
+package com.phakk.transit.staticgtfs.datastore.jpa.repository;
 
-import com.phakk.transit.staticgtfs.datastore.entity.jpa.AgencyEntity;
+import com.phakk.transit.staticgtfs.datastore.jpa.entity.AgencyEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AgencyJpaRepository extends JpaRepository<AgencyEntity, Long> {

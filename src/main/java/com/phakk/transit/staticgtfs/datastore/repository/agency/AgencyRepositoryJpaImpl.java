@@ -1,9 +1,9 @@
 package com.phakk.transit.staticgtfs.datastore.repository.agency;
 
 import com.phakk.transit.staticgtfs.core.agency.Agency;
-import com.phakk.transit.staticgtfs.core.agency.AgencyNotFoundException;
-import com.phakk.transit.staticgtfs.datastore.entity.jpa.AgencyEntity;
-import com.phakk.transit.staticgtfs.datastore.repository.jpa.AgencyJpaRepository;
+import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.phakk.transit.staticgtfs.datastore.jpa.entity.AgencyEntity;
+import com.phakk.transit.staticgtfs.datastore.jpa.repository.AgencyJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class AgencyRepositoryJpaImpl implements AgencyRepository{
         AgencyEntity agencyEntity = agencyJpaRepository.findByAgencyId(id);
 
         if (Objects.isNull(agencyEntity)){
-            throw new AgencyNotFoundException("Agency not found.");
+            throw new DataNotFoundException("Agency not found.");
         }
 
         return fromEntity(agencyEntity);

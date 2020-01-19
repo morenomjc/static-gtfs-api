@@ -60,7 +60,7 @@ public class AgencyServiceTest {
                 .id(UUID.randomUUID().toString())
                 .name("agency")
                 .url("http://gtfs.com")
-                .timezone("Asia/Manila")
+                .timezone("Asia/Singapore")
                 .lang("en")
                 .phone("8888")
                 .fareUrl("http://gtfs.com/fares")

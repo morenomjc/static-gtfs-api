@@ -16,18 +16,25 @@ public class AgencyDto implements Serializable {
 
     @JsonProperty("agency_id")
     private String id;
+
     @JsonProperty("agency_name")
     private String name;
+
     @JsonProperty("agency_url")
     private String url;
+
     @JsonProperty("agency_timezone")
     private String timezone;
+
     @JsonProperty("agency_lang")
     private String lang;
+
     @JsonProperty("agency_phone")
     private String phone;
+
     @JsonProperty("agency_fare_url")
     private String fareUrl;
+
     @JsonProperty("agency_email")
     private String email;
 }
