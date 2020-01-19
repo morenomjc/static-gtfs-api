@@ -1,4 +1,4 @@
-package com.phakk.transit.staticgtfs.datastore.entity.jpa;
+package com.phakk.transit.staticgtfs.datastore.jpa.entity;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "AGENCY")
+@Table(name = "AGENCIES")
 @Data
 public class AgencyEntity {
 

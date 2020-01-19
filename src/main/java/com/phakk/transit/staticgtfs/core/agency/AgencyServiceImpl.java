@@ -25,6 +25,8 @@ public class AgencyServiceImpl implements AgencyService{
 
     @Override
     public Agency getAgency(String id){
-        return agencyRepository.getAgency(id);
+        Agency agency = agencyRepository.getAgency(id);
+        log.info("Result: {}", agency.getId());
+        return agency;
     }
 }

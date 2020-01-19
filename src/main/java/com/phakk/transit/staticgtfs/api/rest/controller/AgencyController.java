@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RestController
 public class AgencyController implements AgencyResource {
@@ -21,15 +24,17 @@ public class AgencyController implements AgencyResource {
     }
 
     @Override
-    public ResponseEntity getAgencies() {
+    public ResponseEntity<List<AgencyDto>> getAgencies() {
         log.info("Action: getAgencies");
         return ResponseEntity.ok(
-                agencyService.getAgencies().stream().map(this::mapToDto)
+                agencyService.getAgencies().stream()
+                        .map(this::mapToDto)
+                        .collect(Collectors.toList())
         );
     }
 
     @Override
-    public ResponseEntity getAgency(String agencyId) {
+    public ResponseEntity<AgencyDto> getAgency(String agencyId) {
         log.info("Action: getAgency [{}]", agencyId);
         return ResponseEntity.ok(
                 mapToDto(agencyService.getAgency(agencyId))

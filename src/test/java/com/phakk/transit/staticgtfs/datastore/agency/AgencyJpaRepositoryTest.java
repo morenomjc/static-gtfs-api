@@ -1,7 +1,7 @@
 package com.phakk.transit.staticgtfs.datastore.agency;
 
-import com.phakk.transit.staticgtfs.datastore.entity.jpa.AgencyEntity;
-import com.phakk.transit.staticgtfs.datastore.repository.jpa.AgencyJpaRepository;
+import com.phakk.transit.staticgtfs.datastore.jpa.entity.AgencyEntity;
+import com.phakk.transit.staticgtfs.datastore.jpa.repository.AgencyJpaRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class AgencyJpaRepositoryTest {
         agencyEntity.setAgencyId("1");
         agencyEntity.setName("name");
         agencyEntity.setUrl("http://gtfs.com");
-        agencyEntity.setTimezone("Asia/Manila");
+        agencyEntity.setTimezone("Asia/Singapore");
         agencyEntity.setEmail("email@test.com");
         agencyEntity.setFareUrl("http://gtfs.com/fares");
         agencyEntity.setLang("en");

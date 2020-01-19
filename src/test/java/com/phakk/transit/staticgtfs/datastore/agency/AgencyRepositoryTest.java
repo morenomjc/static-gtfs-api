@@ -1,11 +1,11 @@
 package com.phakk.transit.staticgtfs.datastore.agency;
 
 import com.phakk.transit.staticgtfs.core.agency.Agency;
-import com.phakk.transit.staticgtfs.core.agency.AgencyNotFoundException;
-import com.phakk.transit.staticgtfs.datastore.entity.jpa.AgencyEntity;
+import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.phakk.transit.staticgtfs.datastore.jpa.entity.AgencyEntity;
 import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyRepository;
 import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyRepositoryJpaImpl;
-import com.phakk.transit.staticgtfs.datastore.repository.jpa.AgencyJpaRepository;
+import com.phakk.transit.staticgtfs.datastore.jpa.repository.AgencyJpaRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class AgencyRepositoryTest {
         assertThat(agency.getId()).isEqualTo("1");
         assertThat(agency.getName()).isEqualTo("name");
         assertThat(agency.getUrl()).isEqualTo("http://gtfs.com");
-        assertThat(agency.getTimezone()).isEqualTo("Asia/Manila");
+        assertThat(agency.getTimezone()).isEqualTo("Asia/Singapore");
         assertThat(agency.getEmail()).isEqualTo("email@test.com");
         assertThat(agency.getFareUrl()).isEqualTo("http://gtfs.com/fares");
         assertThat(agency.getLang()).isEqualTo("en");
@@ -66,7 +66,7 @@ public class AgencyRepositoryTest {
 
     @Test
     public void testWhenAgencyNotFound(){
-        expectedException.expect(AgencyNotFoundException.class);
+        expectedException.expect(DataNotFoundException.class);
         expectedException.expectMessage(equalTo("Agency not found."));
 
         whenAgencyNotFound();
@@ -91,7 +91,7 @@ public class AgencyRepositoryTest {
         agencyEntity.setAgencyId("1");
         agencyEntity.setName("name");
         agencyEntity.setUrl("http://gtfs.com");
-        agencyEntity.setTimezone("Asia/Manila");
+        agencyEntity.setTimezone("Asia/Singapore");
         agencyEntity.setEmail("email@test.com");
         agencyEntity.setFareUrl("http://gtfs.com/fares");
         agencyEntity.setLang("en");
