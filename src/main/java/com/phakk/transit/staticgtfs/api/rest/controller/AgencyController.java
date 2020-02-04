@@ -2,6 +2,8 @@ package com.phakk.transit.staticgtfs.api.rest.controller;
 
 import com.phakk.transit.staticgtfs.api.rest.dto.AgencyDto;
 import com.phakk.transit.staticgtfs.api.rest.resource.AgencyResource;
+import com.phakk.transit.staticgtfs.api.spec.ApiData;
+import com.phakk.transit.staticgtfs.api.spec.ApiTemplate;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.agency.AgencyService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,20 +26,24 @@ public class AgencyController implements AgencyResource {
     }
 
     @Override
-    public ResponseEntity<List<AgencyDto>> getAgencies() {
+    public ResponseEntity<ApiTemplate> getAgencies() {
         log.info("Action: getAgencies");
         return ResponseEntity.ok(
-                agencyService.getAgencies().stream()
+                mapToApiDto(
+                        agencyService.getAgencies().stream()
                         .map(this::mapToDto)
                         .collect(Collectors.toList())
+                )
         );
     }
 
     @Override
-    public ResponseEntity<AgencyDto> getAgency(String agencyId) {
+    public ResponseEntity<ApiTemplate> getAgency(String agencyId) {
         log.info("Action: getAgency [{}]", agencyId);
         return ResponseEntity.ok(
-                mapToDto(agencyService.getAgency(agencyId))
+                mapToApiDto(
+                        mapToDto(agencyService.getAgency(agencyId))
+                )
         );
     }
 
@@ -51,5 +57,13 @@ public class AgencyController implements AgencyResource {
                 .phone(agency.getPhone())
                 .email(agency.getEmail())
                 .build();
+    }
+
+    private ApiData<AgencyDto> mapToApiDto(AgencyDto agencyDto){
+        return new ApiData<>(agencyDto);
+    }
+
+    private ApiData<List<AgencyDto>> mapToApiDto(List<AgencyDto> list){
+        return new ApiData<>(list);
     }
 }

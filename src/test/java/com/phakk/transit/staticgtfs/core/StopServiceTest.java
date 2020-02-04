@@ -1,7 +1,10 @@
-package com.phakk.transit.staticgtfs.core.stop;
+package com.phakk.transit.staticgtfs.core;
 
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
 import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
+import com.phakk.transit.staticgtfs.core.stop.Stop;
+import com.phakk.transit.staticgtfs.core.stop.StopService;
+import com.phakk.transit.staticgtfs.core.stop.StopServiceImpl;
 import com.phakk.transit.staticgtfs.datastore.repository.stop.StopRepository;
 import org.junit.Before;
 import org.junit.Test;

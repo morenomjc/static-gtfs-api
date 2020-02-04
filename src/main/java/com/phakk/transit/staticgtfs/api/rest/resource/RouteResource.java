@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequestMapping("/routes")
+public interface RouteResource {
 
-@RequestMapping("/stops")
-public interface StopResource {
-
-    @GetMapping(value = "/{stopId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ApiTemplate> getStop(@PathVariable(name = "stopId") String id);
+    @GetMapping(value = "/{routeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ApiTemplate> getRoute(@PathVariable(name = "routeId") String id);
 
 }

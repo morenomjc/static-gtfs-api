@@ -3,6 +3,8 @@ package com.phakk.transit.staticgtfs.api.rest.controller;
 import com.phakk.transit.staticgtfs.api.rest.dto.DataTypeDto;
 import com.phakk.transit.staticgtfs.api.rest.dto.StopDto;
 import com.phakk.transit.staticgtfs.api.rest.resource.StopResource;
+import com.phakk.transit.staticgtfs.api.spec.ApiData;
+import com.phakk.transit.staticgtfs.api.spec.ApiTemplate;
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
 import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
@@ -24,10 +26,12 @@ public class StopController implements StopResource {
     }
 
     @Override
-    public ResponseEntity<StopDto> getStop(String id) {
+    public ResponseEntity<ApiTemplate> getStop(String id) {
         log.info("Action: getStop [{}]", id);
         return ResponseEntity.ok(
-                mapToDto(stopService.getStop(id))
+                mapToApiDto(
+                        mapToDto(stopService.getStop(id))
+                )
         );
     }
 
@@ -68,5 +72,9 @@ public class StopController implements StopResource {
                 .id(wbEnum.getId())
                 .desc(wbEnum.getDescription())
                 .build();
+    }
+
+    private ApiData<StopDto> mapToApiDto(StopDto stopDto){
+        return new ApiData<>(stopDto);
     }
 }

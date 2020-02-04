@@ -19,14 +19,14 @@ public class AgencyServiceImpl implements AgencyService{
     @Override
     public List<Agency> getAgencies() {
         List<Agency> agencies = agencyRepository.getAgencies();
-        log.info("Result: {}", agencies.size());
+        log.info("Found agencies: [{}]", agencies.size());
         return agencies;
     }
 
     @Override
     public Agency getAgency(String id){
         Agency agency = agencyRepository.getAgency(id);
-        log.info("Result: {}", agency.getId());
+        log.info("Found agency with id: [{}]", agency.getId());
         return agency;
     }
 }

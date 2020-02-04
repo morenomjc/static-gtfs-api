@@ -2,6 +2,7 @@ package com.phakk.transit.staticgtfs.datastore.stop;
 
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.StopEntity;
 import com.phakk.transit.staticgtfs.datastore.jpa.repository.StopJpaRepository;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class StopJpaRepositoryTest {
 
     @Autowired
     private StopJpaRepository stopJpaRepository;
+
+    @After
+    public void cleanup(){
+        entityManager.clear();
+    }
 
     @Test
     public void testFindById(){
