@@ -3,38 +3,32 @@ package com.phakk.transit.staticgtfs.api.rest;
 import com.phakk.transit.staticgtfs.api.rest.controller.AgencyController;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.agency.AgencyService;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
-import java.util.UUID;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(controllers = { AgencyController.class })
 @RunWith(SpringRunner.class)
 public class AgencyControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private AgencyService agencyService;
-
-    @Before
-    public void setup(){
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new AgencyController(agencyService)).build();
-    }
 
     @Test
     public void testGetAgencyEndpoint() throws Exception{
@@ -47,7 +41,22 @@ public class AgencyControllerTest {
         ).andExpect(
                 status().isOk()
         ).andExpect(
-                jsonPath("$.agency_id", is(notNullValue()))
+                content().json("{\n" +
+                        "    \"meta\": {\n" +
+                        "        \"apiVersion\": \"v1\",\n" +
+                        "        \"staticGtfsVersion\": \"v1.0\"\n" +
+                        "    },\n" +
+                        "    \"data\": {\n" +
+                        "        \"agency_id\": \"agency1\",\n" +
+                        "        \"agency_name\": \"Test Agency\",\n" +
+                        "        \"agency_url\": \"test.com/agency\",\n" +
+                        "        \"agency_timezone\": \"Asia/Singapore\",\n" +
+                        "        \"agency_lang\": \"en\",\n" +
+                        "        \"agency_phone\": \"12345-677974\",\n" +
+                        "        \"agency_fare_url\": null,\n" +
+                        "        \"agency_email\": \"test@email.com\"\n" +
+                        "    }\n" +
+                        "}")
         );
     }
 
@@ -62,7 +71,24 @@ public class AgencyControllerTest {
         ).andExpect(
                 status().isOk()
         ).andExpect(
-                jsonPath("$[0].agency_id", is(notNullValue()))
+                content().json("{\n" +
+                        "    \"meta\": {\n" +
+                        "        \"apiVersion\": \"v1\",\n" +
+                        "        \"staticGtfsVersion\": \"v1.0\"\n" +
+                        "    },\n" +
+                        "    \"data\": [\n" +
+                        "        {\n" +
+                        "            \"agency_id\": \"agency1\",\n" +
+                        "            \"agency_name\": \"Test Agency\",\n" +
+                        "            \"agency_url\": \"test.com/agency\",\n" +
+                        "            \"agency_timezone\": \"Asia/Singapore\",\n" +
+                        "            \"agency_lang\": \"en\",\n" +
+                        "            \"agency_phone\": \"12345-677974\",\n" +
+                        "            \"agency_fare_url\": null,\n" +
+                        "            \"agency_email\": \"test@email.com\"\n" +
+                        "        }\n" +
+                        "    ]\n" +
+                        "}")
         );
     }
 
@@ -76,14 +102,14 @@ public class AgencyControllerTest {
 
     private Agency buildAgency(){
         return Agency.builder()
-                .id(UUID.randomUUID().toString())
-                .name("agency")
-                .url("http://gtfs.com")
+                .id("agency1")
+                .name("Test Agency")
+                .url("test.com/agency")
                 .timezone("Asia/Singapore")
                 .lang("en")
-                .phone("8888")
-                .fareUrl("http://gtfs.com/fares")
-                .email("support@gtfs.com")
+                .phone("12345-677974")
+                .fareUrl("test.com/fares")
+                .email("test@email.com")
                 .build();
     }
 }

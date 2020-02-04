@@ -17,7 +17,7 @@ public class StopServiceImpl implements StopService{
     @Override
     public Stop getStop(String id) {
         Stop stop = stopRepository.getStop(id);
-        log.info("Result: {}", stop.getId());
+        log.info("Found stop with id: [{}]", stop.getId());
         return stop;
     }
 }

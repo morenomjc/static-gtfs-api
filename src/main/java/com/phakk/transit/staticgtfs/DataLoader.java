@@ -1,8 +1,10 @@
 package com.phakk.transit.staticgtfs;
 
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.AgencyEntity;
+import com.phakk.transit.staticgtfs.datastore.jpa.entity.RouteEntity;
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.StopEntity;
 import com.phakk.transit.staticgtfs.datastore.jpa.repository.AgencyJpaRepository;
+import com.phakk.transit.staticgtfs.datastore.jpa.repository.RouteJpaRepository;
 import com.phakk.transit.staticgtfs.datastore.jpa.repository.StopJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,14 @@ public class DataLoader implements CommandLineRunner {
     private AgencyJpaRepository agencyRepository;
     @Autowired
     private StopJpaRepository stopJpaRepository;
+    @Autowired
+    private RouteJpaRepository routeJpaRepository;
 
     @Override
     public void run(String... args) throws Exception {
         loadAgency();
         loadStop();
+        loadRoute();
     }
 
     private void loadAgency(){
@@ -38,7 +43,7 @@ public class DataLoader implements CommandLineRunner {
         agency1.setUrl("test.com/agency");
 
         AgencyEntity saved = agencyRepository.save(agency1);
-        log.info("Agency saved with id# {}", saved.getId());
+        log.info("Agency saved with id [{}]", saved.getId());
     }
 
     private void loadStop(){
@@ -59,6 +64,23 @@ public class DataLoader implements CommandLineRunner {
         stop1.setPlatformCode(null);
 
         StopEntity saved = stopJpaRepository.save(stop1);
-        log.info("Stop saved with id# {}", saved.getId());
+        log.info("Stop saved with id [{}]", saved.getId());
+    }
+
+    private void loadRoute(){
+        RouteEntity routeEntity = new RouteEntity();
+        routeEntity.setRouteId("1");
+        routeEntity.setAgency("agency");
+        routeEntity.setShortName("short");
+        routeEntity.setLongName("long");
+        routeEntity.setDesc("desc");
+        routeEntity.setType("700");
+        routeEntity.setUrl("test.com");
+        routeEntity.setColor("blue");
+        routeEntity.setTextColor("white");
+        routeEntity.setSortOrder(1);
+
+        RouteEntity saved = routeJpaRepository.save(routeEntity);
+        log.info("Route saved with id [{}]", saved.getId());
     }
 }

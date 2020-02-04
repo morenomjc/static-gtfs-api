@@ -2,6 +2,7 @@ package com.phakk.transit.staticgtfs.datastore.repository.stop;
 
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
 import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
+import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.StopEntity;
@@ -55,13 +56,13 @@ public class StopRepositoryImpl implements StopRepository{
         Optional<StopTypeEnum> stopTypeEnum = Arrays.stream(StopTypeEnum.values())
                 .filter(s -> s.getId().equalsIgnoreCase(id))
                 .findFirst();
-        return stopTypeEnum.orElse(null);
+        return stopTypeEnum.orElseThrow(() -> new ConstantsMappingException("Failed to map stop type"));
     }
 
     private WheelchairBoardingEnum convertToWheelchairBoarding(String id){
         Optional<WheelchairBoardingEnum> wbEnum = Arrays.stream(WheelchairBoardingEnum.values())
                 .filter(wb -> wb.getId().equalsIgnoreCase(id))
                 .findFirst();
-        return wbEnum.orElse(null);
+        return wbEnum.orElseThrow(() -> new ConstantsMappingException("Failed to map wheelchair boarding details"));
     }
 }

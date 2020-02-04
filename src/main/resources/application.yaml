@@ -1,2 +1,7 @@
 application:
   name: static-gtfs
+
+---
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS Z} [%X{agency-code}] [%X{x-request-id}] %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"

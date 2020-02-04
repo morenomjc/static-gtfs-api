@@ -2,6 +2,7 @@ package com.phakk.transit.staticgtfs.datastore.agency;
 
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.AgencyEntity;
 import com.phakk.transit.staticgtfs.datastore.jpa.repository.AgencyJpaRepository;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,11 @@ public class AgencyJpaRepositoryTest {
 
     @Autowired
     private AgencyJpaRepository agencyJpaRepository;
+
+    @After
+    public void cleanup(){
+        entityManager.clear();
+    }
 
     @Test
     public void testFindById(){

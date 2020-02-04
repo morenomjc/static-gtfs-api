@@ -2,6 +2,7 @@ package com.phakk.transit.staticgtfs.datastore.stop;
 
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
 import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
+import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.StopEntity;
@@ -48,19 +49,36 @@ public class StopRepositoryTest {
         assertThat(stop.getCode()).isEqualTo("TEST");
         assertThat(stop.getName()).isEqualTo("Test Station");
         assertThat(stop.getDesc()).isEqualTo("Test Station");
+        assertThat(stop.getLat()).isEqualTo(15.5737673);
+        assertThat(stop.getLon()).isEqualTo(122.0481448);
+        assertThat(stop.getZoneId()).isEqualTo("1");
+        assertThat(stop.getUrl()).isEqualTo("test.com/stops/TEST");
         assertThat(stop.getType()).isEqualTo(StopTypeEnum.STOP_1);
+        assertThat(stop.getParentStation()).isEqualTo("0");
+        assertThat(stop.getTimezone()).isEqualTo("Asia/Singapore");
         assertThat(stop.getWheelchairBoarding()).isEqualTo(WheelchairBoardingEnum.WB_1);
+        assertThat(stop.getLevelId()).isEqualTo("0");
+        assertThat(stop.getPlatformCode()).isEqualTo("0");
     }
 
     @Test
-    public void testIfStopEnumIsNull(){
-        whenStopExistsWithNullEnum();
+    public void testIfStopTypeIsNull(){
+        expectedException.expect(ConstantsMappingException.class);
+        expectedException.expectMessage(equalTo("Failed to map stop type"));
 
-        Stop stop = stopRepository.getStop("1");
+        whenStopExistsWithNullStopType();
 
-        assertThat(stop).isNotNull();
-        assertThat(stop.getType()).isNull();
-        assertThat(stop.getWheelchairBoarding()).isNull();
+        stopRepository.getStop("1");
+    }
+
+    @Test
+    public void testIfWheelchairBoardingIsNull(){
+        expectedException.expect(ConstantsMappingException.class);
+        expectedException.expectMessage(equalTo("Failed to map wheelchair boarding details"));
+
+        whenStopExistsWithNullWB();
+
+        stopRepository.getStop("1");
     }
 
     @Test
@@ -81,8 +99,12 @@ public class StopRepositoryTest {
         when(stopJpaRepository.findByStopId(anyString())).thenReturn(buildStopEntity());
     }
 
-    private void whenStopExistsWithNullEnum(){
-        when(stopJpaRepository.findByStopId(anyString())).thenReturn(buildStopEntityNullEnum());
+    private void whenStopExistsWithNullStopType(){
+        when(stopJpaRepository.findByStopId(anyString())).thenReturn(buildStopEntityNullStopType());
+    }
+
+    private void whenStopExistsWithNullWB(){
+        when(stopJpaRepository.findByStopId(anyString())).thenReturn(buildStopEntityNullWB());
     }
 
     private StopEntity buildStopEntity(){
@@ -96,18 +118,24 @@ public class StopRepositoryTest {
         stopEntity.setZoneId("1");
         stopEntity.setUrl("test.com/stops/TEST");
         stopEntity.setStopType("1");
-        stopEntity.setParentStation(null);
+        stopEntity.setParentStation("0");
         stopEntity.setTimezone("Asia/Singapore");
         stopEntity.setWheelchairBoarding("1");
-        stopEntity.setLevelId(null);
-        stopEntity.setPlatformCode(null);
+        stopEntity.setLevelId("0");
+        stopEntity.setPlatformCode("0");
 
         return stopEntity;
     }
 
-    private StopEntity buildStopEntityNullEnum(){
+    private StopEntity buildStopEntityNullStopType(){
         StopEntity stopEntity = buildStopEntity();
         stopEntity.setStopType(null);
+
+        return stopEntity;
+    }
+
+    private StopEntity buildStopEntityNullWB(){
+        StopEntity stopEntity = buildStopEntity();
         stopEntity.setWheelchairBoarding(null);
 
         return stopEntity;
