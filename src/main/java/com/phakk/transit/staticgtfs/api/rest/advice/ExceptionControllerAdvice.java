@@ -7,13 +7,14 @@ import com.phakk.transit.staticgtfs.core.constants.ErrorCode;
 import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.UUID;
+import static com.phakk.transit.staticgtfs.api.rest.logging.RequestTraceHeaders.HEADER_REQUEST_ID;
 
 @Slf4j
 @ControllerAdvice
@@ -41,7 +42,7 @@ public class ExceptionControllerAdvice {
 
     private Error mapToErrorDto(Exception exception, int httpStatusCode, ErrorCode errorCode){
         return new Error(
-                UUID.randomUUID().toString(),
+                MDC.get(HEADER_REQUEST_ID),
                 httpStatusCode,
                 errorCode.getCode(),
                 errorCode.getDetail(),
