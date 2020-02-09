@@ -14,15 +14,17 @@ import java.util.stream.Collectors;
 public class AgencyRepositoryJpaImpl implements AgencyRepository{
 
     private AgencyJpaRepository agencyJpaRepository;
+    private AgencyEntityMapper agencyEntityMapper;
 
-    public AgencyRepositoryJpaImpl(AgencyJpaRepository agencyJpaRepository) {
+    public AgencyRepositoryJpaImpl(AgencyJpaRepository agencyJpaRepository, AgencyEntityMapper agencyEntityMapper) {
         this.agencyJpaRepository = agencyJpaRepository;
+        this.agencyEntityMapper = agencyEntityMapper;
     }
 
     @Override
     public List<Agency> getAgencies() {
         return agencyJpaRepository.findAll().stream()
-                .map(this::fromEntity)
+                .map(agencyEntity -> agencyEntityMapper.fromEntity(agencyEntity))
                 .collect(Collectors.toList());
     }
 
@@ -34,19 +36,7 @@ public class AgencyRepositoryJpaImpl implements AgencyRepository{
             throw new DataNotFoundException("Agency not found.");
         }
 
-        return fromEntity(agencyEntity);
+        return agencyEntityMapper.fromEntity(agencyEntity);
     }
 
-    private Agency fromEntity(AgencyEntity agencyEntity){
-        return Agency.builder()
-                .id(agencyEntity.getAgencyId())
-                .name(agencyEntity.getName())
-                .url(agencyEntity.getUrl())
-                .timezone(agencyEntity.getTimezone())
-                .lang(agencyEntity.getLang())
-                .phone(agencyEntity.getPhone())
-                .email(agencyEntity.getEmail())
-                .fareUrl(agencyEntity.getFareUrl())
-                .build();
-    }
 }

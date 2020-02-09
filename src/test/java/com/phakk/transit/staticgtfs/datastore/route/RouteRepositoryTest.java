@@ -1,11 +1,13 @@
 package com.phakk.transit.staticgtfs.datastore.route;
 
+import com.phakk.transit.staticgtfs.configuration.MapperConfiguration;
 import com.phakk.transit.staticgtfs.core.constants.RouteTypeEnum;
 import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.RouteEntity;
 import com.phakk.transit.staticgtfs.datastore.jpa.repository.RouteJpaRepository;
+import com.phakk.transit.staticgtfs.datastore.repository.route.RouteEntityMapper;
 import com.phakk.transit.staticgtfs.datastore.repository.route.RouteRepository;
 import com.phakk.transit.staticgtfs.datastore.repository.route.RouteRepositoryJpaImpl;
 import org.junit.Before;
@@ -14,6 +16,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +25,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+@Import(MapperConfiguration.class)
 @RunWith(SpringRunner.class)
 public class RouteRepositoryTest {
 
@@ -29,12 +34,15 @@ public class RouteRepositoryTest {
     @Mock
     private RouteJpaRepository routeJpaRepository;
 
+    @Autowired
+    private RouteEntityMapper routeEntityMapper;
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setup(){
-        routeRepository = new RouteRepositoryJpaImpl(routeJpaRepository);
+        routeRepository = new RouteRepositoryJpaImpl(routeJpaRepository, routeEntityMapper);
     }
 
     @Test
