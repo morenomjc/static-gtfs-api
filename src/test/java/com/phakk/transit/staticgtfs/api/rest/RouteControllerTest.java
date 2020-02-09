@@ -90,8 +90,12 @@ public class RouteControllerTest {
                 content()
                         .json("{\n" +
                                 "    \"meta\": {\n" +
-                                "        \"apiVersion\": \"v1\",\n" +
-                                "        \"staticGtfsVersion\": \"v1.0\"\n" +
+                                "        \"api\": {\n" +
+                                "            \"version\": \"v1\"\n" +
+                                "        },\n" +
+                                "        \"gtfs\": {\n" +
+                                "            \"static\": \"v1.0\"\n" +
+                                "        }\n" +
                                 "    },\n" +
                                 "    \"error\": {\n" +
                                 "        \"status\": 404,\n" +
