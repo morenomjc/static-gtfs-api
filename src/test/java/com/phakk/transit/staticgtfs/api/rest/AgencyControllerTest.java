@@ -1,6 +1,8 @@
 package com.phakk.transit.staticgtfs.api.rest;
 
 import com.phakk.transit.staticgtfs.api.rest.controller.AgencyController;
+import com.phakk.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
+import com.phakk.transit.staticgtfs.configuration.MapperConfiguration;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.agency.AgencyService;
 import org.junit.Test;
@@ -8,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,11 +24,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = { AgencyController.class })
+@Import(MapperConfiguration.class)
 @RunWith(SpringRunner.class)
 public class AgencyControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private AgencyDtoMapper agencyDtoMapper;
 
     @MockBean
     private AgencyService agencyService;
@@ -53,7 +60,7 @@ public class AgencyControllerTest {
                         "        \"agency_timezone\": \"Asia/Singapore\",\n" +
                         "        \"agency_lang\": \"en\",\n" +
                         "        \"agency_phone\": \"12345-677974\",\n" +
-                        "        \"agency_fare_url\": null,\n" +
+                        "        \"agency_fare_url\": \"test.com/fares\",\n" +
                         "        \"agency_email\": \"test@email.com\"\n" +
                         "    }\n" +
                         "}")
@@ -84,7 +91,7 @@ public class AgencyControllerTest {
                         "            \"agency_timezone\": \"Asia/Singapore\",\n" +
                         "            \"agency_lang\": \"en\",\n" +
                         "            \"agency_phone\": \"12345-677974\",\n" +
-                        "            \"agency_fare_url\": null,\n" +
+                        "            \"agency_fare_url\": \"test.com/fares\",\n" +
                         "            \"agency_email\": \"test@email.com\"\n" +
                         "        }\n" +
                         "    ]\n" +

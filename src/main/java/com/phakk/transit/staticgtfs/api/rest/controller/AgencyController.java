@@ -1,13 +1,12 @@
 package com.phakk.transit.staticgtfs.api.rest.controller;
 
 import com.phakk.transit.staticgtfs.api.rest.dto.AgencyDto;
+import com.phakk.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.resource.AgencyResource;
 import com.phakk.transit.staticgtfs.api.spec.ApiData;
 import com.phakk.transit.staticgtfs.api.spec.ApiTemplate;
-import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.agency.AgencyService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,20 +18,21 @@ import java.util.stream.Collectors;
 public class AgencyController implements AgencyResource {
 
     private AgencyService agencyService;
+    private AgencyDtoMapper agencyDtoMapper;
 
-    @Autowired
-    public AgencyController(AgencyService agencyService) {
+    public AgencyController(AgencyService agencyService, AgencyDtoMapper agencyDtoMapper) {
         this.agencyService = agencyService;
+        this.agencyDtoMapper = agencyDtoMapper;
     }
 
     @Override
     public ResponseEntity<ApiTemplate> getAgencies() {
         log.info("Action: getAgencies");
         return ResponseEntity.ok(
-                mapToApiDto(
+                new ApiData<>(
                         agencyService.getAgencies().stream()
-                        .map(this::mapToDto)
-                        .collect(Collectors.toList())
+                                .map(agency -> agencyDtoMapper.toDto(agency))
+                                .collect(Collectors.toList())
                 )
         );
     }
@@ -41,26 +41,8 @@ public class AgencyController implements AgencyResource {
     public ResponseEntity<ApiTemplate> getAgency(String agencyId) {
         log.info("Action: getAgency [{}]", agencyId);
         return ResponseEntity.ok(
-                mapToApiDto(
-                        mapToDto(agencyService.getAgency(agencyId))
-                )
+                new ApiData<>(agencyDtoMapper.toDto(agencyService.getAgency(agencyId)))
         );
-    }
-
-    private AgencyDto mapToDto(Agency agency){
-        return AgencyDto.builder()
-                .id(agency.getId())
-                .name(agency.getName())
-                .url(agency.getUrl())
-                .timezone(agency.getTimezone())
-                .lang(agency.getLang())
-                .phone(agency.getPhone())
-                .email(agency.getEmail())
-                .build();
-    }
-
-    private ApiData<AgencyDto> mapToApiDto(AgencyDto agencyDto){
-        return new ApiData<>(agencyDto);
     }
 
     private ApiData<List<AgencyDto>> mapToApiDto(List<AgencyDto> list){

@@ -1,5 +1,6 @@
 package com.phakk.transit.staticgtfs.datastore.stop;
 
+import com.phakk.transit.staticgtfs.configuration.MapperConfiguration;
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
 import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
 import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
@@ -7,6 +8,7 @@ import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.StopEntity;
 import com.phakk.transit.staticgtfs.datastore.jpa.repository.StopJpaRepository;
+import com.phakk.transit.staticgtfs.datastore.repository.stop.StopEntityMapper;
 import com.phakk.transit.staticgtfs.datastore.repository.stop.StopRepository;
 import com.phakk.transit.staticgtfs.datastore.repository.stop.StopRepositoryImpl;
 import org.junit.Before;
@@ -15,6 +17,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +26,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+@Import(MapperConfiguration.class)
 @RunWith(SpringRunner.class)
 public class StopRepositoryTest {
 
@@ -30,12 +35,15 @@ public class StopRepositoryTest {
     @Mock
     private StopJpaRepository stopJpaRepository;
 
+    @Autowired
+    private StopEntityMapper stopEntityMapper;
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setup(){
-        stopRepository = new StopRepositoryImpl(stopJpaRepository);
+        stopRepository = new StopRepositoryImpl(stopJpaRepository, stopEntityMapper);
     }
 
     @Test

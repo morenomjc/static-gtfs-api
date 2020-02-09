@@ -1,6 +1,8 @@
 package com.phakk.transit.staticgtfs.api.rest;
 
 import com.phakk.transit.staticgtfs.api.rest.controller.StopController;
+import com.phakk.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
+import com.phakk.transit.staticgtfs.configuration.MapperConfiguration;
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
 import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
@@ -11,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,11 +25,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = { StopController.class })
+@Import(MapperConfiguration.class)
 @RunWith(SpringRunner.class)
 public class StopControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private StopDtoMapper stopDtoMapper;
 
     @MockBean
     private StopService stopService;

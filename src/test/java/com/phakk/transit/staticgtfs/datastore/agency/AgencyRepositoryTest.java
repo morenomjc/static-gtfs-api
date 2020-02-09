@@ -1,17 +1,21 @@
 package com.phakk.transit.staticgtfs.datastore.agency;
 
+import com.phakk.transit.staticgtfs.configuration.MapperConfiguration;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.datastore.jpa.entity.AgencyEntity;
+import com.phakk.transit.staticgtfs.datastore.jpa.repository.AgencyJpaRepository;
+import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyEntityMapper;
 import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyRepository;
 import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyRepositoryJpaImpl;
-import com.phakk.transit.staticgtfs.datastore.jpa.repository.AgencyJpaRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
@@ -22,6 +26,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+@Import(MapperConfiguration.class)
 @RunWith(SpringRunner.class)
 public class AgencyRepositoryTest {
 
@@ -30,12 +35,15 @@ public class AgencyRepositoryTest {
     @Mock
     private AgencyJpaRepository agencyJpaRepository;
 
+    @Autowired
+    private AgencyEntityMapper agencyEntityMapper;
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setup(){
-        agencyRepository = new AgencyRepositoryJpaImpl(agencyJpaRepository);
+        agencyRepository = new AgencyRepositoryJpaImpl(agencyJpaRepository, agencyEntityMapper);
     }
 
     @Test

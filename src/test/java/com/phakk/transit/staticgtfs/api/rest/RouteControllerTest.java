@@ -1,6 +1,8 @@
 package com.phakk.transit.staticgtfs.api.rest;
 
 import com.phakk.transit.staticgtfs.api.rest.controller.RouteController;
+import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
+import com.phakk.transit.staticgtfs.configuration.MapperConfiguration;
 import com.phakk.transit.staticgtfs.core.constants.RouteTypeEnum;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.route.Route;
@@ -10,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,11 +24,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = { RouteController.class })
+@Import(MapperConfiguration.class)
 @RunWith(SpringRunner.class)
 public class RouteControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private RouteDtoMapper routeDtoMapper;
 
     @MockBean
     private RouteService routeService;
