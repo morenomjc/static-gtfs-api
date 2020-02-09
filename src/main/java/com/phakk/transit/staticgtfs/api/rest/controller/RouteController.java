@@ -2,8 +2,8 @@ package com.phakk.transit.staticgtfs.api.rest.controller;
 
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.resource.RouteResource;
-import com.phakk.transit.staticgtfs.api.spec.ApiData;
-import com.phakk.transit.staticgtfs.api.spec.ApiTemplate;
+import com.phakk.transit.staticgtfs.api.spec.ApiDocument;
+import com.phakk.transit.staticgtfs.api.spec.ApiResource;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +22,10 @@ public class RouteController implements RouteResource {
     }
 
     @Override
-    public ResponseEntity<ApiTemplate> getRoute(String id) {
+    public ResponseEntity<ApiDocument> getRoute(String id) {
         return ResponseEntity.ok(
-                new ApiData<>(
+                new ApiResource<>(
+                        getResourceType(),
                         routeDtoMapper.mapToDto(routeService.getRoute(id))
                 )
         );

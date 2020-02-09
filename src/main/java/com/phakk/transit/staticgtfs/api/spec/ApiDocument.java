@@ -1,14 +1,12 @@
 package com.phakk.transit.staticgtfs.api.spec;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
-public class ApiTemplate {
+public class ApiDocument {
     private ApiMeta meta;
 
-    public ApiTemplate() {
+    public ApiDocument() {
         meta = new ApiMeta();
     }
 }

@@ -1,11 +1,18 @@
 package com.phakk.transit.staticgtfs.api.spec;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
-@NoArgsConstructor
 public class ApiMeta {
-    private final String apiVersion = "v1";
-    private final String staticGtfsVersion = "v1.0";
+    private Map<String, String> api = new HashMap<>();
+    private Map<String, String> gtfs = new HashMap<>();
+
+    public ApiMeta() {
+        api.put("version", "v1");
+        gtfs.put("static", "v1.0");
+    }
+
 }

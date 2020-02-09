@@ -49,30 +49,37 @@ public class StopControllerTest {
         ).andExpect(
                 content().json("{\n" +
                         "    \"meta\": {\n" +
-                        "        \"apiVersion\": \"v1\",\n" +
-                        "        \"staticGtfsVersion\": \"v1.0\"\n" +
+                        "        \"api\": {\n" +
+                        "            \"version\": \"v1\"\n" +
+                        "        },\n" +
+                        "        \"gtfs\": {\n" +
+                        "            \"static\": \"v1.0\"\n" +
+                        "        }\n" +
                         "    },\n" +
                         "    \"data\": {\n" +
-                        "        \"stop_id\": \"1\",\n" +
-                        "        \"stop_code\": \"TEST\",\n" +
-                        "        \"stop_name\": \"Test Station\",\n" +
-                        "        \"stop_desc\": \"Test Station\",\n" +
-                        "        \"stop_lat\": 15.5737673,\n" +
-                        "        \"stop_lon\": 122.0481448,\n" +
-                        "        \"zone_id\": \"1\",\n" +
-                        "        \"stop_url\": \"test.com/stops/TEST\",\n" +
-                        "        \"location_type\": {\n" +
-                        "            \"id\": \"1\",\n" +
-                        "            \"desc\": \"Station\"\n" +
-                        "        },\n" +
-                        "        \"parent_station\": null,\n" +
-                        "        \"stop_timezone\": \"Asia/Singapore\",\n" +
-                        "        \"wheelchair_boarding\": {\n" +
-                        "            \"id\": \"1\",\n" +
-                        "            \"desc\": \"Accessible\"\n" +
-                        "        },\n" +
-                        "        \"level_id\": null,\n" +
-                        "        \"platform_code\": null\n" +
+                        "        \"type\": \"stops\",\n" +
+                        "        \"attributes\": {\n" +
+                        "            \"stop_id\": \"1\",\n" +
+                        "            \"stop_code\": \"TEST\",\n" +
+                        "            \"stop_name\": \"Test Station\",\n" +
+                        "            \"stop_desc\": \"Test Station\",\n" +
+                        "            \"stop_lat\": 15.5737673,\n" +
+                        "            \"stop_lon\": 122.0481448,\n" +
+                        "            \"zone_id\": \"1\",\n" +
+                        "            \"stop_url\": \"test.com/stops/TEST\",\n" +
+                        "            \"location_type\": {\n" +
+                        "                \"id\": \"1\",\n" +
+                        "                \"desc\": \"Station\"\n" +
+                        "            },\n" +
+                        "            \"parent_station\": null,\n" +
+                        "            \"stop_timezone\": \"Asia/Singapore\",\n" +
+                        "            \"wheelchair_boarding\": {\n" +
+                        "                \"id\": \"1\",\n" +
+                        "                \"desc\": \"Accessible\"\n" +
+                        "            },\n" +
+                        "            \"level_id\": null,\n" +
+                        "            \"platform_code\": null\n" +
+                        "        }\n" +
                         "    }\n" +
                         "}")
         );
@@ -91,8 +98,12 @@ public class StopControllerTest {
                 content()
                         .json("{\n" +
                                 "    \"meta\": {\n" +
-                                "        \"apiVersion\": \"v1\",\n" +
-                                "        \"staticGtfsVersion\": \"v1.0\"\n" +
+                                "        \"api\": {\n" +
+                                "            \"version\": \"v1\"\n" +
+                                "        },\n" +
+                                "        \"gtfs\": {\n" +
+                                "            \"static\": \"v1.0\"\n" +
+                                "        }\n" +
                                 "    },\n" +
                                 "    \"error\": {\n" +
                                 "        \"status\": 404,\n" +

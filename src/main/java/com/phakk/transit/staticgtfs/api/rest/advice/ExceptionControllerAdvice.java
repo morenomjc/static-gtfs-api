@@ -1,7 +1,7 @@
 package com.phakk.transit.staticgtfs.api.rest.advice;
 
+import com.phakk.transit.staticgtfs.api.spec.ApiDocument;
 import com.phakk.transit.staticgtfs.api.spec.ApiError;
-import com.phakk.transit.staticgtfs.api.spec.ApiTemplate;
 import com.phakk.transit.staticgtfs.api.spec.Error;
 import com.phakk.transit.staticgtfs.core.constants.ErrorCode;
 import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
@@ -23,7 +23,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(DataNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ApiTemplate handleDataNotFoundException(final DataNotFoundException exception){
+    public ApiDocument handleDataNotFoundException(final DataNotFoundException exception){
         logError(exception);
         return mapToApiErrorDto(exception, HttpStatus.NOT_FOUND.value(), ErrorCode.ERROR_400_NOT_FOUND);
     }
@@ -31,7 +31,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(ConstantsMappingException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public ApiTemplate handleConstantsMappingException(final ConstantsMappingException exception){
+    public ApiDocument handleConstantsMappingException(final ConstantsMappingException exception){
         logError(exception);
         return mapToApiErrorDto(exception, HttpStatus.INTERNAL_SERVER_ERROR.value(), ErrorCode.ERROR_500_INTERNAL_SERVER_ERROR);
     }
