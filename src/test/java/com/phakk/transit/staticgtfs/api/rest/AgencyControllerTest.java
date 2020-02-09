@@ -50,18 +50,25 @@ public class AgencyControllerTest {
         ).andExpect(
                 content().json("{\n" +
                         "    \"meta\": {\n" +
-                        "        \"apiVersion\": \"v1\",\n" +
-                        "        \"staticGtfsVersion\": \"v1.0\"\n" +
+                        "        \"api\": {\n" +
+                        "            \"version\": \"v1\"\n" +
+                        "        },\n" +
+                        "        \"gtfs\": {\n" +
+                        "            \"static\": \"v1.0\"\n" +
+                        "        }\n" +
                         "    },\n" +
                         "    \"data\": {\n" +
-                        "        \"agency_id\": \"agency1\",\n" +
-                        "        \"agency_name\": \"Test Agency\",\n" +
-                        "        \"agency_url\": \"test.com/agency\",\n" +
-                        "        \"agency_timezone\": \"Asia/Singapore\",\n" +
-                        "        \"agency_lang\": \"en\",\n" +
-                        "        \"agency_phone\": \"12345-677974\",\n" +
-                        "        \"agency_fare_url\": \"test.com/fares\",\n" +
-                        "        \"agency_email\": \"test@email.com\"\n" +
+                        "        \"type\": \"agencies\",\n" +
+                        "        \"attributes\": {\n" +
+                        "            \"agency_id\": \"agency1\",\n" +
+                        "            \"agency_name\": \"Test Agency\",\n" +
+                        "            \"agency_url\": \"test.com/agency\",\n" +
+                        "            \"agency_timezone\": \"Asia/Singapore\",\n" +
+                        "            \"agency_lang\": \"en\",\n" +
+                        "            \"agency_phone\": \"12345-677974\",\n" +
+                        "            \"agency_fare_url\": \"test.com/fares\",\n" +
+                        "            \"agency_email\": \"test@email.com\"\n" +
+                        "        }\n" +
                         "    }\n" +
                         "}")
         );
@@ -80,19 +87,26 @@ public class AgencyControllerTest {
         ).andExpect(
                 content().json("{\n" +
                         "    \"meta\": {\n" +
-                        "        \"apiVersion\": \"v1\",\n" +
-                        "        \"staticGtfsVersion\": \"v1.0\"\n" +
+                        "        \"api\": {\n" +
+                        "            \"version\": \"v1\"\n" +
+                        "        },\n" +
+                        "        \"gtfs\": {\n" +
+                        "            \"static\": \"v1.0\"\n" +
+                        "        }\n" +
                         "    },\n" +
                         "    \"data\": [\n" +
                         "        {\n" +
-                        "            \"agency_id\": \"agency1\",\n" +
-                        "            \"agency_name\": \"Test Agency\",\n" +
-                        "            \"agency_url\": \"test.com/agency\",\n" +
-                        "            \"agency_timezone\": \"Asia/Singapore\",\n" +
-                        "            \"agency_lang\": \"en\",\n" +
-                        "            \"agency_phone\": \"12345-677974\",\n" +
-                        "            \"agency_fare_url\": \"test.com/fares\",\n" +
-                        "            \"agency_email\": \"test@email.com\"\n" +
+                        "            \"type\": \"agencies\",\n" +
+                        "            \"attributes\": {\n" +
+                        "                \"agency_id\": \"agency1\",\n" +
+                        "                \"agency_name\": \"Test Agency\",\n" +
+                        "                \"agency_url\": \"test.com/agency\",\n" +
+                        "                \"agency_timezone\": \"Asia/Singapore\",\n" +
+                        "                \"agency_lang\": \"en\",\n" +
+                        "                \"agency_phone\": \"12345-677974\",\n" +
+                        "                \"agency_fare_url\": \"test.com/fares\",\n" +
+                        "                \"agency_email\": \"test@email.com\"\n" +
+                        "            }\n" +
                         "        }\n" +
                         "    ]\n" +
                         "}")

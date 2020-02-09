@@ -49,23 +49,30 @@ public class RouteControllerTest {
                 content()
                         .json("{\n" +
                                 "    \"meta\": {\n" +
-                                "        \"apiVersion\": \"v1\",\n" +
-                                "        \"staticGtfsVersion\": \"v1.0\"\n" +
+                                "        \"api\": {\n" +
+                                "            \"version\": \"v1\"\n" +
+                                "        },\n" +
+                                "        \"gtfs\": {\n" +
+                                "            \"static\": \"v1.0\"\n" +
+                                "        }\n" +
                                 "    },\n" +
                                 "    \"data\": {\n" +
-                                "        \"route_id\": \"1\",\n" +
-                                "        \"agency_id\": \"Test\",\n" +
-                                "        \"route_short_name\": \"short name\",\n" +
-                                "        \"route_long_name\": \"long name\",\n" +
-                                "        \"route_desc\": \"desc\",\n" +
-                                "        \"route_type\": {\n" +
-                                "            \"id\": \"700\",\n" +
-                                "            \"desc\": \"Bus Service\"\n" +
-                                "        },\n" +
-                                "        \"route_url\": \"test.com\",\n" +
-                                "        \"route_color\": \"blue\",\n" +
-                                "        \"route_text_color\": \"white\",\n" +
-                                "        \"route_sort_order\": 1\n" +
+                                "        \"type\": \"routes\",\n" +
+                                "        \"attributes\": {\n" +
+                                "            \"route_id\": \"1\",\n" +
+                                "            \"agency_id\": \"agency\",\n" +
+                                "            \"route_short_name\": \"short\",\n" +
+                                "            \"route_long_name\": \"long\",\n" +
+                                "            \"route_desc\": \"desc\",\n" +
+                                "            \"route_type\": {\n" +
+                                "                \"id\": \"700\",\n" +
+                                "                \"desc\": \"Bus Service\"\n" +
+                                "            },\n" +
+                                "            \"route_url\": \"test.com\",\n" +
+                                "            \"route_color\": \"blue\",\n" +
+                                "            \"route_text_color\": \"white\",\n" +
+                                "            \"route_sort_order\": 1\n" +
+                                "        }\n" +
                                 "    }\n" +
                                 "}")
         );

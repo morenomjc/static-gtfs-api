@@ -2,8 +2,8 @@ package com.phakk.transit.staticgtfs.api.rest.controller;
 
 import com.phakk.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.resource.StopResource;
-import com.phakk.transit.staticgtfs.api.spec.ApiData;
-import com.phakk.transit.staticgtfs.api.spec.ApiTemplate;
+import com.phakk.transit.staticgtfs.api.spec.ApiDocument;
+import com.phakk.transit.staticgtfs.api.spec.ApiResource;
 import com.phakk.transit.staticgtfs.core.stop.StopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +22,13 @@ public class StopController implements StopResource {
     }
 
     @Override
-    public ResponseEntity<ApiTemplate> getStop(String id) {
+    public ResponseEntity<ApiDocument> getStop(String id) {
         log.info("Action: getStop [{}]", id);
         return ResponseEntity.ok(
-                new ApiData<>(stopDtoMapper.toDto(stopService.getStop(id))
-        ));
+                new ApiResource<>(
+                        getResourceType(),
+                        stopDtoMapper.toDto(stopService.getStop(id))
+                )
+        );
     }
 }
