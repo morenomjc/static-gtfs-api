@@ -47,13 +47,21 @@ public class AgencyController implements AgencyResource {
         return ResponseEntity.ok(
                 new ApiResource<>(
                         getResourceType(),
-                        agencyDtoMapper.toDto(agencyService.getAgency(agencyId)))
+                        agencyDtoMapper.toDto(agencyService.getAgency(agencyId)),
+                        selfLink(agencyId, getClass())
+                )
         );
     }
 
     private List<ApiData<AgencyDto>> toApiResources(List<AgencyDto> agencies){
         return agencies.stream()
-                .map(agency -> new ApiData<>(getResourceType(), agency))
+                .map(agency ->
+                        new ApiData<>(
+                                getResourceType(),
+                                agency,
+                                selfLink(agency.getId(), getClass())
+                        )
+                )
                 .collect(Collectors.toList());
     }
 }

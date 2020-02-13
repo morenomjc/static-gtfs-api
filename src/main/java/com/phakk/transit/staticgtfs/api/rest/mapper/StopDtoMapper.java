@@ -3,7 +3,7 @@ package com.phakk.transit.staticgtfs.api.rest.mapper;
 import com.phakk.transit.staticgtfs.api.rest.dto.DataTypeDto;
 import com.phakk.transit.staticgtfs.api.rest.dto.StopDto;
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -31,7 +31,7 @@ public interface StopDtoMapper {
     }
 
     @Named("mapWheelChairBoarding")
-    default DataTypeDto mapWheelChairBoarding(WheelchairBoardingEnum wheelchairBoarding){
+    default DataTypeDto mapWheelChairBoarding(WheelchairAccessibilityEnum wheelchairBoarding){
         if (Objects.isNull(wheelchairBoarding)){
             return null;
         }

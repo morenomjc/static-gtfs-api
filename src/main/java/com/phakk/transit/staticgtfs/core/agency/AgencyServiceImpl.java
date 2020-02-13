@@ -1,6 +1,6 @@
 package com.phakk.transit.staticgtfs.core.agency;
 
-import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyRepository;
+import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

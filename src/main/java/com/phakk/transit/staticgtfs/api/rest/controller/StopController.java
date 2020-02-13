@@ -27,7 +27,8 @@ public class StopController implements StopResource {
         return ResponseEntity.ok(
                 new ApiResource<>(
                         getResourceType(),
-                        stopDtoMapper.toDto(stopService.getStop(id))
+                        stopDtoMapper.toDto(stopService.getStop(id)),
+                        selfLink(id, getClass())
                 )
         );
     }

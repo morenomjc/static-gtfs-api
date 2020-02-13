@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum  DataTypes {
     AGENCY("agencies"),
     STOP("stops"),
-    ROUTE("routes")
+    ROUTE("routes"),
+    TRIP("trips"),
 
     ;
 

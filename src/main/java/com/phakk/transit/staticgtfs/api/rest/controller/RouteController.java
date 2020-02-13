@@ -26,7 +26,8 @@ public class RouteController implements RouteResource {
         return ResponseEntity.ok(
                 new ApiResource<>(
                         getResourceType(),
-                        routeDtoMapper.mapToDto(routeService.getRoute(id))
+                        routeDtoMapper.mapToDto(routeService.getRoute(id)),
+                        selfLink(id, getClass())
                 )
         );
     }

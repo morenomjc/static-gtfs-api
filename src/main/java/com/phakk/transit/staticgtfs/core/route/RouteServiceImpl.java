@@ -1,6 +1,6 @@
 package com.phakk.transit.staticgtfs.core.route;
 
-import com.phakk.transit.staticgtfs.datastore.repository.route.RouteRepository;
+import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

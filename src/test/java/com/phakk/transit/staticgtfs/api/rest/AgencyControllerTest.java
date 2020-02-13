@@ -2,14 +2,16 @@ package com.phakk.transit.staticgtfs.api.rest;
 
 import com.phakk.transit.staticgtfs.api.rest.controller.AgencyController;
 import com.phakk.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
-import com.phakk.transit.staticgtfs.configuration.MapperConfiguration;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.agency.AgencyService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -24,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = { AgencyController.class })
-@Import(MapperConfiguration.class)
+@Import(AgencyControllerTest.AgencyTestConfiguration.class)
 @RunWith(SpringRunner.class)
 public class AgencyControllerTest {
 
@@ -36,6 +38,14 @@ public class AgencyControllerTest {
 
     @MockBean
     private AgencyService agencyService;
+
+    @TestConfiguration
+    static class AgencyTestConfiguration {
+        @Bean
+        public AgencyDtoMapper agencyDtoMapper(){
+            return Mappers.getMapper(AgencyDtoMapper.class);
+        }
+    }
 
     @Test
     public void testGetAgencyEndpoint() throws Exception{

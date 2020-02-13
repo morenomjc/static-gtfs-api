@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RequestMapping("/stops")
-public interface StopResource {
+public interface StopResource extends TypedResource{
 
     @GetMapping(value = "/{stopId}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ApiDocument> getStop(@PathVariable(name = "stopId") String id);
 
+    @Override
     default String getResourceType(){
         return DataTypes.STOP.getValue();
     }

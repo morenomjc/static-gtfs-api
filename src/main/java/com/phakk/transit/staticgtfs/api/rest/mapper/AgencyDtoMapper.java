@@ -7,5 +7,4 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface AgencyDtoMapper {
     AgencyDto toDto(Agency agency);
-    Agency fromDto(AgencyDto agencyDto);
 }

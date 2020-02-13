@@ -3,9 +3,11 @@ package com.phakk.transit.staticgtfs.configuration;
 import com.phakk.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
-import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyEntityMapper;
-import com.phakk.transit.staticgtfs.datastore.repository.route.RouteEntityMapper;
-import com.phakk.transit.staticgtfs.datastore.repository.stop.StopEntityMapper;
+import com.phakk.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
+import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
+import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
+import com.phakk.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
+import com.phakk.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,4 +44,15 @@ public class MapperConfiguration {
     public RouteEntityMapper routeEntityMapper(){
         return Mappers.getMapper(RouteEntityMapper.class);
     }
+
+    @Bean
+    public TripDtoMapper tripDtoMapper(){
+        return Mappers.getMapper(TripDtoMapper.class);
+    }
+
+    @Bean
+    public TripEntityMapper tripEntityMapper(){
+        return Mappers.getMapper(TripEntityMapper.class);
+    }
+
 }
