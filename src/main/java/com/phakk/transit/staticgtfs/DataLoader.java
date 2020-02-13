@@ -1,11 +1,13 @@
 package com.phakk.transit.staticgtfs;
 
-import com.phakk.transit.staticgtfs.datastore.jpa.entity.AgencyEntity;
-import com.phakk.transit.staticgtfs.datastore.jpa.entity.RouteEntity;
-import com.phakk.transit.staticgtfs.datastore.jpa.entity.StopEntity;
-import com.phakk.transit.staticgtfs.datastore.jpa.repository.AgencyJpaRepository;
-import com.phakk.transit.staticgtfs.datastore.jpa.repository.RouteJpaRepository;
-import com.phakk.transit.staticgtfs.datastore.jpa.repository.StopJpaRepository;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,12 +25,15 @@ public class DataLoader implements CommandLineRunner {
     private StopJpaRepository stopJpaRepository;
     @Autowired
     private RouteJpaRepository routeJpaRepository;
+    @Autowired
+    private TripJpaRepository tripJpaRepository;
 
     @Override
     public void run(String... args) throws Exception {
         loadAgency();
         loadStop();
         loadRoute();
+        loadTrip();
     }
 
     private void loadAgency(){
@@ -44,6 +49,12 @@ public class DataLoader implements CommandLineRunner {
 
         AgencyEntity saved = agencyRepository.save(agency1);
         log.info("Agency saved with id [{}]", saved.getId());
+
+        AgencyEntity agency2 = new AgencyEntity();
+        agency2.setAgencyId("agency2");
+
+        AgencyEntity saved2 = agencyRepository.save(agency2);
+        log.info("Agency saved with id [{}]", saved2.getId());
     }
 
     private void loadStop(){
@@ -82,5 +93,22 @@ public class DataLoader implements CommandLineRunner {
 
         RouteEntity saved = routeJpaRepository.save(routeEntity);
         log.info("Route saved with id [{}]", saved.getId());
+    }
+
+    private void loadTrip(){
+        TripEntity tripEntity = new TripEntity();
+        tripEntity.setRouteId("1");
+        tripEntity.setServiceId("1");
+        tripEntity.setTripId("1");
+        tripEntity.setHeadsign("headsign");
+        tripEntity.setShortName("shortname");
+        tripEntity.setDirectionId("1");
+        tripEntity.setBlockId("1");
+        tripEntity.setShapeId("1");
+        tripEntity.setWheelchairAccessible("1");
+        tripEntity.setBikesAllowed("1");
+
+        TripEntity saved = tripJpaRepository.save(tripEntity);
+        log.info("Trip saved with id [{}]", tripEntity.getId());
     }
 }

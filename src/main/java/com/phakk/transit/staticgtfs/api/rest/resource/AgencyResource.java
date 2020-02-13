@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RequestMapping("/agencies")
-public interface AgencyResource {
+public interface AgencyResource extends TypedResource{
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ApiDocument> getAgencies();
@@ -19,6 +19,7 @@ public interface AgencyResource {
     @GetMapping(value = "/{agencyId}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ApiDocument> getAgency(@PathVariable(name = "agencyId") String agencyId);
 
+    @Override
     default String getResourceType(){
         return DataTypes.AGENCY.getValue();
     }

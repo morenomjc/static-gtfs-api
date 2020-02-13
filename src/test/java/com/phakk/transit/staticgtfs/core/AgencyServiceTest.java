@@ -3,7 +3,7 @@ package com.phakk.transit.staticgtfs.core;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.agency.AgencyService;
 import com.phakk.transit.staticgtfs.core.agency.AgencyServiceImpl;
-import com.phakk.transit.staticgtfs.datastore.repository.agency.AgencyRepository;
+import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

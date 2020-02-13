@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/routes")
-public interface RouteResource {
+public interface RouteResource extends TypedResource{
 
-    @GetMapping(value = "/{routeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ApiDocument> getRoute(@PathVariable(name = "routeId") String id);
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ApiDocument> getRoute(@PathVariable(name = "id") String id);
 
+    @Override
     default String getResourceType(){
         return DataTypes.ROUTE.getValue();
     }

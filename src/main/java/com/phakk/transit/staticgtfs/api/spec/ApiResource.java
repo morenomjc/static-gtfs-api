@@ -3,6 +3,7 @@ package com.phakk.transit.staticgtfs.api.spec;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.Link;
 
 @Data
 @AllArgsConstructor
@@ -10,7 +11,11 @@ import lombok.EqualsAndHashCode;
 public class ApiResource<T> extends ApiDocument{
     private ApiData<T> data;
 
-    public ApiResource(String type, T data) {
-        this.data = new ApiData<>(type, data);
+    public ApiResource(String type, T data, Link... links) {
+
+        this.data = new ApiData<>(type, data, links);
+
     }
+
+
 }

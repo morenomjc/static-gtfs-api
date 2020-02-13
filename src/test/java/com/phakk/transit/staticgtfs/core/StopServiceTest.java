@@ -1,11 +1,11 @@
 package com.phakk.transit.staticgtfs.core;
 
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.core.stop.StopService;
 import com.phakk.transit.staticgtfs.core.stop.StopServiceImpl;
-import com.phakk.transit.staticgtfs.datastore.repository.stop.StopRepository;
+import com.phakk.transit.staticgtfs.dataproviders.repository.stop.StopRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +56,7 @@ public class StopServiceTest {
                 .type(StopTypeEnum.STOP_1)
                 .parentStation(null)
                 .timezone("Asia/Singapore")
-                .wheelchairBoarding(WheelchairBoardingEnum.WB_1)
+                .wheelchairBoarding(WheelchairAccessibilityEnum.WA_1)
                 .levelId(null)
                 .platformCode(null)
                 .build();

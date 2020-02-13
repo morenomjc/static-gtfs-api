@@ -1,7 +1,7 @@
 package com.phakk.transit.staticgtfs.core.stop;
 
 import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairBoardingEnum;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class Stop implements Serializable {
     private StopTypeEnum type;
     private String parentStation;
     private String timezone;
-    private WheelchairBoardingEnum wheelchairBoarding;
+    private WheelchairAccessibilityEnum wheelchairBoarding;
     private String levelId;
     private String platformCode;
 }

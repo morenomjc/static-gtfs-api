@@ -1,6 +1,6 @@
 package com.phakk.transit.staticgtfs.core.stop;
 
-import com.phakk.transit.staticgtfs.datastore.repository.stop.StopRepository;
+import com.phakk.transit.staticgtfs.dataproviders.repository.stop.StopRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
