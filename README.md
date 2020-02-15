@@ -1,4 +1,4 @@
-# static-gtfs-api
+# static-gtfs-api ![Java CI](https://github.com/phakk/static-gtfs-api/workflows/Java%20CI/badge.svg?branch=master&event=push)
 
 API for working on static-gtfs transit feed data
 
