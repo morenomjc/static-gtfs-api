@@ -11,6 +11,4 @@ public interface AgencyEntityMapper {
     @Mapping(source = "agencyId", target = "id")
     Agency fromEntity(AgencyEntity agencyEntity);
 
-    @Mapping(source = "id", target = "agencyId")
-    AgencyEntity toEntity(Agency agency);
 }

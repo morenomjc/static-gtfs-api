@@ -2,10 +2,9 @@ package com.phakk.transit.staticgtfs.api.rest;
 
 import com.phakk.transit.staticgtfs.api.rest.controller.RouteController;
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
-import com.phakk.transit.staticgtfs.core.constants.RouteTypeEnum;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
-import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
+import com.phakk.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
@@ -49,7 +48,7 @@ public class RouteControllerTest {
 
     @Test
     public void testGetRouteEndpoint() throws Exception {
-        when(routeService.getRoute(anyString())).thenReturn(buildRoute());
+        when(routeService.getRoute(anyString())).thenReturn(TestDataProvider.buildRoute());
 
         this.mockMvc.perform(get("/routes/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -117,18 +116,5 @@ public class RouteControllerTest {
         );
     }
 
-    private Route buildRoute(){
-        return new Route(
-                "1",
-                "agency",
-                "short",
-                "long",
-                "desc",
-                RouteTypeEnum.ROUTE_700,
-                "test.com",
-                "blue",
-                "white",
-                1
-        );
-    }
+
 }

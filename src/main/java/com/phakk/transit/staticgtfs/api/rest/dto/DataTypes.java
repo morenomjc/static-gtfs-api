@@ -10,6 +10,7 @@ public enum  DataTypes {
     STOP("stops"),
     ROUTE("routes"),
     TRIP("trips"),
+    CALENDAR("calendars"),
 
     ;
 

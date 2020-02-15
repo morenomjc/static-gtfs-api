@@ -44,4 +44,5 @@ public class TripDto implements Serializable {
     @JsonProperty("bikes_allowed")
     private DataTypeDto bikesAllowed;
 
+
 }
