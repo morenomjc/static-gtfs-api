@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'net.ltgt.apt-idea' version '0.17'
+    id 'org.owasp.dependencycheck' version '5.2.1'
     id 'org.sonarqube' version '2.7'
     id 'jacoco'
     id 'java'
@@ -43,12 +44,3 @@ dependencies {
     testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
-
-//Needed for Mapstruct generated classes
-//sourceSets {
-//    main {
-//        java {
-//            srcDir "${buildDir.absolutePath}/generated/source/apt/main"
-//        }
-//    }
-//}
