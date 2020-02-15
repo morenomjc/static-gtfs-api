@@ -1,7 +1,15 @@
 application:
   name: static-gtfs
 
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+server:
+  error:
+    whitelabel:
+      enabled: false
 ---
 logging:
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS Z} [%X{agency-code}] [%X{x-request-id}] %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS Z} [%X{x-request-id}] %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"
