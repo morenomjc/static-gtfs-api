@@ -1,14 +1,15 @@
 package com.phakk.transit.staticgtfs.api.rest;
 
 import com.phakk.transit.staticgtfs.api.rest.controller.TripController;
+import com.phakk.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
-import com.phakk.transit.staticgtfs.core.constants.BikesAllowedEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
+import com.phakk.transit.staticgtfs.core.calendar.CalendarService;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import com.phakk.transit.staticgtfs.core.trip.TripService;
+import com.phakk.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
@@ -26,6 +27,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = { TripController.class })
@@ -36,15 +38,19 @@ public class TripControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private TripDtoMapper tripDtoMapper;
-    @Autowired
-    private RouteDtoMapper routeDtoMapper;
-
     @MockBean
     private TripService tripService;
     @MockBean
     private RouteService routeService;
+    @MockBean
+    private CalendarService calendarService;
+
+    @Autowired
+    private TripDtoMapper tripDtoMapper;
+    @Autowired
+    private RouteDtoMapper routeDtoMapper;
+    @Autowired
+    private CalendarDtoMapper calendarDtoMapper;
 
     @TestConfiguration
     static class TripTestConfiguration {
@@ -52,20 +58,30 @@ public class TripControllerTest {
         public TripDtoMapper tripDtoMapper(){
             return Mappers.getMapper(TripDtoMapper.class);
         }
+
         @Bean
         public RouteDtoMapper routeDtoMapper(){
             return Mappers.getMapper(RouteDtoMapper.class);
+        }
+
+        @Bean
+        public CalendarDtoMapper calendarDtoMapper(){
+            return Mappers.getMapper(CalendarDtoMapper.class);
         }
     }
 
     @Test
     public void testGetTripByIdEndpoint() throws Exception{
-        givenTrip(buildTrip());
+        givenTrip(TestDataProvider.buildTrip());
 
         this.mockMvc.perform(get("/trips/1")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 status().isOk()
+        ).andExpect(
+                jsonPath("$.data.relationships.route.attributes").isNotEmpty()
+        ).andExpect(
+                jsonPath("$.data.relationships.schedule.attributes").isNotEmpty()
         ).andExpect(
                 content().json("{\n" +
                         "    \"meta\": {\n" +
@@ -131,21 +147,7 @@ public class TripControllerTest {
 
     private void givenTrip(Trip trip){
         when(tripService.getTrip(anyString())).thenReturn(trip);
+        when(routeService.getRoute(anyString())).thenReturn(TestDataProvider.buildRoute());
+        when(calendarService.getCalendar(anyString())).thenReturn(TestDataProvider.buildCalendar());
     }
-
-    private Trip buildTrip(){
-        return Trip.builder()
-                .routeId("r1")
-                .serviceId("s1")
-                .tripId("t1")
-                .headsign("headsign")
-                .shortName("shortName")
-                .directionId("directionId")
-                .blockId("blockId")
-                .shapeId("shapeId")
-                .wheelchairAccessible(WheelchairAccessibilityEnum.WA_1)
-                .bikesAllowed(BikesAllowedEnum.BIKES_ALLOWED_1)
-                .build();
-    }
-
 }

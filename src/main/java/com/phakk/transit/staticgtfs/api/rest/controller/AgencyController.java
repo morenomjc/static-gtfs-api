@@ -8,6 +8,7 @@ import com.phakk.transit.staticgtfs.api.spec.ApiDocument;
 import com.phakk.transit.staticgtfs.api.spec.ApiResource;
 import com.phakk.transit.staticgtfs.api.spec.ApiResources;
 import com.phakk.transit.staticgtfs.core.agency.AgencyService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,15 +18,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 public class AgencyController implements AgencyResource {
 
     private AgencyService agencyService;
     private AgencyDtoMapper agencyDtoMapper;
-
-    public AgencyController(AgencyService agencyService, AgencyDtoMapper agencyDtoMapper) {
-        this.agencyService = agencyService;
-        this.agencyDtoMapper = agencyDtoMapper;
-    }
 
     @Override
     public ResponseEntity<ApiDocument> getAgencies() {

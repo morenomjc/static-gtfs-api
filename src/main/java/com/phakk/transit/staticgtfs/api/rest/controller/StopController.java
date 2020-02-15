@@ -5,21 +5,18 @@ import com.phakk.transit.staticgtfs.api.rest.resource.StopResource;
 import com.phakk.transit.staticgtfs.api.spec.ApiDocument;
 import com.phakk.transit.staticgtfs.api.spec.ApiResource;
 import com.phakk.transit.staticgtfs.core.stop.StopService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 public class StopController implements StopResource {
 
     private StopService stopService;
     private StopDtoMapper stopDtoMapper;
-
-    public StopController(StopService stopService, StopDtoMapper stopDtoMapper) {
-        this.stopService = stopService;
-        this.stopDtoMapper = stopDtoMapper;
-    }
 
     @Override
     public ResponseEntity<ApiDocument> getStop(String id) {

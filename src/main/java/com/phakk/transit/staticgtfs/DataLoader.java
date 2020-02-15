@@ -1,10 +1,12 @@
 package com.phakk.transit.staticgtfs;
 
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.CalendarEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.CalendarJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
@@ -27,6 +29,8 @@ public class DataLoader implements CommandLineRunner {
     private RouteJpaRepository routeJpaRepository;
     @Autowired
     private TripJpaRepository tripJpaRepository;
+    @Autowired
+    private CalendarJpaRepository calendarJpaRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -34,6 +38,7 @@ public class DataLoader implements CommandLineRunner {
         loadStop();
         loadRoute();
         loadTrip();
+        loadCalendar();
     }
 
     private void loadAgency(){
@@ -58,24 +63,24 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadStop(){
-        StopEntity stop1 = new StopEntity();
-        stop1.setStopId("1");
-        stop1.setStopCode("TEST");
-        stop1.setName("Test Station");
-        stop1.setDesc("Test Station");
-        stop1.setLat(15.5737673);
-        stop1.setLon(122.0481448);
-        stop1.setZoneId("1");
-        stop1.setUrl("test.com/stops/TEST");
-        stop1.setStopType("1");
-        stop1.setParentStation(null);
-        stop1.setTimezone("Asia/Singapore");
-        stop1.setWheelchairBoarding("1");
-        stop1.setLevelId(null);
-        stop1.setPlatformCode(null);
+        StopEntity stopEntity = new StopEntity();
+        stopEntity.setStopId("1");
+        stopEntity.setStopCode("TEST");
+        stopEntity.setName("Test Station");
+        stopEntity.setDesc("Test Station");
+        stopEntity.setLat(15.5737673);
+        stopEntity.setLon(122.0481448);
+        stopEntity.setZoneId("1");
+        stopEntity.setUrl("test.com/stops/TEST");
+        stopEntity.setStopType("1");
+        stopEntity.setParentStation(null);
+        stopEntity.setTimezone("Asia/Singapore");
+        stopEntity.setWheelchairBoarding("1");
+        stopEntity.setLevelId(null);
+        stopEntity.setPlatformCode(null);
 
-        StopEntity saved = stopJpaRepository.save(stop1);
-        log.info("Stop saved with id [{}]", saved.getId());
+        stopEntity = stopJpaRepository.save(stopEntity);
+        log.info("Stop saved with id [{}]", stopEntity.getId());
     }
 
     private void loadRoute(){
@@ -91,8 +96,8 @@ public class DataLoader implements CommandLineRunner {
         routeEntity.setTextColor("white");
         routeEntity.setSortOrder(1);
 
-        RouteEntity saved = routeJpaRepository.save(routeEntity);
-        log.info("Route saved with id [{}]", saved.getId());
+        routeEntity = routeJpaRepository.save(routeEntity);
+        log.info("Route saved with id [{}]", routeEntity.getId());
     }
 
     private void loadTrip(){
@@ -108,7 +113,22 @@ public class DataLoader implements CommandLineRunner {
         tripEntity.setWheelchairAccessible("1");
         tripEntity.setBikesAllowed("1");
 
-        TripEntity saved = tripJpaRepository.save(tripEntity);
+        tripEntity = tripJpaRepository.save(tripEntity);
         log.info("Trip saved with id [{}]", tripEntity.getId());
+    }
+
+    public void loadCalendar(){
+        CalendarEntity calendarEntity = new CalendarEntity();
+        calendarEntity.setServiceId("1");
+        calendarEntity.setMonday(1);
+        calendarEntity.setTuesday(1);
+        calendarEntity.setWednesday(1);
+        calendarEntity.setThursday(1);
+        calendarEntity.setFriday(1);
+        calendarEntity.setSaturday(0);
+        calendarEntity.setSunday(0);
+
+        calendarEntity = calendarJpaRepository.save(calendarEntity);
+        log.info("Calendar saved with id [{}]", calendarEntity.getId());
     }
 }
