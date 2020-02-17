@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTripEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -121,21 +122,6 @@ public class TripRepositoryTest {
         when(tripJpaRepository.findByTripId(anyString())).thenReturn(buildTripEntityNullBA());
     }
 
-    private TripEntity buildTripEntity(){
-        TripEntity tripEntity = new TripEntity();
-        tripEntity.setRouteId("1");
-        tripEntity.setServiceId("1");
-        tripEntity.setTripId("1");
-        tripEntity.setHeadsign("headsign");
-        tripEntity.setShortName("shortname");
-        tripEntity.setDirectionId("1");
-        tripEntity.setBlockId("1");
-        tripEntity.setShapeId("1");
-        tripEntity.setWheelchairAccessible("1");
-        tripEntity.setBikesAllowed("1");
-
-        return tripEntity;
-    }
 
 
     private TripEntity buildTripEntityNullWA(){

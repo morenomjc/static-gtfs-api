@@ -2,7 +2,6 @@ package com.phakk.transit.staticgtfs.dataproviders.agency;
 
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
-import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
@@ -23,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collections;
 import java.util.List;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildAgencyEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -104,17 +104,4 @@ public class AgencyRepositoryTest {
         when(agencyJpaRepository.findAll()).thenReturn(Collections.singletonList(buildAgencyEntity()));
     }
 
-    private AgencyEntity buildAgencyEntity(){
-        AgencyEntity agencyEntity = new AgencyEntity();
-        agencyEntity.setAgencyId("1");
-        agencyEntity.setName("name");
-        agencyEntity.setUrl("http://gtfs.com");
-        agencyEntity.setTimezone("Asia/Singapore");
-        agencyEntity.setEmail("email@test.com");
-        agencyEntity.setFareUrl("http://gtfs.com/fares");
-        agencyEntity.setLang("en");
-        agencyEntity.setPhone("8888");
-
-        return agencyEntity;
-    }
 }

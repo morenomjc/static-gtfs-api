@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTripEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -41,19 +42,4 @@ public class TripJpaRepositoryTest {
         entityManager.persist(tripEntity);
     }
 
-    private TripEntity buildTripEntity(){
-        TripEntity tripEntity = new TripEntity();
-        tripEntity.setRouteId("1");
-        tripEntity.setServiceId("1");
-        tripEntity.setTripId("1");
-        tripEntity.setHeadsign("headsign");
-        tripEntity.setShortName("shortname");
-        tripEntity.setDirectionId("1");
-        tripEntity.setBlockId("1");
-        tripEntity.setShapeId("1");
-        tripEntity.setWheelchairAccessible("1");
-        tripEntity.setBikesAllowed("1");
-
-        return tripEntity;
-    }
 }

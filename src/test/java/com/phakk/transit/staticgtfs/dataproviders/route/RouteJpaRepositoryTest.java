@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRouteEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -42,19 +43,4 @@ public class RouteJpaRepositoryTest {
         entityManager.persist(entity);
     }
 
-    private RouteEntity buildRouteEntity(){
-        RouteEntity routeEntity = new RouteEntity();
-        routeEntity.setRouteId("1");
-        routeEntity.setAgency("agency");
-        routeEntity.setShortName("short");
-        routeEntity.setLongName("long");
-        routeEntity.setDesc("desc");
-        routeEntity.setType("700");
-        routeEntity.setUrl("test.com");
-        routeEntity.setColor("blue");
-        routeEntity.setTextColor("white");
-        routeEntity.setSortOrder(1);
-
-        return routeEntity;
-    }
 }
