@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildAgencyEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -54,16 +55,5 @@ public class AgencyJpaRepositoryTest {
         entityManager.persist(agencyEntity);
     }
 
-    private AgencyEntity buildAgencyEntity(){
-        AgencyEntity agencyEntity = new AgencyEntity();
-        agencyEntity.setAgencyId("1");
-        agencyEntity.setName("name");
-        agencyEntity.setUrl("http://gtfs.com");
-        agencyEntity.setTimezone("Asia/Singapore");
-        agencyEntity.setEmail("email@test.com");
-        agencyEntity.setFareUrl("http://gtfs.com/fares");
-        agencyEntity.setLang("en");
-        agencyEntity.setPhone("8888");
-        return agencyEntity;
-    }
+
 }

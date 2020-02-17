@@ -6,7 +6,6 @@ import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.CalendarJpaRepo
 import com.phakk.transit.staticgtfs.dataproviders.repository.calendar.CalendarEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepositoryImpl;
-import com.phakk.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildCalendarEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -82,7 +82,7 @@ public class CalendarRepositoryTest {
 
     public void givenCalendar(){
         when(calendarJpaRepository.findByServiceId(anyString()))
-                .thenReturn(TestDataProvider.buildCalendarEntity());
+                .thenReturn(buildCalendarEntity());
     }
 
     public void whenCalendarNotFound(){

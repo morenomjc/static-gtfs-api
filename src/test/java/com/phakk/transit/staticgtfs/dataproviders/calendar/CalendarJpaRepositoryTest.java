@@ -2,7 +2,6 @@ package com.phakk.transit.staticgtfs.dataproviders.calendar;
 
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.CalendarEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.CalendarJpaRepository;
-import com.phakk.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildCalendarEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -30,7 +30,7 @@ public class CalendarJpaRepositoryTest {
 
     @Test
     public void testFindByIdWhenExists(){
-        CalendarEntity expected = TestDataProvider.buildCalendarEntity();
+        CalendarEntity expected = buildCalendarEntity();
         givenCalendarExists(expected);
 
         CalendarEntity calendarEntity = calendarJpaRepository.findByServiceId("1");

@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildStopEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -125,25 +126,7 @@ public class StopRepositoryTest {
         when(stopJpaRepository.findByStopId(anyString())).thenReturn(buildStopEntityNullWB());
     }
 
-    private StopEntity buildStopEntity(){
-        StopEntity stopEntity = new StopEntity();
-        stopEntity.setStopId("1");
-        stopEntity.setStopCode("TEST");
-        stopEntity.setName("Test Station");
-        stopEntity.setDesc("Test Station");
-        stopEntity.setLat(15.5737673);
-        stopEntity.setLon(122.0481448);
-        stopEntity.setZoneId("1");
-        stopEntity.setUrl("test.com/stops/TEST");
-        stopEntity.setStopType("1");
-        stopEntity.setParentStation("0");
-        stopEntity.setTimezone("Asia/Singapore");
-        stopEntity.setWheelchairBoarding("1");
-        stopEntity.setLevelId("0");
-        stopEntity.setPlatformCode("0");
 
-        return stopEntity;
-    }
 
     private StopEntity buildStopEntityNullStopType(){
         StopEntity stopEntity = buildStopEntity();

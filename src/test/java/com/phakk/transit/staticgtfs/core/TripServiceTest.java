@@ -1,7 +1,5 @@
 package com.phakk.transit.staticgtfs.core;
 
-import com.phakk.transit.staticgtfs.core.constants.BikesAllowedEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import com.phakk.transit.staticgtfs.core.trip.TripService;
 import com.phakk.transit.staticgtfs.core.trip.TripServiceImpl;
@@ -12,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTrip;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -43,18 +42,4 @@ public class TripServiceTest {
         when(tripRepository.getTrip(anyString())).thenReturn(trip);
     }
 
-    private Trip buildTrip(){
-        return Trip.builder()
-                .routeId("1")
-                .serviceId("1")
-                .tripId("1")
-                .headsign("headsign")
-                .shortName("shortname")
-                .directionId("1")
-                .blockId("1")
-                .shapeId("1")
-                .wheelchairAccessible(WheelchairAccessibilityEnum.WA_1)
-                .bikesAllowed(BikesAllowedEnum.BIKES_ALLOWED_1)
-                .build();
-    }
 }

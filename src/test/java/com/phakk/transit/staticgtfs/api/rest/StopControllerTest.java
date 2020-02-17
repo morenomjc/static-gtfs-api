@@ -2,8 +2,6 @@ package com.phakk.transit.staticgtfs.api.rest;
 
 import com.phakk.transit.staticgtfs.api.rest.controller.StopController;
 import com.phakk.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
-import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.core.stop.StopService;
@@ -20,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildStop;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -129,22 +128,4 @@ public class StopControllerTest {
         when(stopService.getStop(anyString())).thenReturn(stop);
     }
 
-    private Stop buildStop(){
-        return Stop.builder()
-                .id("1")
-                .code("TEST")
-                .name("Test Station")
-                .desc("Test Station")
-                .lat(15.5737673)
-                .lon(122.0481448)
-                .zoneId("1")
-                .url("test.com/stops/TEST")
-                .type(StopTypeEnum.STOP_1)
-                .parentStation(null)
-                .timezone("Asia/Singapore")
-                .wheelchairBoarding(WheelchairAccessibilityEnum.WA_1)
-                .levelId(null)
-                .platformCode(null)
-                .build();
-    }
 }

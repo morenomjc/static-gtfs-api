@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildAgency;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -131,16 +132,4 @@ public class AgencyControllerTest {
         when(agencyService.getAgencies()).thenReturn(Collections.singletonList(agency));
     }
 
-    private Agency buildAgency(){
-        return Agency.builder()
-                .id("agency1")
-                .name("Test Agency")
-                .url("test.com/agency")
-                .timezone("Asia/Singapore")
-                .lang("en")
-                .phone("12345-677974")
-                .fareUrl("test.com/fares")
-                .email("test@email.com")
-                .build();
-    }
 }

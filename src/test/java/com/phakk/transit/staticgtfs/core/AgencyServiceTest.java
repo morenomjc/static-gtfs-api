@@ -12,8 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildAgency;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -58,16 +58,4 @@ public class AgencyServiceTest {
         when(agencyRepository.getAgencies()).thenReturn(Collections.singletonList(buildAgency()));
     }
 
-    private Agency buildAgency(){
-        return Agency.builder()
-                .id(UUID.randomUUID().toString())
-                .name("agency")
-                .url("http://gtfs.com")
-                .timezone("Asia/Singapore")
-                .lang("en")
-                .phone("8888")
-                .fareUrl("http://gtfs.com/fares")
-                .email("support@gtfs.com")
-                .build();
-    }
 }

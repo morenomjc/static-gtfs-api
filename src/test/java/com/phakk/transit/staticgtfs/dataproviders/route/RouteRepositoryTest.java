@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRouteEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -112,19 +113,5 @@ public class RouteRepositoryTest {
         return routeEntity;
     }
 
-    private RouteEntity buildRouteEntity(){
-        RouteEntity routeEntity = new RouteEntity();
-        routeEntity.setRouteId("1");
-        routeEntity.setAgency("agency");
-        routeEntity.setShortName("short");
-        routeEntity.setLongName("long");
-        routeEntity.setDesc("desc");
-        routeEntity.setType("700");
-        routeEntity.setUrl("test.com");
-        routeEntity.setColor("blue");
-        routeEntity.setTextColor("white");
-        routeEntity.setSortOrder(1);
 
-        return routeEntity;
-    }
 }
