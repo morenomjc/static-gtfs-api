@@ -1,6 +1,6 @@
 package com.phakk.transit.staticgtfs.dataproviders.repository.route;
 
-import com.phakk.transit.staticgtfs.core.constants.RouteTypeEnum;
+import com.phakk.transit.staticgtfs.core.constants.RouteType;
 import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
 import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
@@ -19,9 +19,9 @@ public interface RouteEntityMapper {
     Route fromEntity(RouteEntity routeEntity);
 
     @Named("routeType")
-    default RouteTypeEnum convertToRouteType(String routeType){
-        Optional<RouteTypeEnum> routeTypeEnum = Arrays.stream(RouteTypeEnum.values())
-                .filter(rt -> rt.getId().equalsIgnoreCase(routeType))
+    default RouteType convertToRouteType(String routeType){
+        Optional<RouteType> routeTypeEnum = Arrays.stream(RouteType.values())
+                .filter(rt -> rt.getCode().equalsIgnoreCase(routeType))
                 .findFirst();
         return routeTypeEnum.orElseThrow(() -> new ConstantsMappingException("Failed to map route type"));
     }

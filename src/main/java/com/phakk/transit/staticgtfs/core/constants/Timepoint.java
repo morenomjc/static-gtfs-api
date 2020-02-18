@@ -5,12 +5,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum WheelchairAccessibilityEnum {
-    WA_0("0", "No Information"),
-    WA_1("1", "Accessible"),
-    WA_2("2", "Not Accessible"),
+public enum Timepoint {
+    TP_0_APPROXIMATE("0", "Approximate Time"),
+    TP_1_EXACT("1", "Exact Time"),
     ;
 
-    private String id;
+    private String code;
     private String description;
 }

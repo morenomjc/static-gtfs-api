@@ -77,13 +77,13 @@ public class StopControllerTest {
                         "            \"zone_id\": \"1\",\n" +
                         "            \"stop_url\": \"test.com/stops/TEST\",\n" +
                         "            \"location_type\": {\n" +
-                        "                \"id\": \"1\",\n" +
+                        "                \"code\": \"1\",\n" +
                         "                \"desc\": \"Station\"\n" +
                         "            },\n" +
                         "            \"parent_station\": null,\n" +
                         "            \"stop_timezone\": \"Asia/Singapore\",\n" +
                         "            \"wheelchair_boarding\": {\n" +
-                        "                \"id\": \"1\",\n" +
+                        "                \"code\": \"1\",\n" +
                         "                \"desc\": \"Accessible\"\n" +
                         "            },\n" +
                         "            \"level_id\": null,\n" +

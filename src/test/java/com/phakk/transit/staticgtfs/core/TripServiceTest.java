@@ -1,5 +1,6 @@
 package com.phakk.transit.staticgtfs.core;
 
+import com.phakk.transit.staticgtfs.core.trip.StopTime;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import com.phakk.transit.staticgtfs.core.trip.TripService;
 import com.phakk.transit.staticgtfs.core.trip.TripServiceImpl;
@@ -10,6 +11,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
+import java.util.List;
+
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildStopTime;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTrip;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -38,8 +43,25 @@ public class TripServiceTest {
         assertThat(result).isEqualTo(expected);
     }
 
+    @Test
+    public void testGetTripStops(){
+        StopTime stopTime = buildStopTime();
+        givenTripStops(stopTime);
+
+        List<StopTime> stopTimes = tripService.getStops("1");
+
+        assertThat(stopTimes).hasSize(1);
+        assertThat(stopTimes).contains(stopTime);
+    }
+
     private void givenATrip(Trip trip){
         when(tripRepository.getTrip(anyString())).thenReturn(trip);
+    }
+
+    private void givenTripStops(StopTime stopTime){
+        when(tripRepository.getStops(anyString())).thenReturn(
+                Collections.singletonList(stopTime)
+        );
     }
 
 }

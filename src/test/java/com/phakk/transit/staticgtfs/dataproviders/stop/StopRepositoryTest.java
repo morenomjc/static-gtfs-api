@@ -1,7 +1,7 @@
 package com.phakk.transit.staticgtfs.dataproviders.stop;
 
-import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
+import com.phakk.transit.staticgtfs.core.constants.StopType;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
@@ -72,10 +72,10 @@ public class StopRepositoryTest {
         assertThat(stop.getLon()).isEqualTo(122.0481448);
         assertThat(stop.getZoneId()).isEqualTo("1");
         assertThat(stop.getUrl()).isEqualTo("test.com/stops/TEST");
-        assertThat(stop.getType()).isEqualTo(StopTypeEnum.STOP_1);
+        assertThat(stop.getType()).isEqualTo(StopType.STOP_1_STATION);
         assertThat(stop.getParentStation()).isEqualTo("0");
         assertThat(stop.getTimezone()).isEqualTo("Asia/Singapore");
-        assertThat(stop.getWheelchairBoarding()).isEqualTo(WheelchairAccessibilityEnum.WA_1);
+        assertThat(stop.getWheelchairBoarding()).isEqualTo(WheelchairAccessibility.WA_1_ACCESSIBLE);
         assertThat(stop.getLevelId()).isEqualTo("0");
         assertThat(stop.getPlatformCode()).isEqualTo("0");
     }

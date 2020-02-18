@@ -1,29 +1,28 @@
 package com.phakk.transit.staticgtfs.core.trip;
 
-import com.phakk.transit.staticgtfs.core.constants.BikesAllowedEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
+import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
+import com.phakk.transit.staticgtfs.core.constants.Direction;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Trip implements Serializable {
+public class Trip {
 
     private String routeId;
     private String serviceId;
     private String tripId;
     private String headsign;
     private String shortName;
-    private String directionId;
+    private Direction directionId;
     private String blockId;
     private String shapeId;
-    private WheelchairAccessibilityEnum wheelchairAccessible;
-    private BikesAllowedEnum bikesAllowed;
+    private WheelchairAccessibility wheelchairAccessible;
+    private BikesAllowed bikesAllowed;
 
 }

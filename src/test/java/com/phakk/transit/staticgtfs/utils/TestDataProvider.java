@@ -2,18 +2,26 @@ package com.phakk.transit.staticgtfs.utils;
 
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.calendar.Calendar;
-import com.phakk.transit.staticgtfs.core.constants.BikesAllowedEnum;
-import com.phakk.transit.staticgtfs.core.constants.RouteTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
+import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
+import com.phakk.transit.staticgtfs.core.constants.Direction;
+import com.phakk.transit.staticgtfs.core.constants.DropOffType;
+import com.phakk.transit.staticgtfs.core.constants.PickupType;
+import com.phakk.transit.staticgtfs.core.constants.RouteType;
+import com.phakk.transit.staticgtfs.core.constants.StopType;
+import com.phakk.transit.staticgtfs.core.constants.Timepoint;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
+import com.phakk.transit.staticgtfs.core.trip.StopTime;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.CalendarEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
+
+import java.time.LocalTime;
 
 public class TestDataProvider {
 
@@ -50,7 +58,7 @@ public class TestDataProvider {
                 "short",
                 "long",
                 "desc",
-                RouteTypeEnum.ROUTE_700,
+                RouteType.ROUTE_700_BUS,
                 "test.com",
                 "blue",
                 "white",
@@ -84,10 +92,10 @@ public class TestDataProvider {
                 .lon(122.0481448)
                 .zoneId("1")
                 .url("test.com/stops/TEST")
-                .type(StopTypeEnum.STOP_1)
+                .type(StopType.STOP_1_STATION)
                 .parentStation(null)
                 .timezone("Asia/Singapore")
-                .wheelchairBoarding(WheelchairAccessibilityEnum.WA_1)
+                .wheelchairBoarding(WheelchairAccessibility.WA_1_ACCESSIBLE)
                 .levelId(null)
                 .platformCode(null)
                 .build();
@@ -114,16 +122,16 @@ public class TestDataProvider {
 
     public static Trip buildTrip(){
         return Trip.builder()
-                .routeId("r1")
-                .serviceId("s1")
+                .routeId("1")
+                .serviceId("1")
                 .tripId("t1")
                 .headsign("headsign")
                 .shortName("shortName")
-                .directionId("directionId")
+                .directionId(Direction.INBOUND)
                 .blockId("blockId")
                 .shapeId("shapeId")
-                .wheelchairAccessible(WheelchairAccessibilityEnum.WA_1)
-                .bikesAllowed(BikesAllowedEnum.BIKES_ALLOWED_1)
+                .wheelchairAccessible(WheelchairAccessibility.WA_1_ACCESSIBLE)
+                .bikesAllowed(BikesAllowed.BIKES_ALLOWED_1)
                 .build();
     }
 
@@ -167,5 +175,35 @@ public class TestDataProvider {
         calendarEntity.setSaturday(0);
         calendarEntity.setSunday(0);
         return calendarEntity;
+    }
+
+    public static StopTime buildStopTime(){
+        StopTime stopTime = new StopTime();
+        stopTime.setTripId("1");
+        stopTime.setArrivalTime(LocalTime.of(8, 0, 0));
+        stopTime.setDepartureTime(LocalTime.of(8, 30, 0));
+        stopTime.setStopId("1");
+        stopTime.setStopSequence(1);
+        stopTime.setStopHeadsign("headsign");
+        stopTime.setPickupType(PickupType.PT_0_REGULAR);
+        stopTime.setDropOffType(DropOffType.DOT_0_REGULAR);
+        stopTime.setDistanceTraveled(1.5);
+        stopTime.setTimepoint(Timepoint.TP_0_APPROXIMATE);
+        return stopTime;
+    }
+
+    public static StopTimeEntity buildStopTimeEntity(){
+        StopTimeEntity stopTimeEntity = new StopTimeEntity();
+        stopTimeEntity.setTripId("1");
+        stopTimeEntity.setArrivalTime(LocalTime.of(8, 0, 0));
+        stopTimeEntity.setDepartureTime(LocalTime.of(8, 30, 0));
+        stopTimeEntity.setStopId("1");
+        stopTimeEntity.setStopSequence(1);
+        stopTimeEntity.setStopHeadsign("headsign");
+        stopTimeEntity.setPickupType(PickupType.PT_0_REGULAR.getCode());
+        stopTimeEntity.setDropOffType(DropOffType.DOT_0_REGULAR.getCode());
+        stopTimeEntity.setDistanceTraveled(1.5);
+        stopTimeEntity.setTimepoint(Timepoint.TP_0_APPROXIMATE.getCode());
+        return stopTimeEntity;
     }
 }
