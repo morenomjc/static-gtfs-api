@@ -23,10 +23,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.hasSize;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildCalendar;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRoute;
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildStopTime;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTrip;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -158,6 +160,7 @@ public class TripControllerTest {
 
     @Test
     public void testGetStopTimesEndpoint() throws Exception {
+        givenTripStops();
 
         this.mockMvc.perform(get("/trips/1/stops")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -180,8 +183,8 @@ public class TripControllerTest {
                         "            \"type\": \"stoptimes\",\n" +
                         "            \"attributes\": {\n" +
                         "                \"trip_id\": \"1\",\n" +
-                        "                \"arrival_time\": \"06:03:49\",\n" +
-                        "                \"departure_time\": \"10:03:49\",\n" +
+                        "                \"arrival_time\": \"08:00:00\",\n" +
+                        "                \"departure_time\": \"08:30:00\",\n" +
                         "                \"stop_id\": \"1\",\n" +
                         "                \"stop_sequence\": 1,\n" +
                         "                \"stop_headsign\": \"headsign\",\n" +
@@ -209,5 +212,9 @@ public class TripControllerTest {
         when(tripService.getTrip(anyString())).thenReturn(trip);
         when(routeService.getRoute(anyString())).thenReturn(buildRoute());
         when(calendarService.getCalendar(anyString())).thenReturn(buildCalendar());
+    }
+
+    private void givenTripStops(){
+        when(tripService.getStops(anyString())).thenReturn(singletonList(buildStopTime()));
     }
 }
