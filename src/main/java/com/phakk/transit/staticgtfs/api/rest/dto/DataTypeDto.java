@@ -13,6 +13,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class DataTypeDto implements Serializable {
 
-    private String id;
+    private String code;
     private String desc;
 }

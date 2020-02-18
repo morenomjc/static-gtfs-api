@@ -1,7 +1,7 @@
 package com.phakk.transit.staticgtfs.core;
 
-import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
+import com.phakk.transit.staticgtfs.core.constants.StopType;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.core.stop.StopService;
 import com.phakk.transit.staticgtfs.core.stop.StopServiceImpl;
@@ -53,10 +53,10 @@ public class StopServiceTest {
                 .lon(122.0481448)
                 .zoneId(null)
                 .url("test.com/stops/TEST")
-                .type(StopTypeEnum.STOP_1)
+                .type(StopType.STOP_1_STATION)
                 .parentStation(null)
                 .timezone("Asia/Singapore")
-                .wheelchairBoarding(WheelchairAccessibilityEnum.WA_1)
+                .wheelchairBoarding(WheelchairAccessibility.WA_1_ACCESSIBLE)
                 .levelId(null)
                 .platformCode(null)
                 .build();

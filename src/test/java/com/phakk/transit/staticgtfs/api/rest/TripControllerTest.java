@@ -3,6 +3,7 @@ package com.phakk.transit.staticgtfs.api.rest;
 import com.phakk.transit.staticgtfs.api.rest.controller.TripController;
 import com.phakk.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
+import com.phakk.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
 import com.phakk.transit.staticgtfs.core.calendar.CalendarService;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
@@ -23,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -51,6 +53,8 @@ public class TripControllerTest {
     private RouteDtoMapper routeDtoMapper;
     @Autowired
     private CalendarDtoMapper calendarDtoMapper;
+    @Autowired
+    private StopTimeDtoMapper stopTimeDtoMapper;
 
     @TestConfiguration
     static class TripTestConfiguration {
@@ -67,6 +71,11 @@ public class TripControllerTest {
         @Bean
         public CalendarDtoMapper calendarDtoMapper(){
             return Mappers.getMapper(CalendarDtoMapper.class);
+        }
+
+        @Bean
+        public StopTimeDtoMapper stopTimeDtoMapper(){
+            return Mappers.getMapper(StopTimeDtoMapper.class);
         }
     }
 
@@ -104,11 +113,11 @@ public class TripControllerTest {
                         "            \"block_id\": \"blockId\",\n" +
                         "            \"shape_id\": \"shapeId\",\n" +
                         "            \"wheelchair_accessible\": {\n" +
-                        "                \"id\": \"1\",\n" +
+                        "                \"code\": \"1\",\n" +
                         "                \"desc\": \"Accessible\"\n" +
                         "            },\n" +
                         "            \"bikes_allowed\": {\n" +
-                        "                \"id\": \"1\",\n" +
+                        "                \"code\": \"1\",\n" +
                         "                \"desc\": \"Bikes Allowed\"\n" +
                         "            }\n" +
                         "        }\n" +
@@ -141,6 +150,55 @@ public class TripControllerTest {
                         "        \"title\": \"Resource Not Found\",\n" +
                         "        \"detail\": \"Trip not found\"\n" +
                         "    }\n" +
+                        "}")
+        );
+    }
+
+    @Test
+    public void testGetStopTimesEndpoint() throws Exception {
+
+        this.mockMvc.perform(get("/trips/1/stops")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                status().isOk()
+        ).andExpect(
+                jsonPath("$.data", hasSize(1))
+        ).andExpect(
+                content().json("{\n" +
+                        "    \"meta\": {\n" +
+                        "        \"api\": {\n" +
+                        "            \"version\": \"v1\"\n" +
+                        "        },\n" +
+                        "        \"gtfs\": {\n" +
+                        "            \"static\": \"v1.0\"\n" +
+                        "        }\n" +
+                        "    },\n" +
+                        "    \"data\": [\n" +
+                        "        {\n" +
+                        "            \"type\": \"stoptimes\",\n" +
+                        "            \"attributes\": {\n" +
+                        "                \"trip_id\": \"1\",\n" +
+                        "                \"arrival_time\": \"06:03:49\",\n" +
+                        "                \"departure_time\": \"10:03:49\",\n" +
+                        "                \"stop_id\": \"1\",\n" +
+                        "                \"stop_sequence\": 1,\n" +
+                        "                \"stop_headsign\": \"headsign\",\n" +
+                        "                \"pickup_type\": {\n" +
+                        "                    \"code\": \"0\",\n" +
+                        "                    \"desc\": \"Regular Pickup\"\n" +
+                        "                },\n" +
+                        "                \"drop_off_type\": {\n" +
+                        "                    \"code\": \"0\",\n" +
+                        "                    \"desc\": \"Regular Drop Off\"\n" +
+                        "                },\n" +
+                        "                \"shape_dist_traveled\": 1.5,\n" +
+                        "                \"timepoint\": {\n" +
+                        "                    \"code\": \"0\",\n" +
+                        "                    \"desc\": \"Approximate Time\"\n" +
+                        "                }\n" +
+                        "            }\n" +
+                        "        }\n" +
+                        "    ]\n" +
                         "}")
         );
     }

@@ -14,6 +14,9 @@ public interface TripResource extends TypedResource {
     @GetMapping(value = "/{tripId}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ApiDocument> getTrip(@PathVariable(name = "tripId") String id);
 
+    @GetMapping(value = "/{tripId}/stops", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ApiDocument> getStopTimes(@PathVariable(name = "tripId") String id);
+
     @Override
     default String getResourceType() {
         return DataTypes.TRIP.getValue();

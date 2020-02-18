@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum BikesAllowedEnum {
+public enum BikesAllowed {
     BIKES_ALLOWED_0("0", "No Information"),
     BIKES_ALLOWED_1("1", "Bikes Allowed"),
     BIKES_ALLOWED_3("2", "Bikes Not Allowed"),
     ;
 
-    private String id;
+    private String code;
     private String description;
 }

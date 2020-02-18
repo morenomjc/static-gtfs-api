@@ -4,11 +4,13 @@ import com.phakk.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
+import com.phakk.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.calendar.CalendarEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
+import com.phakk.transit.staticgtfs.dataproviders.repository.trip.StopTimeEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
@@ -67,4 +69,14 @@ public class MapperConfiguration {
         return Mappers.getMapper(CalendarEntityMapper.class);
     }
 
+    @Bean
+    public StopTimeDtoMapper stopTimeDtoMapper(){
+        return Mappers.getMapper(StopTimeDtoMapper.class);
+    }
+
+
+    @Bean
+    public StopTimeEntityMapper stopTimeEntityMapper(){
+        return Mappers.getMapper(StopTimeEntityMapper.class);
+    }
 }

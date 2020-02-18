@@ -1,20 +1,27 @@
 package com.phakk.transit.staticgtfs;
 
+import com.phakk.transit.staticgtfs.core.constants.DropOffType;
+import com.phakk.transit.staticgtfs.core.constants.PickupType;
+import com.phakk.transit.staticgtfs.core.constants.Timepoint;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.CalendarEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.CalendarJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalTime;
 
 @Slf4j
 @Component
@@ -31,6 +38,8 @@ public class DataLoader implements CommandLineRunner {
     private TripJpaRepository tripJpaRepository;
     @Autowired
     private CalendarJpaRepository calendarJpaRepository;
+    @Autowired
+    private StopTimeJpaRepository stopTimeJpaRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -39,6 +48,7 @@ public class DataLoader implements CommandLineRunner {
         loadRoute();
         loadTrip();
         loadCalendar();
+        loadStopTime();
     }
 
     private void loadAgency(){
@@ -130,5 +140,22 @@ public class DataLoader implements CommandLineRunner {
 
         calendarEntity = calendarJpaRepository.save(calendarEntity);
         log.info("Calendar saved with id [{}]", calendarEntity.getId());
+    }
+
+    public void loadStopTime(){
+        StopTimeEntity stopTimeEntity = new StopTimeEntity();
+        stopTimeEntity.setTripId("1");
+        stopTimeEntity.setArrivalTime(LocalTime.of(8, 0, 0));
+        stopTimeEntity.setDepartureTime(LocalTime.of(8, 30, 0));
+        stopTimeEntity.setStopId("1");
+        stopTimeEntity.setStopSequence(1);
+        stopTimeEntity.setStopHeadsign("headsign");
+        stopTimeEntity.setPickupType(PickupType.PT_0_REGULAR.getCode());
+        stopTimeEntity.setDropOffType(DropOffType.DOT_0_REGULAR.getCode());
+        stopTimeEntity.setDistanceTraveled(1.5);
+        stopTimeEntity.setTimepoint(Timepoint.TP_0_APPROXIMATE.getCode());
+
+        stopTimeEntity = stopTimeJpaRepository.save(stopTimeEntity);
+        log.info("StopTime saved with id [{}]", stopTimeEntity.getId());
     }
 }

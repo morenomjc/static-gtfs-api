@@ -1,19 +1,17 @@
 package com.phakk.transit.staticgtfs.core.stop;
 
-import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
+import com.phakk.transit.staticgtfs.core.constants.StopType;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Stop implements Serializable {
+public class Stop {
 
     private String id;
     private String code;
@@ -23,10 +21,10 @@ public class Stop implements Serializable {
     private Double lon;
     private String zoneId;
     private String url;
-    private StopTypeEnum type;
+    private StopType type;
     private String parentStation;
     private String timezone;
-    private WheelchairAccessibilityEnum wheelchairBoarding;
+    private WheelchairAccessibility wheelchairBoarding;
     private String levelId;
     private String platformCode;
 }

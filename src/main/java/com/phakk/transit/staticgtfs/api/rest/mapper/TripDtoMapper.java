@@ -2,8 +2,8 @@ package com.phakk.transit.staticgtfs.api.rest.mapper;
 
 import com.phakk.transit.staticgtfs.api.rest.dto.DataTypeDto;
 import com.phakk.transit.staticgtfs.api.rest.dto.TripDto;
-import com.phakk.transit.staticgtfs.core.constants.BikesAllowedEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
+import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,23 +19,23 @@ public interface TripDtoMapper {
     TripDto toDto(Trip trip);
 
     @Named("wheelchairAccessible")
-    default DataTypeDto mapWheelchairAccessible(WheelchairAccessibilityEnum wheelchairAccessibility){
+    default DataTypeDto mapWheelchairAccessible(WheelchairAccessibility wheelchairAccessibility){
         if (Objects.isNull(wheelchairAccessibility)){
             return null;
         }
         return DataTypeDto.builder()
-                .id(wheelchairAccessibility.getId())
+                .code(wheelchairAccessibility.getCode())
                 .desc(wheelchairAccessibility.getDescription())
                 .build();
     }
 
     @Named("bikesAllowed")
-    default DataTypeDto mapBikesAllowed(BikesAllowedEnum bikesAllowed){
+    default DataTypeDto mapBikesAllowed(BikesAllowed bikesAllowed){
         if (Objects.isNull(bikesAllowed)){
             return null;
         }
         return DataTypeDto.builder()
-                .id(bikesAllowed.getId())
+                .code(bikesAllowed.getCode())
                 .desc(bikesAllowed.getDescription())
                 .build();
     }

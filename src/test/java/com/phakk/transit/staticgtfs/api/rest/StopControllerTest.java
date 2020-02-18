@@ -2,8 +2,8 @@ package com.phakk.transit.staticgtfs.api.rest;
 
 import com.phakk.transit.staticgtfs.api.rest.controller.StopController;
 import com.phakk.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
-import com.phakk.transit.staticgtfs.core.constants.StopTypeEnum;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibilityEnum;
+import com.phakk.transit.staticgtfs.core.constants.StopType;
+import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.core.stop.StopService;
@@ -78,13 +78,13 @@ public class StopControllerTest {
                         "            \"zone_id\": \"1\",\n" +
                         "            \"stop_url\": \"test.com/stops/TEST\",\n" +
                         "            \"location_type\": {\n" +
-                        "                \"id\": \"1\",\n" +
+                        "                \"code\": \"1\",\n" +
                         "                \"desc\": \"Station\"\n" +
                         "            },\n" +
                         "            \"parent_station\": null,\n" +
                         "            \"stop_timezone\": \"Asia/Singapore\",\n" +
                         "            \"wheelchair_boarding\": {\n" +
-                        "                \"id\": \"1\",\n" +
+                        "                \"code\": \"1\",\n" +
                         "                \"desc\": \"Accessible\"\n" +
                         "            },\n" +
                         "            \"level_id\": null,\n" +
@@ -139,10 +139,10 @@ public class StopControllerTest {
                 .lon(122.0481448)
                 .zoneId("1")
                 .url("test.com/stops/TEST")
-                .type(StopTypeEnum.STOP_1)
+                .type(StopType.STOP_1_STATION)
                 .parentStation(null)
                 .timezone("Asia/Singapore")
-                .wheelchairBoarding(WheelchairAccessibilityEnum.WA_1)
+                .wheelchairBoarding(WheelchairAccessibility.WA_1_ACCESSIBLE)
                 .levelId(null)
                 .platformCode(null)
                 .build();

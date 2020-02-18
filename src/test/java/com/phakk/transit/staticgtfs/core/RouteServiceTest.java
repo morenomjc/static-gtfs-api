@@ -1,6 +1,6 @@
 package com.phakk.transit.staticgtfs.core;
 
-import com.phakk.transit.staticgtfs.core.constants.RouteTypeEnum;
+import com.phakk.transit.staticgtfs.core.constants.RouteType;
 import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
 import com.phakk.transit.staticgtfs.core.route.RouteServiceImpl;
@@ -49,7 +49,7 @@ public class RouteServiceTest {
                 "short name",
                 "long name",
                 "desc",
-                RouteTypeEnum.ROUTE_700,
+                RouteType.ROUTE_700_BUS,
                 "test.com",
                 "blue",
                 "white",

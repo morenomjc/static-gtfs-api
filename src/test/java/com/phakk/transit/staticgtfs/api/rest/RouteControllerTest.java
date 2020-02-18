@@ -74,7 +74,7 @@ public class RouteControllerTest {
                                 "            \"route_long_name\": \"long\",\n" +
                                 "            \"route_desc\": \"desc\",\n" +
                                 "            \"route_type\": {\n" +
-                                "                \"id\": \"700\",\n" +
+                                "                \"code\": \"700\",\n" +
                                 "                \"desc\": \"Bus Service\"\n" +
                                 "            },\n" +
                                 "            \"route_url\": \"test.com\",\n" +

@@ -1,6 +1,6 @@
 package com.phakk.transit.staticgtfs.dataproviders.route;
 
-import com.phakk.transit.staticgtfs.core.constants.RouteTypeEnum;
+import com.phakk.transit.staticgtfs.core.constants.RouteType;
 import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.route.Route;
@@ -67,7 +67,7 @@ public class RouteRepositoryTest {
         assertThat(route.getShortName()).isEqualTo("short");
         assertThat(route.getLongName()).isEqualTo("long");
         assertThat(route.getDesc()).isEqualTo("desc");
-        assertThat(route.getType()).isEqualTo(RouteTypeEnum.ROUTE_700);
+        assertThat(route.getType()).isEqualTo(RouteType.ROUTE_700_BUS);
         assertThat(route.getUrl()).isEqualTo("test.com");
         assertThat(route.getColor()).isEqualTo("blue");
         assertThat(route.getTextColor()).isEqualTo("white");
