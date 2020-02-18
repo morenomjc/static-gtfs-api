@@ -5,6 +5,7 @@ import com.phakk.transit.staticgtfs.api.rest.dto.StopTimeDto;
 import com.phakk.transit.staticgtfs.api.rest.dto.TripDto;
 import com.phakk.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
+import com.phakk.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.resource.TripResource;
@@ -14,6 +15,7 @@ import com.phakk.transit.staticgtfs.api.spec.ApiResource;
 import com.phakk.transit.staticgtfs.api.spec.ApiResources;
 import com.phakk.transit.staticgtfs.core.calendar.CalendarService;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
+import com.phakk.transit.staticgtfs.core.stop.StopService;
 import com.phakk.transit.staticgtfs.core.trip.StopTime;
 import com.phakk.transit.staticgtfs.core.trip.TripService;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
@@ -39,6 +42,8 @@ public class TripController implements TripResource {
     private CalendarService calendarService;
     private CalendarDtoMapper calendarDtoMapper;
     private StopTimeDtoMapper stopTimeDtoMapper;
+    private StopService stopService;
+    private StopDtoMapper stopDtoMapper;
 
     @Override
     public ResponseEntity<ApiDocument> getTrip(String tripId) {
@@ -49,7 +54,8 @@ public class TripController implements TripResource {
                 tripDto,
                 selfLink(tripId, getClass()),
                 routeLink(tripDto.getRouteId()),
-                calendarLink(tripDto.getServiceId())
+                calendarLink(tripDto.getServiceId()),
+                tripStopsLink(tripDto.getTripId())
         );
         apiResource.getData().addRelationship("route", buildRouteData(tripDto));
         apiResource.getData().addRelationship("schedule", buildCalendarData(tripDto));
@@ -65,16 +71,28 @@ public class TripController implements TripResource {
         return ResponseEntity.ok(new ApiResources<>(buildStopTimes(stops)));
     }
 
-    private List<ApiData<StopTimeDto>> buildStopTimes(List<StopTime> stopTimes){
+    private List<ApiData<?>> buildStopTimes(List<StopTime> stopTimes){
         return stopTimes.stream()
-                .map(stopTime ->
-                        new ApiData<>(
-                                DataTypes.STOP_TIMES.getValue(),
-                                stopTimeDtoMapper.toDto(stopTime),
-                                stopLink(stopTime.getStopId()),
-                                tripLink(stopTime.getTripId())
-                        )
-                ).collect(Collectors.toList());
+                .map(this::buildStopTimeData).collect(Collectors.toList());
+    }
+
+    private ApiData<?> buildStopTimeData(StopTime stopTime){
+        ApiData<StopTimeDto> apiData = new ApiData<>(
+                DataTypes.STOP_TIMES.getValue(),
+                stopTimeDtoMapper.toDto(stopTime),
+                stopLink(stopTime.getStopId()),
+                tripLink(stopTime.getTripId())
+        );
+        apiData.addRelationship("stop", buildStopData(stopTime));
+        return apiData;
+    }
+
+    private ApiData<?> buildStopData(StopTime stopTime){
+        return new ApiData<>(
+                DataTypes.STOP.getValue(),
+                stopDtoMapper.toDto(stopService.getStop(stopTime.getStopId())),
+                selfLink(stopTime.getStopId(), StopController.class)
+        );
     }
 
     private ApiData<?> buildRouteData(TripDto tripDto){
@@ -107,5 +125,9 @@ public class TripController implements TripResource {
 
     private Link stopLink(String id){
         return  linkTo(StopController.class).slash(id).withRel("stop");
+    }
+
+    private Link tripStopsLink(String id){
+        return linkTo(methodOn(TripController.class, id).getStopTimes(id)).withRel("stops");
     }
 }

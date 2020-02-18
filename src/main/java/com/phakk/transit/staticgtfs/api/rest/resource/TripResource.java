@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface TripResource extends TypedResource {
 
     @GetMapping(value = "/{tripId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ApiDocument> getTrip(@PathVariable(name = "tripId") String id);
+    ResponseEntity<ApiDocument> getTrip(@PathVariable(name = "tripId") String tripId);
 
     @GetMapping(value = "/{tripId}/stops", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ApiDocument> getStopTimes(@PathVariable(name = "tripId") String id);
+    ResponseEntity<ApiDocument> getStopTimes(@PathVariable(name = "tripId") String tripId);
 
     @Override
     default String getResourceType() {

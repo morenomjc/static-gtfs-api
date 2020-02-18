@@ -1,6 +1,7 @@
 package com.phakk.transit.staticgtfs.core.trip;
 
 import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
+import com.phakk.transit.staticgtfs.core.constants.Direction;
 import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class Trip {
     private String tripId;
     private String headsign;
     private String shortName;
-    private String directionId;
+    private Direction directionId;
     private String blockId;
     private String shapeId;
     private WheelchairAccessibility wheelchairAccessible;

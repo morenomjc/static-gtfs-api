@@ -30,7 +30,7 @@ public class TripDto implements Serializable {
     private String shortName;
 
     @JsonProperty("direction_id")
-    private String directionId;
+    private DataTypeDto directionId;
 
     @JsonProperty("block_id")
     private String blockId;

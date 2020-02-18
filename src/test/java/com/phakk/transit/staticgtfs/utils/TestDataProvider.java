@@ -3,6 +3,7 @@ package com.phakk.transit.staticgtfs.utils;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.calendar.Calendar;
 import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
+import com.phakk.transit.staticgtfs.core.constants.Direction;
 import com.phakk.transit.staticgtfs.core.constants.DropOffType;
 import com.phakk.transit.staticgtfs.core.constants.PickupType;
 import com.phakk.transit.staticgtfs.core.constants.RouteType;
@@ -121,12 +122,12 @@ public class TestDataProvider {
 
     public static Trip buildTrip(){
         return Trip.builder()
-                .routeId("r1")
-                .serviceId("s1")
+                .routeId("1")
+                .serviceId("1")
                 .tripId("t1")
                 .headsign("headsign")
                 .shortName("shortName")
-                .directionId("directionId")
+                .directionId(Direction.INBOUND)
                 .blockId("blockId")
                 .shapeId("shapeId")
                 .wheelchairAccessible(WheelchairAccessibility.WA_1_ACCESSIBLE)

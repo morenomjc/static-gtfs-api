@@ -1,6 +1,7 @@
 package com.phakk.transit.staticgtfs.dataproviders.trip;
 
 import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
+import com.phakk.transit.staticgtfs.core.constants.Direction;
 import com.phakk.transit.staticgtfs.core.constants.DropOffType;
 import com.phakk.transit.staticgtfs.core.constants.PickupType;
 import com.phakk.transit.staticgtfs.core.constants.Timepoint;
@@ -30,7 +31,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTripEntity;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
@@ -92,11 +92,21 @@ public class TripRepositoryTest {
         assertThat(trip.getTripId()).isEqualTo("1");
         assertThat(trip.getHeadsign()).isEqualTo("headsign");
         assertThat(trip.getShortName()).isEqualTo("shortname");
-        assertThat(trip.getDirectionId()).isEqualTo("1");
+        assertThat(trip.getDirectionId()).isEqualTo(Direction.INBOUND);
         assertThat(trip.getBlockId()).isEqualTo("1");
         assertThat(trip.getShapeId()).isEqualTo("1");
         assertThat(trip.getWheelchairAccessible()).isEqualTo(WheelchairAccessibility.WA_1_ACCESSIBLE);
         assertThat(trip.getBikesAllowed()).isEqualTo(BikesAllowed.BIKES_ALLOWED_1);
+    }
+
+    @Test
+    public void testWhenDirectionIdIsNull(){
+        expectedException.expect(ConstantsMappingException.class);
+        expectedException.expectMessage(equalTo("Failed to map direction id"));
+
+        whenTripExistsWithNullDirection();
+
+        tripRepository.getTrip("1");
     }
 
     @Test
@@ -187,6 +197,10 @@ public class TripRepositoryTest {
         when(tripJpaRepository.findByTripId(anyString())).thenReturn(buildTripEntity());
     }
 
+    private void whenTripExistsWithNullDirection(){
+        when(tripJpaRepository.findByTripId(anyString())).thenReturn(buildTripEntityNullDirection());
+    }
+
     private void whenTripExistsWithNullWA(){
         when(tripJpaRepository.findByTripId(anyString())).thenReturn(buildTripEntityNullWA());
     }
@@ -235,6 +249,12 @@ public class TripRepositoryTest {
         return tripEntity;
     }
 
+    private TripEntity buildTripEntityNullDirection(){
+        TripEntity tripEntity = buildTripEntity();
+        tripEntity.setDirectionId(null);
+
+        return tripEntity;
+    }
 
     private TripEntity buildTripEntityNullWA(){
         TripEntity tripEntity = buildTripEntity();

@@ -3,11 +3,13 @@ package com.phakk.transit.staticgtfs.api.rest;
 import com.phakk.transit.staticgtfs.api.rest.controller.TripController;
 import com.phakk.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
+import com.phakk.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
 import com.phakk.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
 import com.phakk.transit.staticgtfs.core.calendar.CalendarService;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
+import com.phakk.transit.staticgtfs.core.stop.StopService;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import com.phakk.transit.staticgtfs.core.trip.TripService;
 import org.junit.Test;
@@ -25,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildCalendar;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRoute;
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildStop;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildStopTime;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTrip;
 import static java.util.Collections.singletonList;
@@ -50,6 +53,8 @@ public class TripControllerTest {
     private RouteService routeService;
     @MockBean
     private CalendarService calendarService;
+    @MockBean
+    private StopService stopService;
 
     @Autowired
     private TripDtoMapper tripDtoMapper;
@@ -59,6 +64,8 @@ public class TripControllerTest {
     private CalendarDtoMapper calendarDtoMapper;
     @Autowired
     private StopTimeDtoMapper stopTimeDtoMapper;
+    @Autowired
+    private StopDtoMapper stopDtoMapper;
 
     @TestConfiguration
     static class TripTestConfiguration {
@@ -81,6 +88,11 @@ public class TripControllerTest {
         public StopTimeDtoMapper stopTimeDtoMapper(){
             return Mappers.getMapper(StopTimeDtoMapper.class);
         }
+
+        @Bean
+        public StopDtoMapper stopDtoMapper(){
+            return Mappers.getMapper(StopDtoMapper.class);
+        }
     }
 
     @Test
@@ -96,6 +108,8 @@ public class TripControllerTest {
         ).andExpect(
                 jsonPath("$.data.relationships.schedule.attributes").isNotEmpty()
         ).andExpect(
+                jsonPath("$.data.links", hasSize(4))
+        ).andExpect(
                 content().json("{\n" +
                         "    \"meta\": {\n" +
                         "        \"api\": {\n" +
@@ -108,12 +122,15 @@ public class TripControllerTest {
                         "    \"data\": {\n" +
                         "        \"type\": \"trips\",\n" +
                         "        \"attributes\": {\n" +
-                        "            \"route_id\": \"r1\",\n" +
-                        "            \"service_id\": \"s1\",\n" +
+                        "            \"route_id\": \"1\",\n" +
+                        "            \"service_id\": \"1\",\n" +
                         "            \"trip_id\": \"t1\",\n" +
                         "            \"trip_headsign\": \"headsign\",\n" +
                         "            \"trip_short_name\": \"shortName\",\n" +
-                        "            \"direction_id\": \"directionId\",\n" +
+                        "            \"direction_id\": {\n" +
+                        "                \"code\": \"1\",\n" +
+                        "                \"desc\": \"Inbound\"\n" +
+                        "            },\n" +
                         "            \"block_id\": \"blockId\",\n" +
                         "            \"shape_id\": \"shapeId\",\n" +
                         "            \"wheelchair_accessible\": {\n" +
@@ -169,6 +186,8 @@ public class TripControllerTest {
         ).andExpect(
                 jsonPath("$.data", hasSize(1))
         ).andExpect(
+                jsonPath("$.data[0].relationships.stop.attributes").isNotEmpty()
+        ).andExpect(
                 content().json("{\n" +
                         "    \"meta\": {\n" +
                         "        \"api\": {\n" +
@@ -216,5 +235,6 @@ public class TripControllerTest {
 
     private void givenTripStops(){
         when(tripService.getStops(anyString())).thenReturn(singletonList(buildStopTime()));
+        when(stopService.getStop(anyString())).thenReturn(buildStop());
     }
 }
