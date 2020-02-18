@@ -1,7 +1,5 @@
 package com.phakk.transit.staticgtfs.core;
 
-import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
 import com.phakk.transit.staticgtfs.core.trip.StopTime;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import com.phakk.transit.staticgtfs.core.trip.TripService;
@@ -17,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildStopTime;
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTrip;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -65,18 +64,4 @@ public class TripServiceTest {
         );
     }
 
-    private Trip buildTrip(){
-        return Trip.builder()
-                .routeId("1")
-                .serviceId("1")
-                .tripId("1")
-                .headsign("headsign")
-                .shortName("shortname")
-                .directionId("1")
-                .blockId("1")
-                .shapeId("1")
-                .wheelchairAccessible(WheelchairAccessibility.WA_1_ACCESSIBLE)
-                .bikesAllowed(BikesAllowed.BIKES_ALLOWED_1)
-                .build();
-    }
 }

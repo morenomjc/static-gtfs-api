@@ -1,6 +1,5 @@
 package com.phakk.transit.staticgtfs.core;
 
-import com.phakk.transit.staticgtfs.core.constants.RouteType;
 import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
 import com.phakk.transit.staticgtfs.core.route.RouteServiceImpl;
@@ -11,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRoute;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -42,18 +42,4 @@ public class RouteServiceTest {
         when(routeRepository.getRouteById(anyString())).thenReturn(route);
     }
 
-    private Route buildRoute(){
-        return new Route(
-                "1",
-                "Test",
-                "short name",
-                "long name",
-                "desc",
-                RouteType.ROUTE_700_BUS,
-                "test.com",
-                "blue",
-                "white",
-                1
-        );
-    }
 }

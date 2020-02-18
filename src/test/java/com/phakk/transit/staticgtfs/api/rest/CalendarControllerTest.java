@@ -3,7 +3,6 @@ package com.phakk.transit.staticgtfs.api.rest;
 import com.phakk.transit.staticgtfs.api.rest.controller.CalendarController;
 import com.phakk.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
 import com.phakk.transit.staticgtfs.core.calendar.CalendarService;
-import com.phakk.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildCalendar;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -87,8 +87,7 @@ public class CalendarControllerTest {
     }
 
     private void givenCalendar(){
-        when(calendarService.getCalendar(anyString())).thenReturn(TestDataProvider.buildCalendar());
+        when(calendarService.getCalendar(anyString())).thenReturn(buildCalendar());
     }
-
 
 }

@@ -4,7 +4,6 @@ import com.phakk.transit.staticgtfs.api.rest.controller.RouteController;
 import com.phakk.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
-import com.phakk.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
@@ -18,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRoute;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -48,7 +48,7 @@ public class RouteControllerTest {
 
     @Test
     public void testGetRouteEndpoint() throws Exception {
-        when(routeService.getRoute(anyString())).thenReturn(TestDataProvider.buildRoute());
+        when(routeService.getRoute(anyString())).thenReturn(buildRoute());
 
         this.mockMvc.perform(get("/routes/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -115,6 +115,5 @@ public class RouteControllerTest {
                                 "}")
         );
     }
-
 
 }

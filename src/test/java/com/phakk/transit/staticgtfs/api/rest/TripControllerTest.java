@@ -10,7 +10,6 @@ import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import com.phakk.transit.staticgtfs.core.trip.TripService;
-import com.phakk.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
@@ -25,6 +24,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildCalendar;
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRoute;
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTrip;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -81,7 +83,7 @@ public class TripControllerTest {
 
     @Test
     public void testGetTripByIdEndpoint() throws Exception{
-        givenTrip(TestDataProvider.buildTrip());
+        givenTrip(buildTrip());
 
         this.mockMvc.perform(get("/trips/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -205,7 +207,7 @@ public class TripControllerTest {
 
     private void givenTrip(Trip trip){
         when(tripService.getTrip(anyString())).thenReturn(trip);
-        when(routeService.getRoute(anyString())).thenReturn(TestDataProvider.buildRoute());
-        when(calendarService.getCalendar(anyString())).thenReturn(TestDataProvider.buildCalendar());
+        when(routeService.getRoute(anyString())).thenReturn(buildRoute());
+        when(calendarService.getCalendar(anyString())).thenReturn(buildCalendar());
     }
 }

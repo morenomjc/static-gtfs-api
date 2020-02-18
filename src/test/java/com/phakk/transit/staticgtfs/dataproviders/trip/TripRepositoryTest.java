@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildTripEntity;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
