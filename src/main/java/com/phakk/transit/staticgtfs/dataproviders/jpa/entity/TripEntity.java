@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TRIPS")
+@Table(schema = "STATICGTFS", name = "TRIPS")
 @Data
 public class TripEntity {
 
@@ -18,33 +18,33 @@ public class TripEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "route_id")
+    @Column(name = "ROUTE_ID")
     private String routeId;
 
-    @Column(name = "service_id")
+    @Column(name = "SERVICE_ID")
     private String serviceId;
 
-    @Column(name = "trip_id")
+    @Column(name = "TRIP_ID")
     private String tripId;
 
-    @Column(name = "headsign")
+    @Column(name = "HEADSIGN")
     private String headsign;
 
-    @Column(name = "short_name")
+    @Column(name = "SHORT_NAME")
     private String shortName;
 
-    @Column(name = "direction_id")
+    @Column(name = "DIRECTION_ID")
     private String directionId;
 
-    @Column(name = "block_id")
+    @Column(name = "BLOCK_ID")
     private String blockId;
 
-    @Column(name = "shape_id")
+    @Column(name = "SHAPE_ID")
     private String shapeId;
 
-    @Column(name = "wheelchair_accessible")
+    @Column(name = "WHEELCHAIR_ACCESSIBLE")
     private String wheelchairAccessible;
 
-    @Column(name = "bikes_allowed")
+    @Column(name = "BIKES_ALLOWED")
     private String bikesAllowed;
 }

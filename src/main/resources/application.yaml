@@ -10,6 +10,12 @@ server:
     whitelabel:
       enabled: false
 ---
+spring:
+  datasource:
+    url: jdbc:h2:mem:staticgtfs;DB_CLOSE_ON_EXIT=FALSE;INIT=CREATE SCHEMA IF NOT EXISTS STATICGTFS
+    username: sa
+    driverClassName: org.h2.Driver
+---
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS Z} [%X{x-request-id}] %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"

@@ -64,12 +64,6 @@ public class DataLoader implements CommandLineRunner {
 
         AgencyEntity saved = agencyRepository.save(agency1);
         log.info("Agency saved with id [{}]", saved.getId());
-
-        AgencyEntity agency2 = new AgencyEntity();
-        agency2.setAgencyId("agency2");
-
-        AgencyEntity saved2 = agencyRepository.save(agency2);
-        log.info("Agency saved with id [{}]", saved2.getId());
     }
 
     private void loadStop(){

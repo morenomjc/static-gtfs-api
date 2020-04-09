@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "STOPTIMES")
+@Table(schema = "STATICGTFS", name = "STOPTIMES")
 @Data
 public class StopTimeEntity {
 
@@ -19,33 +19,33 @@ public class StopTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "trip_id")
+    @Column(name = "TRIP_ID")
     private String tripId;
 
-    @Column(name = "arrival_time")
+    @Column(name = "ARRIVAL_TIME")
     private LocalTime arrivalTime;
 
-    @Column(name = "departure_time")
+    @Column(name = "DEPARTURE_TIME")
     private LocalTime departureTime;
 
-    @Column(name = "stop_id")
+    @Column(name = "STOP_ID")
     private String stopId;
 
-    @Column(name = "stop_sequence")
+    @Column(name = "SEQUENCE")
     private Integer stopSequence;
 
-    @Column(name = "stop_headsign")
+    @Column(name = "HEADSIGN")
     private String stopHeadsign;
 
-    @Column(name = "pickup_type")
+    @Column(name = "PICKUP_TYPE")
     private String pickupType;
 
-    @Column(name = "drop_off_type")
+    @Column(name = "DROP_OFF_TYPE")
     private String dropOffType;
 
-    @Column(name = "shape_dist_traveled")
+    @Column(name = "SHAPE_DISTANCE_TRAVELED")
     private Double distanceTraveled;
 
-    @Column(name = "timepoint")
+    @Column(name = "TIMEPOINT")
     private String timepoint;
 }
