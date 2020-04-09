@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CALENDARS")
+@Table(schema = "STATICGTFS", name = "CALENDARS")
 @Data
 public class CalendarEntity {
 
@@ -18,27 +18,33 @@ public class CalendarEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "service_id")
+    @Column(name = "SERVICE_ID")
     private String serviceId;
 
-    @Column(name = "monday")
+    @Column(name = "MONDAY")
     private Integer monday;
 
-    @Column(name = "tuesday")
+    @Column(name = "TUESDAY")
     private Integer tuesday;
 
-    @Column(name = "wednesday")
+    @Column(name = "WEDNESDAY")
     private Integer wednesday;
 
-    @Column(name = "thursday")
+    @Column(name = "THURSDAY")
     private Integer thursday;
 
-    @Column(name = "friday")
+    @Column(name = "FRIDAY")
     private Integer friday;
 
-    @Column(name = "saturday")
+    @Column(name = "SATURDAY")
     private Integer saturday;
 
-    @Column(name = "sunday")
+    @Column(name = "SUNDAY")
     private Integer sunday;
+
+    @Column(name = "START_DATE")
+    private String startDate;
+
+    @Column(name = "END_DATE")
+    private String endDate;
 }

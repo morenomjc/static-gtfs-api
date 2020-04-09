@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "STOPS")
+@Table(schema = "STATICGTFS", name = "STOPS")
 @Data
 public class StopEntity {
 
@@ -18,45 +18,45 @@ public class StopEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "stop_id")
+    @Column(name = "STOP_ID")
     private String stopId;
 
-    @Column(name = "code")
+    @Column(name = "CODE")
     private String stopCode;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "desc")
+    @Column(name = "DESCRIPTION")
     private String desc;
 
-    @Column(name = "lat")
+    @Column(name = "LATITUDE")
     private Double lat;
 
-    @Column(name = "lon")
+    @Column(name = "LONGITUDE")
     private Double lon;
 
-    @Column(name = "zone_id")
+    @Column(name = "ZONE_ID")
     private String zoneId;
 
-    @Column(name = "url")
+    @Column(name = "URL")
     private String url;
 
-    @Column(name = "type")
+    @Column(name = "LOCATION_TYPE")
     private String stopType;
 
-    @Column(name = "parent_station")
+    @Column(name = "PARENT_STATION")
     private String parentStation;
 
-    @Column(name = "timezone")
+    @Column(name = "TIMEZONE")
     private String timezone;
 
-    @Column(name = "wheelchair_boarding")
+    @Column(name = "WHEELCHAIR_BOARDING")
     private String wheelchairBoarding;
 
-    @Column(name = "level_id")
+    @Column(name = "LEVEL_ID")
     private String levelId;
 
-    @Column(name = "platform_code")
+    @Column(name = "PLATFORM_CODE")
     private String platformCode;
 }

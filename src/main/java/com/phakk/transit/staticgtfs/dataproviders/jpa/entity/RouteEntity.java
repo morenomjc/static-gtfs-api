@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ROUTES")
+@Table(schema = "STATICGTFS", name = "ROUTES")
 @Data
 public class RouteEntity {
 
@@ -18,33 +18,33 @@ public class RouteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "route_id")
+    @Column(name = "ROUTE_ID")
     private String routeId;
 
-    @Column(name = "agency")
+    @Column(name = "AGENCY_ID")
     private String agency;
 
-    @Column(name = "short_name")
+    @Column(name = "SHORT_NAME")
     private String shortName;
 
-    @Column(name = "long_name")
+    @Column(name = "LONG_NAME")
     private String longName;
 
-    @Column(name = "desc")
+    @Column(name = "DESCRIPTION")
     private String desc;
 
-    @Column(name = "type")
+    @Column(name = "ROUTE_TYPE")
     private String type;
 
-    @Column(name = "url")
+    @Column(name = "URL")
     private String url;
 
-    @Column(name = "color")
+    @Column(name = "ROUTE_COLOR")
     private String color;
 
-    @Column(name = "text_color")
+    @Column(name = "TEXT_COLOR")
     private String textColor;
 
-    @Column(name = "sort_order")
+    @Column(name = "SORT_ORDER")
     private Integer sortOrder;
 }

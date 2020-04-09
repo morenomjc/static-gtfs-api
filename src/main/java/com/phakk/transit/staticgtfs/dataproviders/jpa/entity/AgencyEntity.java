@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "AGENCIES")
+@Table(schema = "STATICGTFS", name = "AGENCIES")
 @Data
 public class AgencyEntity {
 
@@ -18,27 +18,27 @@ public class AgencyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "agency_id")
+    @Column(name = "AGENCY_ID")
     private String agencyId;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "url")
+    @Column(name = "URL")
     private String url;
 
-    @Column(name = "timezone")
+    @Column(name = "TIMEZONE")
     private String timezone;
 
-    @Column(name = "language")
+    @Column(name = "LANGUAGE")
     private String lang;
 
-    @Column(name = "phone")
+    @Column(name = "PHONE")
     private String phone;
 
-    @Column(name = "fare_url")
+    @Column(name = "FARE_URL")
     private String fareUrl;
 
-    @Column(name = "email")
+    @Column(name = "EMAIL")
     private String email;
 }
