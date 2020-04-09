@@ -2,20 +2,14 @@ package com.phakk.transit.staticgtfs.utils;
 
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.calendar.Calendar;
-import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
-import com.phakk.transit.staticgtfs.core.constants.Direction;
-import com.phakk.transit.staticgtfs.core.constants.DropOffType;
-import com.phakk.transit.staticgtfs.core.constants.PickupType;
-import com.phakk.transit.staticgtfs.core.constants.RouteType;
-import com.phakk.transit.staticgtfs.core.constants.StopType;
-import com.phakk.transit.staticgtfs.core.constants.Timepoint;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
+import com.phakk.transit.staticgtfs.core.constants.EnumValue;
 import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.core.trip.StopTime;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.CalendarEntity;
+import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.EnumValueEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
@@ -58,7 +52,7 @@ public class TestDataProvider {
                 "short",
                 "long",
                 "desc",
-                RouteType.ROUTE_700_BUS,
+                buildEnumValueRouteType(),
                 "test.com",
                 "blue",
                 "white",
@@ -92,10 +86,10 @@ public class TestDataProvider {
                 .lon(122.0481448)
                 .zoneId("1")
                 .url("test.com/stops/TEST")
-                .type(StopType.STOP_1_STATION)
+                .type(buildEnumValueStopType())
                 .parentStation(null)
                 .timezone("Asia/Singapore")
-                .wheelchairBoarding(WheelchairAccessibility.WA_1_ACCESSIBLE)
+                .wheelchairBoarding(buildEnumValueWheelchairBoarding())
                 .levelId(null)
                 .platformCode(null)
                 .build();
@@ -114,7 +108,7 @@ public class TestDataProvider {
         stop1.setStopType("1");
         stop1.setParentStation("0");
         stop1.setTimezone("Asia/Singapore");
-        stop1.setWheelchairBoarding("1");
+        stop1.setWheelchairBoarding("0");
         stop1.setLevelId("0");
         stop1.setPlatformCode("0");
         return stop1;
@@ -127,11 +121,11 @@ public class TestDataProvider {
                 .tripId("t1")
                 .headsign("headsign")
                 .shortName("shortName")
-                .directionId(Direction.INBOUND)
+                .directionId(buildEnumValueDirectionId())
                 .blockId("blockId")
                 .shapeId("shapeId")
-                .wheelchairAccessible(WheelchairAccessibility.WA_1_ACCESSIBLE)
-                .bikesAllowed(BikesAllowed.BIKES_ALLOWED_1)
+                .wheelchairAccessible(buildEnumValueWheelchairAccessible())
+                .bikesAllowed(buildEnumValueBikesAllowed())
                 .build();
     }
 
@@ -185,10 +179,10 @@ public class TestDataProvider {
         stopTime.setStopId("1");
         stopTime.setStopSequence(1);
         stopTime.setStopHeadsign("headsign");
-        stopTime.setPickupType(PickupType.PT_0_REGULAR);
-        stopTime.setDropOffType(DropOffType.DOT_0_REGULAR);
+        stopTime.setPickupType(buildEnumValuePickupType());
+        stopTime.setDropOffType(buildEnumValueDropOffType());
         stopTime.setDistanceTraveled(1.5);
-        stopTime.setTimepoint(Timepoint.TP_0_APPROXIMATE);
+        stopTime.setTimepoint(buildEnumValueTimepoint());
         return stopTime;
     }
 
@@ -200,10 +194,110 @@ public class TestDataProvider {
         stopTimeEntity.setStopId("1");
         stopTimeEntity.setStopSequence(1);
         stopTimeEntity.setStopHeadsign("headsign");
-        stopTimeEntity.setPickupType(PickupType.PT_0_REGULAR.getCode());
-        stopTimeEntity.setDropOffType(DropOffType.DOT_0_REGULAR.getCode());
+        stopTimeEntity.setPickupType("0");
+        stopTimeEntity.setDropOffType("1");
         stopTimeEntity.setDistanceTraveled(1.5);
-        stopTimeEntity.setTimepoint(Timepoint.TP_0_APPROXIMATE.getCode());
+        stopTimeEntity.setTimepoint("2");
         return stopTimeEntity;
+    }
+
+    public static EnumValueEntity buildEnumValueEntity(){
+        EnumValueEntity enumValueEntity = new EnumValueEntity();
+        enumValueEntity.setFile("stops");
+        enumValueEntity.setField("location_type");
+        enumValueEntity.setCode("0");
+        enumValueEntity.setName("Station");
+        enumValueEntity.setDescription("A station");
+        return enumValueEntity;
+    }
+
+    public static EnumValue buildEnumValueRouteType(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("routes");
+        enumValue.setField("route_type");
+        enumValue.setCode("700");
+        enumValue.setName("Bus Service");
+        enumValue.setDescription("A bus service");
+        return enumValue;
+    }
+
+    public static EnumValue buildEnumValueStopType(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("stops");
+        enumValue.setField("location_type");
+        enumValue.setCode("1");
+        enumValue.setName("Station");
+        enumValue.setDescription("A station");
+        return enumValue;
+    }
+
+    public static EnumValue buildEnumValueWheelchairBoarding(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("stops");
+        enumValue.setField("wheelchair_boarding");
+        enumValue.setCode("1");
+        enumValue.setName("Possible But Not Guaranteed");
+        enumValue.setDescription("Possible But Not Guaranteed");
+        return enumValue;
+    }
+
+    public static EnumValue buildEnumValueDirectionId(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("trips");
+        enumValue.setField("direction_id");
+        enumValue.setCode("0");
+        enumValue.setName("Inbound");
+        enumValue.setDescription("Inbound");
+        return enumValue;
+    }
+
+    public static EnumValue buildEnumValueWheelchairAccessible(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("trips");
+        enumValue.setField("wheelchair_accessible");
+        enumValue.setCode("1");
+        enumValue.setName("Possible For Only One");
+        enumValue.setDescription("Possible For Only One");
+        return enumValue;
+    }
+
+    public static EnumValue buildEnumValueBikesAllowed(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("trips");
+        enumValue.setField("bikes_allowed");
+        enumValue.setCode("2");
+        enumValue.setName("Possible For Only One");
+        enumValue.setDescription("Possible For Only One");
+        return enumValue;
+    }
+
+    public static EnumValue buildEnumValuePickupType(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("stop_times");
+        enumValue.setField("pickup_type");
+        enumValue.setCode("0");
+        enumValue.setName("Regular");
+        enumValue.setDescription("Regular");
+        return enumValue;
+    }
+
+    public static EnumValue buildEnumValueDropOffType(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("stop_times");
+        enumValue.setField("drop_off_type");
+        enumValue.setCode("1");
+        enumValue.setName("None");
+        enumValue.setDescription("None");
+        return enumValue;
+    }
+
+    public static EnumValue buildEnumValueTimepoint(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("stop_times");
+        enumValue.setField("timepoint");
+        enumValue.setCode("2");
+        enumValue.setName("Exact");
+        enumValue.setDescription("Exact");
+        return enumValue;
     }
 }

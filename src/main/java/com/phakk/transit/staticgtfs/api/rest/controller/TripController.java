@@ -1,6 +1,5 @@
 package com.phakk.transit.staticgtfs.api.rest.controller;
 
-import com.phakk.transit.staticgtfs.api.rest.dto.DataTypes;
 import com.phakk.transit.staticgtfs.api.rest.dto.StopTimeDto;
 import com.phakk.transit.staticgtfs.api.rest.dto.TripDto;
 import com.phakk.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
@@ -14,6 +13,7 @@ import com.phakk.transit.staticgtfs.api.spec.ApiDocument;
 import com.phakk.transit.staticgtfs.api.spec.ApiResource;
 import com.phakk.transit.staticgtfs.api.spec.ApiResources;
 import com.phakk.transit.staticgtfs.core.calendar.CalendarService;
+import com.phakk.transit.staticgtfs.core.constants.DataTypes;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
 import com.phakk.transit.staticgtfs.core.stop.StopService;
 import com.phakk.transit.staticgtfs.core.trip.StopTime;

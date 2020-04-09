@@ -2,9 +2,7 @@ package com.phakk.transit.staticgtfs.api.rest.mapper;
 
 import com.phakk.transit.staticgtfs.api.rest.dto.DataTypeDto;
 import com.phakk.transit.staticgtfs.api.rest.dto.StopTimeDto;
-import com.phakk.transit.staticgtfs.core.constants.DropOffType;
-import com.phakk.transit.staticgtfs.core.constants.PickupType;
-import com.phakk.transit.staticgtfs.core.constants.Timepoint;
+import com.phakk.transit.staticgtfs.core.constants.EnumValue;
 import com.phakk.transit.staticgtfs.core.trip.StopTime;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,35 +19,35 @@ public interface StopTimeDtoMapper {
     StopTimeDto toDto(StopTime stopTime);
 
     @Named("pickupType")
-    default DataTypeDto mapPickupType(PickupType pickupType){
+    default DataTypeDto mapPickupType(EnumValue pickupType){
         if (Objects.isNull(pickupType)){
             return null;
         }
         return DataTypeDto.builder()
                 .code(pickupType.getCode())
-                .desc(pickupType.getDescription())
+                .desc(pickupType.getName())
                 .build();
     }
 
     @Named("dropOffType")
-    default DataTypeDto mapDropOffType(DropOffType dropOffType){
+    default DataTypeDto mapDropOffType(EnumValue dropOffType){
         if (Objects.isNull(dropOffType)){
             return null;
         }
         return DataTypeDto.builder()
                 .code(dropOffType.getCode())
-                .desc(dropOffType.getDescription())
+                .desc(dropOffType.getName())
                 .build();
     }
 
     @Named("timepoint")
-    default DataTypeDto mapTimepoint(Timepoint timepoint){
+    default DataTypeDto mapTimepoint(EnumValue timepoint){
         if (Objects.isNull(timepoint)){
             return null;
         }
         return DataTypeDto.builder()
                 .code(timepoint.getCode())
-                .desc(timepoint.getDescription())
+                .desc(timepoint.getName())
                 .build();
     }
 }

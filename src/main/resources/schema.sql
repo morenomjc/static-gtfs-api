@@ -18,6 +18,8 @@ INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('stops','l
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('stops','wheelchair_boarding','0','No Information','No accessibility information for the stop.');
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('stops','wheelchair_boarding','1','Possible But Not Guaranteed','Some vehicles at this stop can be boarded by a rider in a wheelchair.');
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('stops','wheelchair_boarding','2','Not Possible','Wheelchair boarding is not possible at this stop.');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('trips','direction_id','0','Outbound','Travel in one direction (e.g. outbound travel).');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('trips','direction_id','1','Inbound','Travel in the opposite direction (e.g. inbound travel).');
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('trips','wheelchair_accessible','0','No Information','No accessibility information for this trip.');
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('trips','wheelchair_accessible','1','Possible For Only One','Vehicle being used on this particular trip can accommodate at least one rider in a wheelchair.');
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('trips','wheelchair_accessible','2','Not Possible','No riders in wheelchairs can be accommodated on this trip.');

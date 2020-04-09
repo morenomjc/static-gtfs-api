@@ -84,7 +84,7 @@ public class StopControllerTest {
                         "            \"stop_timezone\": \"Asia/Singapore\",\n" +
                         "            \"wheelchair_boarding\": {\n" +
                         "                \"code\": \"1\",\n" +
-                        "                \"desc\": \"Accessible\"\n" +
+                        "                \"desc\": \"Possible But Not Guaranteed\"\n" +
                         "            },\n" +
                         "            \"level_id\": null,\n" +
                         "            \"platform_code\": null\n" +
