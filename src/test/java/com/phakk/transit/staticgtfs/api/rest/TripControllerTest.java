@@ -128,18 +128,18 @@ public class TripControllerTest {
                         "            \"trip_headsign\": \"headsign\",\n" +
                         "            \"trip_short_name\": \"shortName\",\n" +
                         "            \"direction_id\": {\n" +
-                        "                \"code\": \"1\",\n" +
+                        "                \"code\": \"0\",\n" +
                         "                \"desc\": \"Inbound\"\n" +
                         "            },\n" +
                         "            \"block_id\": \"blockId\",\n" +
                         "            \"shape_id\": \"shapeId\",\n" +
                         "            \"wheelchair_accessible\": {\n" +
                         "                \"code\": \"1\",\n" +
-                        "                \"desc\": \"Accessible\"\n" +
+                        "                \"desc\": \"Possible For Only One\"\n" +
                         "            },\n" +
                         "            \"bikes_allowed\": {\n" +
-                        "                \"code\": \"1\",\n" +
-                        "                \"desc\": \"Bikes Allowed\"\n" +
+                        "                \"code\": \"2\",\n" +
+                        "                \"desc\": \"Possible For Only One\"\n" +
                         "            }\n" +
                         "        }\n" +
                         "    }\n" +
@@ -209,16 +209,16 @@ public class TripControllerTest {
                         "                \"stop_headsign\": \"headsign\",\n" +
                         "                \"pickup_type\": {\n" +
                         "                    \"code\": \"0\",\n" +
-                        "                    \"desc\": \"Regular Pickup\"\n" +
+                        "                    \"desc\": \"Regular\"\n" +
                         "                },\n" +
                         "                \"drop_off_type\": {\n" +
-                        "                    \"code\": \"0\",\n" +
-                        "                    \"desc\": \"Regular Drop Off\"\n" +
+                        "                    \"code\": \"1\",\n" +
+                        "                    \"desc\": \"None\"\n" +
                         "                },\n" +
                         "                \"shape_dist_traveled\": 1.5,\n" +
                         "                \"timepoint\": {\n" +
-                        "                    \"code\": \"0\",\n" +
-                        "                    \"desc\": \"Approximate Time\"\n" +
+                        "                    \"code\": \"2\",\n" +
+                        "                    \"desc\": \"Exact\"\n" +
                         "                }\n" +
                         "            }\n" +
                         "        }\n" +

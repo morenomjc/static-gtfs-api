@@ -1,10 +1,10 @@
 package com.phakk.transit.staticgtfs.core.stop;
 
-import com.phakk.transit.staticgtfs.core.constants.StopType;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
+import com.phakk.transit.staticgtfs.core.constants.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Stop {
+
+    public static String TYPE = "stops";
 
     private String id;
     private String code;
@@ -21,10 +23,21 @@ public class Stop {
     private Double lon;
     private String zoneId;
     private String url;
-    private StopType type;
+    private EnumValue type;
     private String parentStation;
     private String timezone;
-    private WheelchairAccessibility wheelchairBoarding;
+    private EnumValue wheelchairBoarding;
     private String levelId;
     private String platformCode;
+
+
+    @Getter
+    @AllArgsConstructor
+    public enum Fields {
+        STOP_TYPE("location_type"),
+        WHEELCHAIR_BOARDING("wheelchair_boarding"),
+        ;
+
+        private String value;
+    }
 }

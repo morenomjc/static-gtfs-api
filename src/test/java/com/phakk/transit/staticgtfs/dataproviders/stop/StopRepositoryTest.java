@@ -1,12 +1,11 @@
 package com.phakk.transit.staticgtfs.dataproviders.stop;
 
-import com.phakk.transit.staticgtfs.core.constants.StopType;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
-import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
+import com.phakk.transit.staticgtfs.core.constants.EnumValue;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
+import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.stop.StopRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.stop.StopRepositoryImpl;
@@ -23,10 +22,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildEnumValueStopType;
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildEnumValueWheelchairBoarding;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildStopEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @Import(StopRepositoryTest.StopTestConfiguration.class)
@@ -37,6 +39,8 @@ public class StopRepositoryTest {
 
     @Mock
     private StopJpaRepository stopJpaRepository;
+    @Mock
+    private EnumValueRepository enumValueRepository;
 
     @Autowired
     private StopEntityMapper stopEntityMapper;
@@ -46,7 +50,7 @@ public class StopRepositoryTest {
 
     @Before
     public void setup(){
-        stopRepository = new StopRepositoryImpl(stopJpaRepository, stopEntityMapper);
+        stopRepository = new StopRepositoryImpl(stopJpaRepository, stopEntityMapper, enumValueRepository);
     }
 
     @TestConfiguration
@@ -60,8 +64,12 @@ public class StopRepositoryTest {
     @Test
     public void testStopIsConvertedProperly(){
         whenStopExists();
+        whenStopTypeIsSearched();
+        whenWheelchairBoardingIsSearched();
 
         Stop stop = stopRepository.getStop("1");
+        EnumValue stopType = buildEnumValueStopType();
+        EnumValue wheelchairBoarding = buildEnumValueWheelchairBoarding();
 
         assertThat(stop).isNotNull();
         assertThat(stop.getId()).isEqualTo("1");
@@ -72,30 +80,32 @@ public class StopRepositoryTest {
         assertThat(stop.getLon()).isEqualTo(122.0481448);
         assertThat(stop.getZoneId()).isEqualTo("1");
         assertThat(stop.getUrl()).isEqualTo("test.com/stops/TEST");
-        assertThat(stop.getType()).isEqualTo(StopType.STOP_1_STATION);
+        assertThat(stop.getType()).isEqualTo(stopType);
         assertThat(stop.getParentStation()).isEqualTo("0");
         assertThat(stop.getTimezone()).isEqualTo("Asia/Singapore");
-        assertThat(stop.getWheelchairBoarding()).isEqualTo(WheelchairAccessibility.WA_1_ACCESSIBLE);
+        assertThat(stop.getWheelchairBoarding()).isEqualTo(wheelchairBoarding);
         assertThat(stop.getLevelId()).isEqualTo("0");
         assertThat(stop.getPlatformCode()).isEqualTo("0");
     }
 
     @Test
     public void testIfStopTypeIsNull(){
-        expectedException.expect(ConstantsMappingException.class);
-        expectedException.expectMessage(equalTo("Failed to map stop type"));
+        expectedException.expect(DataNotFoundException.class);
+        expectedException.expectMessage(equalTo("Enum value not found."));
 
         whenStopExistsWithNullStopType();
+        whenInvalidEnumValueIsSearched();
 
         stopRepository.getStop("1");
     }
 
     @Test
     public void testIfWheelchairBoardingIsNull(){
-        expectedException.expect(ConstantsMappingException.class);
-        expectedException.expectMessage(equalTo("Failed to map wheelchair boarding details"));
+        expectedException.expect(DataNotFoundException.class);
+        expectedException.expectMessage(equalTo("Enum value not found."));
 
         whenStopExistsWithNullWB();
+        whenInvalidEnumValueIsSearched();
 
         stopRepository.getStop("1");
     }
@@ -126,8 +136,6 @@ public class StopRepositoryTest {
         when(stopJpaRepository.findByStopId(anyString())).thenReturn(buildStopEntityNullWB());
     }
 
-
-
     private StopEntity buildStopEntityNullStopType(){
         StopEntity stopEntity = buildStopEntity();
         stopEntity.setStopType(null);
@@ -140,5 +148,20 @@ public class StopRepositoryTest {
         stopEntity.setWheelchairBoarding(null);
 
         return stopEntity;
+    }
+
+    private void whenStopTypeIsSearched(){
+        when(enumValueRepository.findEnumValue(anyString(), anyString(), eq("1")))
+                .thenReturn(buildEnumValueStopType());
+    }
+
+    private void whenWheelchairBoardingIsSearched(){
+        when(enumValueRepository.findEnumValue(anyString(), anyString(), eq("0")))
+                .thenReturn(buildEnumValueWheelchairBoarding());
+    }
+
+    private void whenInvalidEnumValueIsSearched(){
+        when(enumValueRepository.findEnumValue(anyString(), anyString(), eq(null)))
+                .thenThrow(new DataNotFoundException("Enum value not found."));
     }
 }

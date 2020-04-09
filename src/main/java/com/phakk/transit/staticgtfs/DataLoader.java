@@ -1,8 +1,5 @@
 package com.phakk.transit.staticgtfs;
 
-import com.phakk.transit.staticgtfs.core.constants.DropOffType;
-import com.phakk.transit.staticgtfs.core.constants.PickupType;
-import com.phakk.transit.staticgtfs.core.constants.Timepoint;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.CalendarEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
@@ -144,10 +141,10 @@ public class DataLoader implements CommandLineRunner {
         stopTimeEntity.setStopId("1");
         stopTimeEntity.setStopSequence(1);
         stopTimeEntity.setStopHeadsign("headsign");
-        stopTimeEntity.setPickupType(PickupType.PT_0_REGULAR.getCode());
-        stopTimeEntity.setDropOffType(DropOffType.DOT_0_REGULAR.getCode());
+        stopTimeEntity.setPickupType("0");
+        stopTimeEntity.setDropOffType("0");
         stopTimeEntity.setDistanceTraveled(1.5);
-        stopTimeEntity.setTimepoint(Timepoint.TP_0_APPROXIMATE.getCode());
+        stopTimeEntity.setTimepoint("0");
 
         stopTimeEntity = stopTimeJpaRepository.save(stopTimeEntity);
         log.info("StopTime saved with id [{}]", stopTimeEntity.getId());

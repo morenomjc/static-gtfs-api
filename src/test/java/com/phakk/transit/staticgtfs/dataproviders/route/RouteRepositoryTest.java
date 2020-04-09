@@ -1,11 +1,11 @@
 package com.phakk.transit.staticgtfs.dataproviders.route;
 
-import com.phakk.transit.staticgtfs.core.constants.RouteType;
-import com.phakk.transit.staticgtfs.core.exception.ConstantsMappingException;
+import com.phakk.transit.staticgtfs.core.constants.EnumValue;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
+import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteRepositoryJpaImpl;
@@ -22,10 +22,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildEnumValueRouteType;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRouteEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @Import(RouteRepositoryTest.RouteTestConfiguration.class)
@@ -36,6 +38,8 @@ public class RouteRepositoryTest {
 
     @Mock
     private RouteJpaRepository routeJpaRepository;
+    @Mock
+    private EnumValueRepository enumValueRepository;
 
     @Autowired
     private RouteEntityMapper routeEntityMapper;
@@ -45,7 +49,7 @@ public class RouteRepositoryTest {
 
     @Before
     public void setup(){
-        routeRepository = new RouteRepositoryJpaImpl(routeJpaRepository, routeEntityMapper);
+        routeRepository = new RouteRepositoryJpaImpl(routeJpaRepository, routeEntityMapper, enumValueRepository);
     }
 
     @TestConfiguration
@@ -54,13 +58,16 @@ public class RouteRepositoryTest {
         public RouteEntityMapper routeEntityMapper(){
             return Mappers.getMapper(RouteEntityMapper.class);
         }
+
     }
 
     @Test
     public void testRouteEntityIsConvertedProperly(){
         whenRouteExists();
+        whenRouteTypeIsSearched();
 
         Route route = routeRepository.getRouteById("1");
+        EnumValue routeType = buildEnumValueRouteType();
 
         assertThat(route).isNotNull();
         assertThat(route.getId()).isEqualTo("1");
@@ -68,7 +75,7 @@ public class RouteRepositoryTest {
         assertThat(route.getShortName()).isEqualTo("short");
         assertThat(route.getLongName()).isEqualTo("long");
         assertThat(route.getDesc()).isEqualTo("desc");
-        assertThat(route.getType()).isEqualTo(RouteType.ROUTE_700_BUS);
+        assertThat(route.getType()).isEqualTo(routeType);
         assertThat(route.getUrl()).isEqualTo("test.com");
         assertThat(route.getColor()).isEqualTo("blue");
         assertThat(route.getTextColor()).isEqualTo("white");
@@ -87,10 +94,11 @@ public class RouteRepositoryTest {
 
     @Test
     public void testWhenRouteTypeMappingFailed(){
-        expectedException.expect(ConstantsMappingException.class);
-        expectedException.expectMessage(equalTo("Failed to map route type"));
+        expectedException.expect(DataNotFoundException.class);
+        expectedException.expectMessage(equalTo("Enum value not found."));
 
         whenRouteWithInvalidTypeFound();
+        whenInvalidRouteTypeIsSearched();
 
         routeRepository.getRouteById("1");
     }
@@ -107,11 +115,20 @@ public class RouteRepositoryTest {
         when(routeJpaRepository.findByRouteId(anyString())).thenReturn(buildRouteEntity());
     }
 
+    private void whenRouteTypeIsSearched(){
+        when(enumValueRepository.findEnumValue(anyString(), anyString(), anyString()))
+                .thenReturn(buildEnumValueRouteType());
+    }
+
     private RouteEntity buildRouteEntityWithInvalidRouteType(){
         RouteEntity routeEntity = buildRouteEntity();
         routeEntity.setType("-1");
         return routeEntity;
     }
 
+    private void whenInvalidRouteTypeIsSearched(){
+        when(enumValueRepository.findEnumValue(anyString(), anyString(), eq("-1")))
+                .thenThrow(new DataNotFoundException("Enum value not found."));
+    }
 
 }

@@ -2,8 +2,7 @@ package com.phakk.transit.staticgtfs.api.rest.mapper;
 
 import com.phakk.transit.staticgtfs.api.rest.dto.DataTypeDto;
 import com.phakk.transit.staticgtfs.api.rest.dto.StopDto;
-import com.phakk.transit.staticgtfs.core.constants.StopType;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
+import com.phakk.transit.staticgtfs.core.constants.EnumValue;
 import com.phakk.transit.staticgtfs.core.stop.Stop;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,24 +19,24 @@ public interface StopDtoMapper {
     StopDto toDto(Stop stop);
 
     @Named("mapStopType")
-    default DataTypeDto mapStopType(StopType type){
+    default DataTypeDto mapStopType(EnumValue type){
         if (Objects.isNull(type)){
             return null;
         }
         return DataTypeDto.builder()
                 .code(type.getCode())
-                .desc(type.getDescription())
+                .desc(type.getName())
                 .build();
     }
 
     @Named("mapWheelChairBoarding")
-    default DataTypeDto mapWheelChairBoarding(WheelchairAccessibility wheelchairBoarding){
+    default DataTypeDto mapWheelChairBoarding(EnumValue wheelchairBoarding){
         if (Objects.isNull(wheelchairBoarding)){
             return null;
         }
         return DataTypeDto.builder()
                 .code(wheelchairBoarding.getCode())
-                .desc(wheelchairBoarding.getDescription())
+                .desc(wheelchairBoarding.getName())
                 .build();
     }
 }

@@ -2,9 +2,7 @@ package com.phakk.transit.staticgtfs.api.rest.mapper;
 
 import com.phakk.transit.staticgtfs.api.rest.dto.DataTypeDto;
 import com.phakk.transit.staticgtfs.api.rest.dto.TripDto;
-import com.phakk.transit.staticgtfs.core.constants.BikesAllowed;
-import com.phakk.transit.staticgtfs.core.constants.Direction;
-import com.phakk.transit.staticgtfs.core.constants.WheelchairAccessibility;
+import com.phakk.transit.staticgtfs.core.constants.EnumValue;
 import com.phakk.transit.staticgtfs.core.trip.Trip;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,35 +19,35 @@ public interface TripDtoMapper {
     TripDto toDto(Trip trip);
 
     @Named("directionId")
-    default DataTypeDto mapDirectionId(Direction direction){
+    default DataTypeDto mapDirectionId(EnumValue direction){
         if (Objects.isNull(direction)){
             return null;
         }
         return DataTypeDto.builder()
                 .code(direction.getCode())
-                .desc(direction.getDescription())
+                .desc(direction.getName())
                 .build();
     }
 
     @Named("wheelchairAccessible")
-    default DataTypeDto mapWheelchairAccessible(WheelchairAccessibility wheelchairAccessibility){
+    default DataTypeDto mapWheelchairAccessible(EnumValue wheelchairAccessibility){
         if (Objects.isNull(wheelchairAccessibility)){
             return null;
         }
         return DataTypeDto.builder()
                 .code(wheelchairAccessibility.getCode())
-                .desc(wheelchairAccessibility.getDescription())
+                .desc(wheelchairAccessibility.getName())
                 .build();
     }
 
     @Named("bikesAllowed")
-    default DataTypeDto mapBikesAllowed(BikesAllowed bikesAllowed){
+    default DataTypeDto mapBikesAllowed(EnumValue bikesAllowed){
         if (Objects.isNull(bikesAllowed)){
             return null;
         }
         return DataTypeDto.builder()
                 .code(bikesAllowed.getCode())
-                .desc(bikesAllowed.getDescription())
+                .desc(bikesAllowed.getName())
                 .build();
     }
 }

@@ -1,11 +1,11 @@
-package com.phakk.transit.staticgtfs.api.rest.dto;
+package com.phakk.transit.staticgtfs.core.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum  DataTypes {
+public enum DataTypes {
     AGENCY("agencies"),
     STOP("stops"),
     ROUTE("routes"),

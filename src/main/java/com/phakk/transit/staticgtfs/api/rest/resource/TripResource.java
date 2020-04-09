@@ -1,7 +1,7 @@
 package com.phakk.transit.staticgtfs.api.rest.resource;
 
-import com.phakk.transit.staticgtfs.api.rest.dto.DataTypes;
 import com.phakk.transit.staticgtfs.api.spec.ApiDocument;
+import com.phakk.transit.staticgtfs.core.constants.DataTypes;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
