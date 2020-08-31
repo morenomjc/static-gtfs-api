@@ -4,13 +4,11 @@ application:
 spring:
   mvc:
     throw-exception-if-no-handler-found: true
-
 server:
   error:
     whitelabel:
       enabled: false
 ---
-
 management:
   endpoint:
     web:
@@ -18,6 +16,10 @@ management:
         include: health,info
 ---
 spring:
+  profiles:
+    include: gtfs
+  batch:
+    enabled: false
   datasource:
     url: jdbc:h2:mem:staticgtfs;DB_CLOSE_ON_EXIT=FALSE;INIT=CREATE SCHEMA IF NOT EXISTS STATICGTFS
     username: sa
@@ -25,4 +27,4 @@ spring:
 ---
 logging:
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS Z} [%X{x-request-id}] [%thread] %-5level %logger.%M - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS aa} [%X{x-request-id}] [%thread] %-5level %logger.%M - %msg%n"

@@ -4,12 +4,14 @@ import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Repository
 public class AgencyRepositoryJpaImpl implements AgencyRepository{
 
@@ -39,4 +41,9 @@ public class AgencyRepositoryJpaImpl implements AgencyRepository{
         return agencyEntityMapper.fromEntity(agencyEntity);
     }
 
+    @Override
+    public void save(Agency data) {
+        AgencyEntity agencyEntity = agencyEntityMapper.toEntity(data);
+        agencyJpaRepository.save(agencyEntity);
+    }
 }

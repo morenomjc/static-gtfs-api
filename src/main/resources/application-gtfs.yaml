@@ -1,0 +1,5 @@
+gtfs:
+  static:
+    files:
+      agency:
+        file: agency.txt

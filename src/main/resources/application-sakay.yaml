@@ -1,0 +1,3 @@
+gtfs:
+  static:
+    source: https://raw.githubusercontent.com/sakayph/gtfs/master/
