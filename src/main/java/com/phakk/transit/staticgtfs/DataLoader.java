@@ -22,7 +22,7 @@ import java.time.LocalTime;
 
 @Slf4j
 @Component
-@Profile("local")
+@Profile("demo")
 public class DataLoader implements CommandLineRunner {
 
     @Autowired
