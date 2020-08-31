@@ -16,13 +16,13 @@ import java.util.List;
 public class AgencyGtfsDatabaseWriter implements ItemWriter<Agency> {
 
     private AgencyRepository repository;
-    private AgencyEntityMapper agencyEntityMapper;
+    private AgencyEntityMapper mapper;
 
     @Override
     public void write(List<? extends Agency> items) throws Exception {
         log.info("[AgencyGtfsDatabaseWriter].write={}", items.size());
         items.forEach(agency -> {
-            repository.save(agencyEntityMapper.convert(agency));
+            repository.save(mapper.convert(agency));
         });
     }
 

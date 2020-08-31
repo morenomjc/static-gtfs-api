@@ -1,5 +1,8 @@
 gtfs:
   static:
+    chunks: 100
     files:
       agency:
         file: agency.txt
+      route:
+        file: routes.txt

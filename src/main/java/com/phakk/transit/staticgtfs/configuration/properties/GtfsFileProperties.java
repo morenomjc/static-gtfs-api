@@ -10,7 +10,8 @@ import java.util.Map;
 @Configuration
 @ConfigurationProperties(prefix = "gtfs.static")
 public class GtfsFileProperties {
-    Map<String, GtfsFileProperty> files;
+    private int chunks;
+    private Map<String, GtfsFileProperty> files;
     private String source;
 }
 

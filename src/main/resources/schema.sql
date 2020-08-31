@@ -179,6 +179,16 @@ INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','1603','Hire Motorbike','Hire Motorbike');
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','1604','Hire Cycle','Hire Cycle');
 INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','1700','Miscellaneous Service','Miscellaneous Service');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','0','Tram, Streetcar, Light rail','Any light rail or street level system within a metropolitan area');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','1','Subway, Metro','Any underground rail system within a metropolitan area');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','2','Rail','Used for intercity or long-distance travel');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','3','Bus','Used for short- and long-distance bus routes');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','4','Ferry','Used for short- and long-distance boat service');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','5','Cable tram','Used for street-level rail cars where the cable runs beneath the vehicle, e.g., cable car in San Francisco');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','6','Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway)','Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','7','Funicular','Any rail system designed for steep inclines');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','11','Trolleybus','Electric buses that draw power from overhead wires using poles');
+INSERT INTO ENUM_VALUES(FILE, FIELD, CODE, NAME, DESCRIPTION) VALUES ('routes','route_type','12','Monorail','Railway in which the track consists of a single rail or a beam');
 
 DROP TABLE IF EXISTS `AGENCIES`;
 CREATE TABLE `AGENCIES` (

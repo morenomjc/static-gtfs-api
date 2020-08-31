@@ -29,10 +29,14 @@ public class RouteRepositoryJpaImpl implements RouteRepository {
         }
 
         EnumValue routeType = enumValueRepository.findEnumValue(Route.TYPE, Route.Fields.ROUTE_TYPE.getValue(), routeEntity.getType());
-
         Route route = routeEntityMapper.fromEntity(routeEntity);
         route.setType(routeType);
-
         return route;
+    }
+
+    @Override
+    public void save(Route data) {
+        RouteEntity routeEntity = routeEntityMapper.toEntity(data);
+        routeJpaRepository.save(routeEntity);
     }
 }
