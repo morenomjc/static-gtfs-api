@@ -13,7 +13,6 @@ import com.phakk.transit.staticgtfs.api.spec.ApiDocument;
 import com.phakk.transit.staticgtfs.api.spec.ApiResource;
 import com.phakk.transit.staticgtfs.api.spec.ApiResources;
 import com.phakk.transit.staticgtfs.core.calendar.CalendarService;
-import com.phakk.transit.staticgtfs.core.constants.DataTypes;
 import com.phakk.transit.staticgtfs.core.route.RouteService;
 import com.phakk.transit.staticgtfs.core.stop.StopService;
 import com.phakk.transit.staticgtfs.core.trip.StopTime;
@@ -27,6 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.phakk.transit.staticgtfs.core.constants.DataTypes.CALENDAR;
+import static com.phakk.transit.staticgtfs.core.constants.DataTypes.ROUTE;
+import static com.phakk.transit.staticgtfs.core.constants.DataTypes.STOP;
+import static com.phakk.transit.staticgtfs.core.constants.DataTypes.STOP_TIMES;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -78,7 +81,7 @@ public class TripController implements TripResource {
 
     private ApiData<?> buildStopTimeData(StopTime stopTime){
         ApiData<StopTimeDto> apiData = new ApiData<>(
-                DataTypes.STOP_TIMES.getValue(),
+                STOP_TIMES.getValue(),
                 stopTimeDtoMapper.toDto(stopTime),
                 stopLink(stopTime.getStopId()),
                 tripLink(stopTime.getTripId())
@@ -89,7 +92,7 @@ public class TripController implements TripResource {
 
     private ApiData<?> buildStopData(StopTime stopTime){
         return new ApiData<>(
-                DataTypes.STOP.getValue(),
+                STOP.getValue(),
                 stopDtoMapper.toDto(stopService.getStop(stopTime.getStopId())),
                 selfLink(stopTime.getStopId(), StopController.class)
         );
@@ -97,7 +100,7 @@ public class TripController implements TripResource {
 
     private ApiData<?> buildRouteData(TripDto tripDto){
         return new ApiData<>(
-                DataTypes.ROUTE.getValue(),
+                ROUTE.getValue(),
                 routeDtoMapper.mapToDto(routeService.getRoute(tripDto.getRouteId())),
                 selfLink(tripDto.getRouteId(), RouteController.class)
         );
@@ -105,7 +108,7 @@ public class TripController implements TripResource {
 
     private ApiData<?> buildCalendarData(TripDto tripDto){
         return new ApiData<>(
-                DataTypes.CALENDAR.getValue(),
+                CALENDAR.getValue(),
                 calendarDtoMapper.toDto(calendarService.getCalendar(tripDto.getServiceId())),
                 selfLink(tripDto.getServiceId(), CalendarController.class)
         );

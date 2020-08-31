@@ -13,6 +13,4 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class ApiResources<T> extends ApiDocument{
     private List<T> data;
-
-
 }

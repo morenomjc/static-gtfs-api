@@ -12,10 +12,7 @@ public class ApiResource<T> extends ApiDocument{
     private ApiData<T> data;
 
     public ApiResource(String type, T data, Link... links) {
-
         this.data = new ApiData<>(type, data, links);
-
     }
-
 
 }

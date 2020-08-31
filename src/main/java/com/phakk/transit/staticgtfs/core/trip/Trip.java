@@ -34,6 +34,6 @@ public class Trip {
         BIKES_ALLOWED("bikes_allowed"),
         ;
 
-        private String value;
+        private final String value;
     }
 }
