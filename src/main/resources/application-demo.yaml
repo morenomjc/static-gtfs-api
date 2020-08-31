@@ -11,4 +11,4 @@ spring:
       ddl-auto: none
 
   profiles:
-    include: sakay
+    include: github
