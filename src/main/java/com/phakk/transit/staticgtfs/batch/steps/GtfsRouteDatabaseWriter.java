@@ -1,6 +1,6 @@
 package com.phakk.transit.staticgtfs.batch.steps;
 
-import com.phakk.transit.staticgtfs.batch.model.Route;
+import com.phakk.transit.staticgtfs.batch.model.GtfsRoute;
 import com.phakk.transit.staticgtfs.core.constants.EnumValue;
 import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
@@ -13,14 +13,14 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-public class RouteGtfsDatabaseWriter implements ItemWriter<Route> {
+public class GtfsRouteDatabaseWriter implements ItemWriter<GtfsRoute> {
 
     private RouteRepository repository;
     private RouteEntityMapper mapper;
     private EnumValueRepository enumValueRepository;
 
     @Override
-    public void write(List<? extends Route> items) throws Exception {
+    public void write(List<? extends GtfsRoute> items) throws Exception {
         log.info("[RouteGtfsDatabaseWriter].write={}", items.size());
         items.forEach(item -> {
             com.phakk.transit.staticgtfs.core.route.Route route = mapper.convert(item);

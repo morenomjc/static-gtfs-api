@@ -1,5 +1,6 @@
 package com.phakk.transit.staticgtfs.dataproviders.repository.route;
 
+import com.phakk.transit.staticgtfs.batch.model.GtfsRoute;
 import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapper;
@@ -28,6 +29,6 @@ public interface RouteEntityMapper {
     @Mapping(source = "route_url", target = "url")
     @Mapping(source = "route_color", target = "color")
     @Mapping(source = "route_text_color", target = "textColor")
-    Route convert(com.phakk.transit.staticgtfs.batch.model.Route route);
+    Route convert(GtfsRoute gtfsRoute);
 
 }

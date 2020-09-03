@@ -1,7 +1,7 @@
 package com.phakk.transit.staticgtfs.batch.steps;
 
 
-import com.phakk.transit.staticgtfs.batch.model.Agency;
+import com.phakk.transit.staticgtfs.batch.model.GtfsAgency;
 import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
 import lombok.AllArgsConstructor;
@@ -13,13 +13,13 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-public class AgencyGtfsDatabaseWriter implements ItemWriter<Agency> {
+public class GtfsAgencyDatabaseWriter implements ItemWriter<GtfsAgency> {
 
     private AgencyRepository repository;
     private AgencyEntityMapper mapper;
 
     @Override
-    public void write(List<? extends Agency> items) throws Exception {
+    public void write(List<? extends GtfsAgency> items) throws Exception {
         log.info("[AgencyGtfsDatabaseWriter].write={}", items.size());
         items.forEach(agency -> {
             repository.save(mapper.convert(agency));

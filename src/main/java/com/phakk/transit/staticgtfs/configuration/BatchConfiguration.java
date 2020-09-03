@@ -1,10 +1,10 @@
 package com.phakk.transit.staticgtfs.configuration;
 
-import com.phakk.transit.staticgtfs.batch.model.Agency;
-import com.phakk.transit.staticgtfs.batch.model.Route;
-import com.phakk.transit.staticgtfs.batch.steps.AgencyGtfsDatabaseWriter;
+import com.phakk.transit.staticgtfs.batch.model.GtfsAgency;
+import com.phakk.transit.staticgtfs.batch.model.GtfsRoute;
+import com.phakk.transit.staticgtfs.batch.steps.GtfsAgencyDatabaseWriter;
 import com.phakk.transit.staticgtfs.batch.steps.GtfsFileReader;
-import com.phakk.transit.staticgtfs.batch.steps.RouteGtfsDatabaseWriter;
+import com.phakk.transit.staticgtfs.batch.steps.GtfsRouteDatabaseWriter;
 import com.phakk.transit.staticgtfs.configuration.properties.GtfsFileProperties;
 import com.phakk.transit.staticgtfs.configuration.properties.GtfsFileProperty;
 import com.phakk.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
@@ -34,6 +34,9 @@ public class BatchConfiguration {
     private static final String AGENCY_STEP_NAME = "parseAgencyFile";
     private static final String ROUTE_STEP_NAME = "parseRouteFile";
 
+    private static final String GTFS_AGENCY_WRITER  = "gtfsAgencyDatabaseWriter";
+    private static final String GTFS_ROUTE_WRITER   = "gtfsRouteDatabaseWriter";
+
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final GtfsFileProperties gtfsFileProperties;
@@ -49,20 +52,20 @@ public class BatchConfiguration {
     }
 
     @Bean(AGENCY_STEP_NAME)
-    public Step parseAgencyFile(@Qualifier("agencyGtfsDatabaseWriter") ItemWriter agencyGtfsDatabaseWriter){
+    public Step parseAgencyFile(@Qualifier(GTFS_AGENCY_WRITER) ItemWriter<Object> gtfsAgencyDatabaseWriter){
         return stepBuilderFactory.get(AGENCY_STEP_NAME)
                 .chunk(gtfsFileProperties.getChunks())
-                .reader(buildGtfsFileReader(gtfsFileProperties.getSource(), Agency.NAME, Agency.class))
-                .writer(agencyGtfsDatabaseWriter)
+                .reader(buildGtfsFileReader(gtfsFileProperties.getSource(), GtfsAgency.NAME, GtfsAgency.class))
+                .writer(gtfsAgencyDatabaseWriter)
                 .build();
     }
 
     @Bean(ROUTE_STEP_NAME)
-    public Step parseRouteFile(@Qualifier("routeGtfsDatabaseWriter") ItemWriter<Object> routeGtfsDatabaseWriter){
+    public Step parseRouteFile(@Qualifier(GTFS_ROUTE_WRITER) ItemWriter<Object> gtfsRouteDatabaseWriter){
         return stepBuilderFactory.get(ROUTE_STEP_NAME)
                 .chunk(gtfsFileProperties.getChunks())
-                .reader(buildGtfsFileReader(gtfsFileProperties.getSource(), Route.NAME, Route.class))
-                .writer(routeGtfsDatabaseWriter)
+                .reader(buildGtfsFileReader(gtfsFileProperties.getSource(), GtfsRoute.NAME, GtfsRoute.class))
+                .writer(gtfsRouteDatabaseWriter)
                 .build();
     }
 
@@ -72,13 +75,13 @@ public class BatchConfiguration {
         return new GtfsFileReader<>(fileName, target);
     }
 
-    @Bean("agencyGtfsDatabaseWriter")
-    ItemWriter<?> agencyGtfsDatabaseWriter(AgencyRepository repository, AgencyEntityMapper mapper){
-        return new AgencyGtfsDatabaseWriter(repository, mapper);
+    @Bean(GTFS_AGENCY_WRITER)
+    ItemWriter<?> gtfsAgencyDatabaseWriter(AgencyRepository repository, AgencyEntityMapper mapper){
+        return new GtfsAgencyDatabaseWriter(repository, mapper);
     }
 
-    @Bean("routeGtfsDatabaseWriter")
-    ItemWriter<?> routeGtfsDatabaseWriter(RouteRepository repository, RouteEntityMapper mapper, EnumValueRepository enumValueRepository){
-        return new RouteGtfsDatabaseWriter(repository, mapper, enumValueRepository);
+    @Bean(GTFS_ROUTE_WRITER)
+    ItemWriter<?> gtfsRouteDatabaseWriter(RouteRepository repository, RouteEntityMapper mapper, EnumValueRepository enumValueRepository){
+        return new GtfsRouteDatabaseWriter(repository, mapper, enumValueRepository);
     }
 }

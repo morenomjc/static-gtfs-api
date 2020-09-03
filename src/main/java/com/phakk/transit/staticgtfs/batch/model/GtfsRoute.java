@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Route implements Serializable {
+public class GtfsRoute implements Serializable {
 
     public static final String NAME = "route";
 

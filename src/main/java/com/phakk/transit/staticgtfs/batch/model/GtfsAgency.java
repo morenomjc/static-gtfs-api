@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Agency {
+public class GtfsAgency {
     public static final String NAME = "agency";
 
     private String agency_id;

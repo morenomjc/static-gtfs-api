@@ -1,5 +1,6 @@
 package com.phakk.transit.staticgtfs.dataproviders.repository.agency;
 
+import com.phakk.transit.staticgtfs.batch.model.GtfsAgency;
 import com.phakk.transit.staticgtfs.core.agency.Agency;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import org.mapstruct.Mapper;
@@ -24,5 +25,5 @@ public interface AgencyEntityMapper {
     @Mapping(source = "agency_phone", target = "phone")
     @Mapping(source = "agency_fare_url", target = "fareUrl")
     @Mapping(source = "agency_email", target = "email")
-    Agency convert(com.phakk.transit.staticgtfs.batch.model.Agency agency);
+    Agency convert(GtfsAgency gtfsAgency);
 }
