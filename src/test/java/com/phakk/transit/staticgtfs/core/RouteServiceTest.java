@@ -10,6 +10,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
+import java.util.List;
+
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRoute;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -36,6 +39,17 @@ public class RouteServiceTest {
         Route result = routeService.getRoute("1");
 
         assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGetRoutesByAgency(){
+        Route expected = buildRoute();
+        when(routeRepository.getRoutesByAgency(anyString())).thenReturn(Collections.singletonList(expected));
+
+        List<Route> actual = routeService.getRoutesByAgency("test");
+
+        assertThat(actual).isNotEmpty();
+        assertThat(actual.get(0)).isEqualTo(expected);
     }
 
     private void givenARoute(Route route){

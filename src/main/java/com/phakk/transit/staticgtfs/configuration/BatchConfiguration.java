@@ -58,7 +58,7 @@ public class BatchConfiguration {
     }
 
     @Bean(ROUTE_STEP_NAME)
-    public Step parseRouteFile(@Qualifier("routeGtfsDatabaseWriter") ItemWriter routeGtfsDatabaseWriter){
+    public Step parseRouteFile(@Qualifier("routeGtfsDatabaseWriter") ItemWriter<Object> routeGtfsDatabaseWriter){
         return stepBuilderFactory.get(ROUTE_STEP_NAME)
                 .chunk(gtfsFileProperties.getChunks())
                 .reader(buildGtfsFileReader(gtfsFileProperties.getSource(), Route.NAME, Route.class))

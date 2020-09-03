@@ -22,6 +22,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
+import java.util.List;
+
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildEnumValueRouteType;
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRouteEntity;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,6 +86,19 @@ public class RouteRepositoryTest {
     }
 
     @Test
+    public void testGetRouteByAgency() {
+        whenRoutesExists();
+        whenRouteTypeIsSearched();
+
+        List<Route> routes = routeRepository.getRoutesByAgency("test");
+
+        assertThat(routes).isNotEmpty();
+        assertThat(routes.size()).isEqualTo(1);
+        assertThat(routes.get(0)).isNotNull();
+        assertThat(routes.get(0).getType()).isNotNull();
+    }
+
+    @Test
     public void testWhenRouteNotFound(){
         expectedException.expect(DataNotFoundException.class);
         expectedException.expectMessage(equalTo("Route not found."));
@@ -113,6 +129,10 @@ public class RouteRepositoryTest {
 
     private void whenRouteExists(){
         when(routeJpaRepository.findByRouteId(anyString())).thenReturn(buildRouteEntity());
+    }
+
+    private void whenRoutesExists(){
+        when(routeJpaRepository.findByAgency(anyString())).thenReturn(Collections.singletonList(buildRouteEntity()));
     }
 
     private void whenRouteTypeIsSearched(){

@@ -116,4 +116,13 @@ public class RouteControllerTest {
         );
     }
 
+    @Test
+    public void testGetRoutesByAgencyEndpoint() throws Exception{
+        this.mockMvc.perform(get("/routes")
+                .param("agencyId", "testAgency")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                status().isOk()
+        );
+    }
 }

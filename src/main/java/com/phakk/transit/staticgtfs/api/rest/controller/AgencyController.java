@@ -27,15 +27,12 @@ public class AgencyController implements AgencyResource {
     @Override
     public ResponseEntity<ApiDocument> getAgencies() {
         log.info("Action: getAgencies");
-        return ResponseEntity.ok(
-                new ApiResources<>(
-                        toApiResources(
-                                agencyService.getAgencies().stream()
-                                .map(agency -> agencyDtoMapper.toDto(agency))
-                                .collect(Collectors.toList())
-                        )
-                )
+        List<ApiData<AgencyDto>> data = toApiResources(
+                agencyService.getAgencies().stream()
+                        .map(agency -> agencyDtoMapper.toDto(agency))
+                        .collect(Collectors.toList())
         );
+        return ResponseEntity.ok(new ApiResources<>(data, data.size(), selfLink(getClass())));
     }
 
     @Override

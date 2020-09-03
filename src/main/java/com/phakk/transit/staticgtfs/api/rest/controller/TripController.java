@@ -69,9 +69,9 @@ public class TripController implements TripResource {
     @Override
     public ResponseEntity<ApiDocument> getStopTimes(String tripId) {
         log.info("Action: getStopTimes by trip [{}]", tripId);
-
         List<StopTime> stops = tripService.getStops(tripId);
-        return ResponseEntity.ok(new ApiResources<>(buildStopTimes(stops)));
+        List<ApiData<?>> stopTimes = buildStopTimes(stops);
+        return ResponseEntity.ok(new ApiResources<>(stopTimes, stopTimes.size()));
     }
 
     private List<ApiData<?>> buildStopTimes(List<StopTime> stopTimes){

@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
@@ -28,10 +30,23 @@ public class RouteRepositoryJpaImpl implements RouteRepository {
             throw new DataNotFoundException("Route not found.");
         }
 
-        EnumValue routeType = enumValueRepository.findEnumValue(Route.TYPE, Route.Fields.ROUTE_TYPE.getValue(), routeEntity.getType());
         Route route = routeEntityMapper.fromEntity(routeEntity);
-        route.setType(routeType);
+        route.setType(findRouteType(routeEntity.getType()));
         return route;
+    }
+
+    @Override
+    public List<Route> getRoutesByAgency(String agency) {
+        return routeJpaRepository.findByAgency(agency).stream()
+                .map(routeEntity -> {
+                    Route route = routeEntityMapper.fromEntity(routeEntity);
+                    route.setType(findRouteType(routeEntity.getType()));
+                    return route;
+                }).collect(Collectors.toList());
+    }
+
+    private EnumValue findRouteType(String type){
+        return enumValueRepository.findEnumValue(Route.TYPE, Route.Fields.ROUTE_TYPE.getValue(), type);
     }
 
     @Override
@@ -39,4 +54,5 @@ public class RouteRepositoryJpaImpl implements RouteRepository {
         RouteEntity routeEntity = routeEntityMapper.toEntity(data);
         routeJpaRepository.save(routeEntity);
     }
+
 }

@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildRouteEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,12 +33,22 @@ public class RouteJpaRepositoryTest {
     @Test
     public void testFindByIdWhenExists(){
         RouteEntity expected = buildRouteEntity();
-
         givenExistingRoute(expected);
 
         RouteEntity routeEntity = routeJpaRepository.findByRouteId("1");
 
         assertThat(routeEntity).isEqualTo(expected);
+    }
+
+    @Test
+    public void testFindRoutesByAgencyWhenExists(){
+        RouteEntity expected = buildRouteEntity();
+        givenExistingRoute(expected);
+
+        List<RouteEntity> routeEntities = routeJpaRepository.findByAgency("agency");
+
+        assertThat(routeEntities).isNotEmpty();
+        assertThat(routeEntities.get(0)).isEqualTo(expected);
     }
 
     private void givenExistingRoute(RouteEntity entity){
