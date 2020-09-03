@@ -36,4 +36,9 @@ public class StopRepositoryImpl implements StopRepository{
         return stop;
     }
 
+    @Override
+    public void save(Stop data) {
+        StopEntity stopEntity = stopEntityMapper.toEntity(data);
+        stopJpaRepository.save(stopEntity);
+    }
 }

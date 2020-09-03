@@ -2,6 +2,7 @@ package com.phakk.transit.staticgtfs.batch.steps;
 
 import com.phakk.transit.staticgtfs.batch.model.GtfsRoute;
 import com.phakk.transit.staticgtfs.core.constants.EnumValue;
+import com.phakk.transit.staticgtfs.core.route.Route;
 import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
@@ -23,8 +24,8 @@ public class GtfsRouteDatabaseWriter implements ItemWriter<GtfsRoute> {
     public void write(List<? extends GtfsRoute> items) throws Exception {
         log.info("[RouteGtfsDatabaseWriter].write={}", items.size());
         items.forEach(item -> {
-            com.phakk.transit.staticgtfs.core.route.Route route = mapper.convert(item);
-            EnumValue routeType = enumValueRepository.findEnumValue(com.phakk.transit.staticgtfs.core.route.Route.TYPE, com.phakk.transit.staticgtfs.core.route.Route.Fields.ROUTE_TYPE.getValue(), String.valueOf(item.getRoute_type()));
+            Route route = mapper.convert(item);
+            EnumValue routeType = enumValueRepository.findEnumValue(Route.TYPE, Route.Fields.ROUTE_TYPE.getValue(), String.valueOf(item.getRoute_type()));
             route.setType(routeType);
             repository.save(route);
         });

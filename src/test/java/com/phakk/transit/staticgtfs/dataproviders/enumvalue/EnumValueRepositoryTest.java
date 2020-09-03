@@ -70,7 +70,7 @@ public class EnumValueRepositoryTest {
     @Test
     public void testWhenEnumNotFound(){
         expectedException.expect(DataNotFoundException.class);
-        expectedException.expectMessage(equalTo("Enum value not found."));
+        expectedException.expectMessage(equalTo("Enum value [0, 0, 0] not found."));
 
         whenAnEnumValueNotFound();
 

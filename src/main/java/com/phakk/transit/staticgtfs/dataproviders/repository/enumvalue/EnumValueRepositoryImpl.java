@@ -22,7 +22,8 @@ public class EnumValueRepositoryImpl implements EnumValueRepository {
     public EnumValue findEnumValue(String file, String field, String code) {
         EnumValueEntity enumValueEntity = enumValueJpaRepository.findByFileAndFieldAndCode(file, field, code);
         if (Objects.isNull(enumValueEntity)){
-            throw new DataNotFoundException("Enum value not found.");
+            String message = "Enum value [%s, %s, %s] not found.";
+            throw new DataNotFoundException(String.format(message, file, field, code));
         }
         return enumValueEntityMapper.fromEntity(enumValueEntity);
     }

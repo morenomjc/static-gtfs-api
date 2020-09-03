@@ -30,7 +30,6 @@ public class Stop {
     private String levelId;
     private String platformCode;
 
-
     @Getter
     @AllArgsConstructor
     public enum Fields {

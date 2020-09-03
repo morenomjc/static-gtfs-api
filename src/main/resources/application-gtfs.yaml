@@ -6,3 +6,5 @@ gtfs:
         file: agency.txt
       route:
         file: routes.txt
+      stop:
+        file: stops.txt
