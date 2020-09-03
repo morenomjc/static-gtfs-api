@@ -28,7 +28,7 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     public ApiDocument handleDataNotFoundException(final DataNotFoundException exception){
         logError(exception);
-        return mapToApiErrorDto(exception, HttpStatus.NOT_FOUND.value(), ErrorCode.ERROR_400_NOT_FOUND);
+        return mapToApiErrorDto(exception, HttpStatus.NOT_FOUND.value(), ErrorCode.ERROR_404_NOT_FOUND);
     }
 
     @ExceptionHandler(ConstantsMappingException.class)
@@ -44,7 +44,7 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     public ApiDocument handleNoHandlerFoundException(final NoHandlerFoundException exception){
         logError(exception);
-        return mapToApiErrorDto(exception, HttpStatus.NOT_FOUND.value(), ErrorCode.ERROR_400_NOT_FOUND);
+        return mapToApiErrorDto(exception, HttpStatus.NOT_FOUND.value(), ErrorCode.ERROR_404_NOT_FOUND);
     }
 
     private void logError(Exception e){

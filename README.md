@@ -2,6 +2,11 @@
 
 API for working on static-gtfs transit feed data
 
+## How it works
+1. On startup it loads the gtfs data by parsing the gtfs files from the specified url
+2. GTFS data is store only on in-memory database: H2
+3. Only read operations are supported
+
 ## Getting Started
 
 ### Prerequisites
@@ -14,8 +19,6 @@ What things you need to install the software
 ```shell script
 SPRING_PROFILES_ACTIVE=local gradle clean bootRun
 ```
-
-TODO
 
 ## Running the tests
 
@@ -37,21 +40,9 @@ Add additional notes about how to deploy this on a live system
 ## Built With
 
 * [Static-GTFS](https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md) - This api implements the transit data specification of Google
-* [Spring Boot](https://spring.io/projects/spring-boot) - The  framework used
+* [Spring Boot](https://spring.io/projects/spring-boot)
+* [Spring Batch](https://spring.io/projects/spring-batch)
 * [Gradle](https://gradle.org/) - Dependency Management
-
-## Contributing
-
-Not yet available for contributions
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/phakk/static-gtfs-api/tags). 
-
-## Authors
-
-* **Mark John Moreno** - *Initial work* - [phakk](https://github.com/phakk)
-
 
 ## License
 
