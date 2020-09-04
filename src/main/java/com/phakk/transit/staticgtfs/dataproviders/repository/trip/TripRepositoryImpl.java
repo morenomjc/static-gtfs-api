@@ -9,6 +9,7 @@ import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
+import com.phakk.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -53,6 +54,11 @@ public class TripRepositoryImpl implements TripRepository {
         return stopTimeEntities.stream()
                 .map(this::buildStopTime)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void save(Trip data) {
+        tripJpaRepository.save(tripEntityMapper.toEntity(data));
     }
 
     private StopTime buildStopTime(StopTimeEntity stopTimeEntity){

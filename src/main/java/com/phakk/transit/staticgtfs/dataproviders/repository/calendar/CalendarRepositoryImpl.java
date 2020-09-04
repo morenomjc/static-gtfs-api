@@ -26,4 +26,9 @@ public class CalendarRepositoryImpl implements CalendarRepository{
         }
         return calendarEntityMapper.fromEntity(calendarEntity);
     }
+
+    @Override
+    public void save(Calendar data) {
+        calendarJpaRepository.save(calendarEntityMapper.toEntity(data));
+    }
 }

@@ -1,7 +1,6 @@
 package com.phakk.transit.staticgtfs.dataproviders.enumvalue;
 
 import com.phakk.transit.staticgtfs.core.constants.EnumValue;
-import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.EnumValueJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
@@ -21,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.phakk.transit.staticgtfs.utils.TestDataProvider.buildEnumValueEntity;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -65,21 +63,6 @@ public class EnumValueRepositoryTest {
         assertThat(enumValue.getCode()).isEqualTo("0");
         assertThat(enumValue.getName()).isEqualTo("Station");
         assertThat(enumValue.getDescription()).isEqualTo("A station");
-    }
-
-    @Test
-    public void testWhenEnumNotFound(){
-        expectedException.expect(DataNotFoundException.class);
-        expectedException.expectMessage(equalTo("Enum value [0, 0, 0] not found."));
-
-        whenAnEnumValueNotFound();
-
-        enumValueRepository.findEnumValue("0", "0", "0");
-    }
-
-    private void whenAnEnumValueNotFound(){
-        when(enumValueJpaRepository.findByFileAndFieldAndCode(anyString(), anyString(), anyString()))
-                .thenReturn(null);
     }
 
     private void whenAnEnumValueExists(){

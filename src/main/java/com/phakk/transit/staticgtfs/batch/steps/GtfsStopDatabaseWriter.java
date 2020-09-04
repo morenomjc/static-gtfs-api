@@ -24,7 +24,6 @@ public class GtfsStopDatabaseWriter implements ItemWriter<GtfsStop> {
     public void write(List<? extends GtfsStop> items) throws Exception {
         log.info("[GtfsStopDatabaseWriter].write={}", items.size());
         items.forEach(item -> {
-            log.info("location_type={}", item.getLocation_type());
             Stop stop = mapper.convert(item);
             EnumValue stopType = enumValueRepository.findEnumValue(Stop.TYPE, Stop.Fields.STOP_TYPE.getValue(), String.valueOf(item.getLocation_type()));
             EnumValue wheelchairBoarding = enumValueRepository.findEnumValue(Stop.TYPE, Stop.Fields.WHEELCHAIR_BOARDING.getValue(), String.valueOf(item.getWheelchair_boarding()));

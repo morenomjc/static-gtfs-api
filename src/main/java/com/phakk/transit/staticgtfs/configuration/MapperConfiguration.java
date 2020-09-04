@@ -11,7 +11,7 @@ import com.phakk.transit.staticgtfs.dataproviders.repository.calendar.CalendarEn
 import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
-import com.phakk.transit.staticgtfs.dataproviders.repository.trip.StopTimeEntityMapper;
+import com.phakk.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;

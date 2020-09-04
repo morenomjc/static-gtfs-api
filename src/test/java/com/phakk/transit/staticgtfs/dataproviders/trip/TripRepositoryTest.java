@@ -9,7 +9,7 @@ import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
-import com.phakk.transit.staticgtfs.dataproviders.repository.trip.StopTimeEntityMapper;
+import com.phakk.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
 import com.phakk.transit.staticgtfs.dataproviders.repository.trip.TripRepository;
 import com.phakk.transit.staticgtfs.dataproviders.repository.trip.TripRepositoryImpl;

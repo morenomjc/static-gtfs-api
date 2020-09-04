@@ -1,7 +1,6 @@
 package com.phakk.transit.staticgtfs.dataproviders.repository.enumvalue;
 
 import com.phakk.transit.staticgtfs.core.constants.EnumValue;
-import com.phakk.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.entity.EnumValueEntity;
 import com.phakk.transit.staticgtfs.dataproviders.jpa.repository.EnumValueJpaRepository;
 import lombok.AllArgsConstructor;
@@ -22,8 +21,8 @@ public class EnumValueRepositoryImpl implements EnumValueRepository {
     public EnumValue findEnumValue(String file, String field, String code) {
         EnumValueEntity enumValueEntity = enumValueJpaRepository.findByFileAndFieldAndCode(file, field, code);
         if (Objects.isNull(enumValueEntity)){
-            String message = "Enum value [%s, %s, %s] not found.";
-            throw new DataNotFoundException(String.format(message, file, field, code));
+            log.warn("Enum value [{}, {}, {}] not found.", file, field, code);
+            return null;
         }
         return enumValueEntityMapper.fromEntity(enumValueEntity);
     }
