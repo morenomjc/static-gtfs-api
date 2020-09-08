@@ -1,0 +1,23 @@
+package com.morssscoding.transit.staticgtfs.api.rest.resource;
+
+
+import com.morssscoding.transit.staticgtfs.api.spec.ApiDocument;
+import com.morssscoding.transit.staticgtfs.core.constants.DataTypes;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+@RequestMapping("/stops")
+public interface StopResource extends TypedResource{
+
+    @GetMapping(value = "/{stopId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ApiDocument> getStop(@PathVariable(name = "stopId") String id);
+
+    @Override
+    default String getResourceType(){
+        return DataTypes.STOP.getValue();
+    }
+}
