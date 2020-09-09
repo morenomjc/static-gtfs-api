@@ -1,5 +1,8 @@
 package com.morssscoding.transit.staticgtfs.api.rest;
 
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
+import com.morssscoding.transit.staticgtfs.configuration.MapperConfiguration;
+import com.morssscoding.transit.staticgtfs.core.frequency.FrequencyService;
 import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import com.morssscoding.transit.staticgtfs.api.rest.controller.TripController;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
@@ -38,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = { TripController.class })
-@Import(TripControllerTest.TripTestConfiguration.class)
+@Import(MapperConfiguration.class)
 @RunWith(SpringRunner.class)
 public class TripControllerTest {
 
@@ -53,6 +56,8 @@ public class TripControllerTest {
     private CalendarService calendarService;
     @MockBean
     private StopService stopService;
+    @MockBean
+    private FrequencyService frequencyService;
 
     @Autowired
     private TripDtoMapper tripDtoMapper;
@@ -64,34 +69,8 @@ public class TripControllerTest {
     private StopTimeDtoMapper stopTimeDtoMapper;
     @Autowired
     private StopDtoMapper stopDtoMapper;
-
-    @TestConfiguration
-    static class TripTestConfiguration {
-        @Bean
-        public TripDtoMapper tripDtoMapper(){
-            return Mappers.getMapper(TripDtoMapper.class);
-        }
-
-        @Bean
-        public RouteDtoMapper routeDtoMapper(){
-            return Mappers.getMapper(RouteDtoMapper.class);
-        }
-
-        @Bean
-        public CalendarDtoMapper calendarDtoMapper(){
-            return Mappers.getMapper(CalendarDtoMapper.class);
-        }
-
-        @Bean
-        public StopTimeDtoMapper stopTimeDtoMapper(){
-            return Mappers.getMapper(StopTimeDtoMapper.class);
-        }
-
-        @Bean
-        public StopDtoMapper stopDtoMapper(){
-            return Mappers.getMapper(StopDtoMapper.class);
-        }
-    }
+    @Autowired
+    private FrequencyDtoMapper frequencyDtoMapper;
 
     @Test
     public void testGetTripsByRouteIdEndpoint() throws Exception{
