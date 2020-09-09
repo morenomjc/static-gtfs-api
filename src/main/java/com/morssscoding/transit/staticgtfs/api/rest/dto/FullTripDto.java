@@ -16,5 +16,7 @@ import java.util.List;
 public class FullTripDto implements Serializable {
     private ApiData<TripDto> trip;
     private ApiData<CalendarDto> schedule;
+    private ApiData<FrequencyDto> frequency;
     private List<ApiData<?>> stops;
+
 }

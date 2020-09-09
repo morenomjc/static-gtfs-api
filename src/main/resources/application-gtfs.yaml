@@ -14,3 +14,5 @@ gtfs:
         file: trips.txt
       stoptime:
         file: stop_times.txt
+      frequency:
+        file: frequencies.txt

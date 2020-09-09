@@ -1,25 +1,28 @@
 package com.morssscoding.transit.staticgtfs.api.rest.controller;
 
+import com.morssscoding.transit.staticgtfs.api.rest.dto.CalendarDto;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.FrequencyDto;
 import com.morssscoding.transit.staticgtfs.api.rest.dto.FullTripDto;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.StopTimeDto;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.TripDto;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.resource.TripResource;
 import com.morssscoding.transit.staticgtfs.api.spec.ApiData;
 import com.morssscoding.transit.staticgtfs.api.spec.ApiDocument;
 import com.morssscoding.transit.staticgtfs.api.spec.ApiResource;
 import com.morssscoding.transit.staticgtfs.api.spec.ApiResources;
 import com.morssscoding.transit.staticgtfs.core.calendar.CalendarService;
 import com.morssscoding.transit.staticgtfs.core.constants.DataTypes;
+import com.morssscoding.transit.staticgtfs.core.frequency.FrequencyService;
 import com.morssscoding.transit.staticgtfs.core.route.RouteService;
 import com.morssscoding.transit.staticgtfs.core.stop.StopService;
 import com.morssscoding.transit.staticgtfs.core.trip.StopTime;
 import com.morssscoding.transit.staticgtfs.core.trip.TripService;
-import com.morssscoding.transit.staticgtfs.api.rest.dto.CalendarDto;
-import com.morssscoding.transit.staticgtfs.api.rest.dto.StopTimeDto;
-import com.morssscoding.transit.staticgtfs.api.rest.dto.TripDto;
-import com.morssscoding.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
-import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
-import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
-import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
-import com.morssscoding.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
-import com.morssscoding.transit.staticgtfs.api.rest.resource.TripResource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
@@ -46,6 +49,8 @@ public class TripController implements TripResource {
     private StopTimeDtoMapper stopTimeDtoMapper;
     private StopService stopService;
     private StopDtoMapper stopDtoMapper;
+    private FrequencyService frequencyService;
+    private FrequencyDtoMapper frequencyDtoMapper;
 
     @Override
     public ResponseEntity<ApiDocument> getTripsByRouteId(String routeId) {
@@ -59,6 +64,9 @@ public class TripController implements TripResource {
 
             ApiData<CalendarDto> calendarData = buildCalendarData(tripDto);
             fullTripDto.setSchedule(calendarData);
+
+            ApiData<FrequencyDto> frequencyData = buildFrequencyData(tripDto);
+            fullTripDto.setFrequency(frequencyData);
 
             List<StopTime> stops = tripService.getStops(trip.getTripId());
             List<ApiData<?>> stopTimes = buildStopTimes(stops);
@@ -131,6 +139,13 @@ public class TripController implements TripResource {
                 DataTypes.CALENDAR.getValue(),
                 calendarDtoMapper.toDto(calendarService.getCalendar(tripDto.getServiceId())),
                 selfLink(tripDto.getServiceId(), CalendarController.class)
+        );
+    }
+
+    private ApiData<FrequencyDto> buildFrequencyData(TripDto tripDto){
+        return new ApiData<>(
+                DataTypes.FREQUENCIES.getValue(),
+                frequencyDtoMapper.toDto(frequencyService.getFrequency(tripDto.getTripId()))
         );
     }
 

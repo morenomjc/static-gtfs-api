@@ -1,21 +1,15 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.repository.stoptime;
 
+import com.morssscoding.transit.staticgtfs.core.mapper.CommonCoreDataMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapper;
 import com.morssscoding.transit.staticgtfs.batch.model.GtfsStopTime;
 import com.morssscoding.transit.staticgtfs.core.trip.StopTime;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
-import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-@Mapper(uses = {EnumValueEntityMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {EnumValueEntityMapper.class, CommonCoreDataMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface StopTimeEntityMapper {
 
     @Mapping(target = "pickupType", ignore = true)
@@ -38,12 +32,4 @@ public interface StopTimeEntityMapper {
     @Mapping(target = "timepoint", ignore = true)
     StopTime convert(GtfsStopTime gtfsStopTime);
 
-    @Named("mapToBoolean")
-    default LocalTime mapToLocalTime(String value){
-        if (Objects.isNull(value)){
-            return null;
-        }
-        List<Byte> values = Arrays.stream(value.split(":")).map(Byte::parseByte).collect(Collectors.toList());
-        return LocalTime.of(values.get(0) % 24, values.get(1), values.get(2));
-    }
 }

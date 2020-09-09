@@ -1,18 +1,20 @@
 package com.morssscoding.transit.staticgtfs.configuration;
 
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.calendar.CalendarEntityMapper;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapper;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.calendar.CalendarEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -75,10 +77,19 @@ public class MapperConfiguration {
         return Mappers.getMapper(StopTimeDtoMapper.class);
     }
 
-
     @Bean
     public StopTimeEntityMapper stopTimeEntityMapper(){
         return Mappers.getMapper(StopTimeEntityMapper.class);
+    }
+
+    @Bean
+    public FrequencyEntityMapper frequencyEntityMapper(){
+        return Mappers.getMapper(FrequencyEntityMapper.class);
+    }
+
+    @Bean
+    public FrequencyDtoMapper frequencyDtoMapper(){
+        return Mappers.getMapper(FrequencyDtoMapper.class);
     }
 
     @Bean

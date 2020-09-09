@@ -1,12 +1,19 @@
 package com.morssscoding.transit.staticgtfs.configuration;
 
 import com.morssscoding.transit.staticgtfs.batch.model.GtfsAgency;
+import com.morssscoding.transit.staticgtfs.batch.model.GtfsCalendar;
+import com.morssscoding.transit.staticgtfs.batch.model.GtfsFrequency;
 import com.morssscoding.transit.staticgtfs.batch.model.GtfsRoute;
 import com.morssscoding.transit.staticgtfs.batch.model.GtfsStop;
 import com.morssscoding.transit.staticgtfs.batch.model.GtfsStopTime;
 import com.morssscoding.transit.staticgtfs.batch.model.GtfsTrip;
+import com.morssscoding.transit.staticgtfs.batch.steps.GtfsAgencyDatabaseWriter;
 import com.morssscoding.transit.staticgtfs.batch.steps.GtfsCalendarDatabaseWriter;
+import com.morssscoding.transit.staticgtfs.batch.steps.GtfsFileReader;
+import com.morssscoding.transit.staticgtfs.batch.steps.GtfsFrequencyDatabaseWriter;
 import com.morssscoding.transit.staticgtfs.batch.steps.GtfsRouteDatabaseWriter;
+import com.morssscoding.transit.staticgtfs.batch.steps.GtfsStopDatabaseWriter;
+import com.morssscoding.transit.staticgtfs.batch.steps.GtfsStopTimeDatabaseWriter;
 import com.morssscoding.transit.staticgtfs.batch.steps.GtfsTripDatabaseWriter;
 import com.morssscoding.transit.staticgtfs.configuration.properties.GtfsFileProperties;
 import com.morssscoding.transit.staticgtfs.configuration.properties.GtfsFileProperty;
@@ -15,19 +22,16 @@ import com.morssscoding.transit.staticgtfs.dataproviders.repository.agency.Agenc
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.calendar.CalendarEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.stop.StopRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.trip.TripRepository;
-import com.morssscoding.transit.staticgtfs.batch.model.GtfsCalendar;
-import com.morssscoding.transit.staticgtfs.batch.steps.GtfsAgencyDatabaseWriter;
-import com.morssscoding.transit.staticgtfs.batch.steps.GtfsFileReader;
-import com.morssscoding.transit.staticgtfs.batch.steps.GtfsStopDatabaseWriter;
-import com.morssscoding.transit.staticgtfs.batch.steps.GtfsStopTimeDatabaseWriter;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -54,6 +58,7 @@ public class BatchConfiguration {
     private static final String CALENDAR_STEP_NAME      = "parseCalendarFile";
     private static final String TRIP_STEP_NAME          = "parseTripFile";
     private static final String STOPTIME_STEP_NAME      = "parseStopTimeFile";
+    private static final String FREQUENCY_STEP_NAME      = "parseFrequencyFile";
 
     private static final String GTFS_AGENCY_WRITER      = "gtfsAgencyDatabaseWriter";
     private static final String GTFS_ROUTE_WRITER       = "gtfsRouteDatabaseWriter";
@@ -61,6 +66,7 @@ public class BatchConfiguration {
     private static final String GTFS_CALENDAR_WRITER    = "gtfsCalendarWriter";
     private static final String GTFS_TRIP_WRITER        = "gtfsTripDatabaseWriter";
     private static final String GTFS_STOPTIME_WRITER    = "gtfsStopTimeDatabaseWriter";
+    private static final String GTFS_FREQUENCY_WRITER   = "gtfsFrequencyDatabaseWriter";
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -72,7 +78,8 @@ public class BatchConfiguration {
                               @Qualifier(STOP_STEP_NAME) Step parseStopFile,
                               @Qualifier(CALENDAR_STEP_NAME) Step parseCalendarFile,
                               @Qualifier(TRIP_STEP_NAME) Step parseTripFile,
-                              @Qualifier(STOPTIME_STEP_NAME) Step parseStopTimeFile) {
+                              @Qualifier(STOPTIME_STEP_NAME) Step parseStopTimeFile,
+                              @Qualifier(FREQUENCY_STEP_NAME) Step parseFrequencyFile) {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
                 .start(parseAgencyFile)
@@ -81,6 +88,7 @@ public class BatchConfiguration {
                 .next(parseCalendarFile)
                 .next(parseTripFile)
                 .next(parseStopTimeFile)
+                .next(parseFrequencyFile)
                 .build();
     }
 
@@ -138,6 +146,15 @@ public class BatchConfiguration {
                 .build();
     }
 
+    @Bean(FREQUENCY_STEP_NAME)
+    public Step parseFrequencyFile(@Qualifier(GTFS_FREQUENCY_WRITER) ItemWriter<Object> writer){
+        return stepBuilderFactory.get(FREQUENCY_STEP_NAME)
+                .chunk(gtfsFileProperties.getChunks())
+                .reader(buildGtfsFileReader(gtfsFileProperties.getSource(), GtfsFrequency.NAME, GtfsFrequency.class))
+                .writer(writer)
+                .build();
+    }
+
     ItemReader<?> buildGtfsFileReader(String source, String name, Class<?> target) {
         GtfsFileProperty gtfsFileProperty = gtfsFileProperties.getFiles().get(name);
         String fileName = source.concat(gtfsFileProperty.getFile());
@@ -172,5 +189,10 @@ public class BatchConfiguration {
     @Bean(GTFS_STOPTIME_WRITER)
     ItemWriter<?> gtfsStopTimeDatabaseWriter(StopTimeRepository repository, StopTimeEntityMapper mapper, EnumValueRepository enumValueRepository){
         return new GtfsStopTimeDatabaseWriter(repository, mapper, enumValueRepository);
+    }
+
+    @Bean(GTFS_FREQUENCY_WRITER)
+    ItemWriter<?> gtfsFrequencyDatabaseWriter(FrequencyRepository frequencyRepository, FrequencyEntityMapper frequencyEntityMapper, EnumValueRepository enumValueRepository){
+        return new GtfsFrequencyDatabaseWriter(frequencyRepository, frequencyEntityMapper, enumValueRepository);
     }
 }

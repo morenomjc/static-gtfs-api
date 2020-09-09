@@ -12,6 +12,7 @@ public enum DataTypes {
     TRIP("trips"),
     CALENDAR("calendars"),
     STOP_TIMES("stoptimes"),
+    FREQUENCIES("frequencies"),
 
     ;
 
