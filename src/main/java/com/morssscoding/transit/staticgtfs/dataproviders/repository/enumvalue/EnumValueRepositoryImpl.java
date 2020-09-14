@@ -5,6 +5,7 @@ import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.EnumValueEnt
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.EnumValueJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
@@ -18,6 +19,7 @@ public class EnumValueRepositoryImpl implements EnumValueRepository {
     private EnumValueEntityMapper enumValueEntityMapper;
 
     @Override
+    @Cacheable(value = "enumvalues")
     public EnumValue findEnumValue(String file, String field, String code) {
         EnumValueEntity enumValueEntity = enumValueJpaRepository.findByFileAndFieldAndCode(file, field, code);
         if (Objects.isNull(enumValueEntity)){

@@ -6,6 +6,8 @@ import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.CalendarEnti
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.CalendarJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
@@ -19,6 +21,7 @@ public class CalendarRepositoryImpl implements CalendarRepository{
     private CalendarEntityMapper calendarEntityMapper;
 
     @Override
+    @Cacheable(value = "calendars")
     public Calendar getCalendar(String serviceId) {
         CalendarEntity calendarEntity = calendarJpaRepository.findByServiceId(serviceId);
         if (Objects.isNull(calendarEntity)){
@@ -28,6 +31,7 @@ public class CalendarRepositoryImpl implements CalendarRepository{
     }
 
     @Override
+    @CachePut(value = "calendars", key = "#data.serviceId")
     public void save(Calendar data) {
         calendarJpaRepository.save(calendarEntityMapper.toEntity(data));
     }

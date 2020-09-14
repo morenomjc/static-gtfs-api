@@ -9,13 +9,11 @@ import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.En
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepositoryImpl;
-import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
