@@ -103,11 +103,11 @@ public class TripController implements TripResource {
         return ResponseEntity.ok(new ApiResources<>(stopTimes, stopTimes.size()));
     }
 
-    private List<ApiData<?>> buildStopTimes(List<StopTime> stopTimes){
+    private List<ApiData<?>> buildStopTimes(List<StopTime> stopTimes) {
         return stopTimes.stream().map(this::buildStopTimeData).collect(Collectors.toList());
     }
 
-    private ApiData<?> buildStopTimeData(StopTime stopTime){
+    private ApiData<?> buildStopTimeData(StopTime stopTime) {
         ApiData<StopTimeDto> apiData = new ApiData<>(
                 DataTypes.STOP_TIMES.getValue(),
                 stopTimeDtoMapper.toDto(stopTime),
@@ -118,7 +118,7 @@ public class TripController implements TripResource {
         return apiData;
     }
 
-    private ApiData<?> buildStopData(StopTime stopTime){
+    private ApiData<?> buildStopData(StopTime stopTime) {
         return new ApiData<>(
                 DataTypes.STOP.getValue(),
                 stopDtoMapper.toDto(stopService.getStop(stopTime.getStopId())),
@@ -126,7 +126,7 @@ public class TripController implements TripResource {
         );
     }
 
-    private ApiData<?> buildRouteData(TripDto tripDto){
+    private ApiData<?> buildRouteData(TripDto tripDto) {
         return new ApiData<>(
                 DataTypes.ROUTE.getValue(),
                 routeDtoMapper.mapToDto(routeService.getRoute(tripDto.getRouteId())),
@@ -134,7 +134,7 @@ public class TripController implements TripResource {
         );
     }
 
-    private ApiData<CalendarDto> buildCalendarData(TripDto tripDto){
+    private ApiData<CalendarDto> buildCalendarData(TripDto tripDto) {
         return new ApiData<>(
                 DataTypes.CALENDAR.getValue(),
                 calendarDtoMapper.toDto(calendarService.getCalendar(tripDto.getServiceId())),
@@ -142,30 +142,30 @@ public class TripController implements TripResource {
         );
     }
 
-    private ApiData<FrequencyDto> buildFrequencyData(TripDto tripDto){
+    private ApiData<FrequencyDto> buildFrequencyData(TripDto tripDto) {
         return new ApiData<>(
                 DataTypes.FREQUENCIES.getValue(),
                 frequencyDtoMapper.toDto(frequencyService.getFrequency(tripDto.getTripId()))
         );
     }
 
-    private Link routeLink(String id){
-        return  linkTo(RouteController.class).slash(id).withRel("route");
+    private Link routeLink(String id) {
+        return linkTo(RouteController.class).slash(id).withRel("route");
     }
 
-    private Link calendarLink(String id){
-        return  linkTo(CalendarController.class).slash(id).withRel("schedule");
+    private Link calendarLink(String id) {
+        return linkTo(CalendarController.class).slash(id).withRel("schedule");
     }
 
-    private Link tripLink(String id){
-        return  linkTo(TripController.class).slash(id).withRel("trip");
+    private Link tripLink(String id) {
+        return linkTo(TripController.class).slash(id).withRel("trip");
     }
 
-    private Link stopLink(String id){
-        return  linkTo(StopController.class).slash(id).withRel("stop");
+    private Link stopLink(String id) {
+        return linkTo(StopController.class).slash(id).withRel("stop");
     }
 
-    private Link tripStopsLink(String id){
+    private Link tripStopsLink(String id) {
         return linkTo(methodOn(TripController.class, id).getStopTimes(id)).withRel("stops");
     }
 }

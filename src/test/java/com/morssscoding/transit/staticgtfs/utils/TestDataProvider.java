@@ -3,6 +3,7 @@ package com.morssscoding.transit.staticgtfs.utils;
 import com.morssscoding.transit.staticgtfs.core.agency.Agency;
 import com.morssscoding.transit.staticgtfs.core.calendar.Calendar;
 import com.morssscoding.transit.staticgtfs.core.constants.EnumValue;
+import com.morssscoding.transit.staticgtfs.core.frequency.Frequency;
 import com.morssscoding.transit.staticgtfs.core.route.Route;
 import com.morssscoding.transit.staticgtfs.core.stop.Stop;
 import com.morssscoding.transit.staticgtfs.core.trip.StopTime;
@@ -10,12 +11,15 @@ import com.morssscoding.transit.staticgtfs.core.trip.Trip;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.CalendarEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.EnumValueEntity;
+import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.FrequencyEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
 
+import java.time.Duration;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 public class TestDataProvider {
 
@@ -127,6 +131,26 @@ public class TestDataProvider {
                 .wheelchairAccessible(buildEnumValueWheelchairAccessible())
                 .bikesAllowed(buildEnumValueBikesAllowed())
                 .build();
+    }
+
+    public static Frequency buildFrequency(){
+        return Frequency.builder()
+                .tripId("1")
+                .startTime(LocalTime.now())
+                .endTime(LocalTime.now().plusHours(10))
+                .headwaySecs(Duration.of(10, ChronoUnit.HOURS))
+                .exactTimes(buildEnumValueExactTimes())
+                .build();
+    }
+
+    public static FrequencyEntity buildFrequencyEntity(){
+        FrequencyEntity frequencyEntity = new FrequencyEntity();
+        frequencyEntity.setTripId("1");
+        frequencyEntity.setStartTime(LocalTime.now());
+        frequencyEntity.setEndTime(LocalTime.now().plusHours(1));
+        frequencyEntity.setExactTimes("0");
+        frequencyEntity.setHeadwaySecs(300);
+        return frequencyEntity;
     }
 
     public static TripEntity buildTripEntity(){
@@ -281,6 +305,15 @@ public class TestDataProvider {
         return enumValue;
     }
 
+    public static EnumValue buildEnumValueExactTimes(){
+        EnumValue enumValue = new EnumValue();
+        enumValue.setFile("frequencies");
+        enumValue.setField("exact_times");
+        enumValue.setCode("0");
+        enumValue.setName("Not Exactly Scheduled");
+        enumValue.setDescription("Frequency-based");
+        return enumValue;
+    }
     public static EnumValue buildEnumValueDropOffType(){
         EnumValue enumValue = new EnumValue();
         enumValue.setFile("stop_times");

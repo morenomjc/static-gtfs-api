@@ -1,29 +1,26 @@
 package com.morssscoding.transit.staticgtfs.api.rest;
 
-import com.morssscoding.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
-import com.morssscoding.transit.staticgtfs.configuration.MapperConfiguration;
-import com.morssscoding.transit.staticgtfs.core.frequency.FrequencyService;
-import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import com.morssscoding.transit.staticgtfs.api.rest.controller.TripController;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
+import com.morssscoding.transit.staticgtfs.configuration.MapperConfiguration;
 import com.morssscoding.transit.staticgtfs.core.calendar.CalendarService;
 import com.morssscoding.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morssscoding.transit.staticgtfs.core.frequency.FrequencyService;
 import com.morssscoding.transit.staticgtfs.core.route.RouteService;
 import com.morssscoding.transit.staticgtfs.core.stop.StopService;
 import com.morssscoding.transit.staticgtfs.core.trip.Trip;
 import com.morssscoding.transit.staticgtfs.core.trip.TripService;
+import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -86,11 +83,21 @@ public class TripControllerTest {
         ).andExpect(
                 jsonPath("$.data[0].trip").isNotEmpty()
         ).andExpect(
+                jsonPath("$.data[0].trip.attributes").isNotEmpty()
+        ).andExpect(
                 jsonPath("$.data[0].schedule").isNotEmpty()
+        ).andExpect(
+                jsonPath("$.data[0].schedule.attributes").isNotEmpty()
         ).andExpect(
                 jsonPath("$.data[0].stops").isNotEmpty()
         ).andExpect(
                 jsonPath("$.data[0].stops", hasSize(1))
+        ).andExpect(
+                jsonPath("$.data[0].stops[0].attributes").isNotEmpty()
+        ).andExpect(
+                jsonPath("$.data[0].frequency").isNotEmpty()
+        ).andExpect(
+                jsonPath("$.data[0].frequency.attributes").isNotEmpty()
         );
     }
 
@@ -99,7 +106,7 @@ public class TripControllerTest {
         this.mockMvc.perform(get("/trips")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                status().is4xxClientError()
+                status().isBadRequest()
         );
     }
 
@@ -239,6 +246,7 @@ public class TripControllerTest {
         when(tripService.getTripsByRouteId(anyString())).thenReturn(Collections.singletonList(trip));
         when(calendarService.getCalendar(anyString())).thenReturn(TestDataProvider.buildCalendar());
         when(tripService.getStops(anyString())).thenReturn(singletonList(TestDataProvider.buildStopTime()));
+        when(frequencyService.getFrequency(anyString())).thenReturn(TestDataProvider.buildFrequency());
     }
 
     private void givenTrip(Trip trip){
