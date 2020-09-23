@@ -31,7 +31,7 @@ public class CalendarRepositoryImpl implements CalendarRepository{
     }
 
     @Override
-    @CachePut(value = "calendars", key = "#data.serviceId")
+//    @CachePut(value = "calendars", key = "#data.serviceId")
     public void save(Calendar data) {
         calendarJpaRepository.save(calendarEntityMapper.toEntity(data));
     }
