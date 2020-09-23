@@ -139,7 +139,7 @@ public class BatchConfiguration {
 
     @Bean(STOPTIME_STEP_NAME)
     public Step parseStopTimeFile(@Qualifier(GTFS_STOPTIME_WRITER) ItemWriter<Object> writer){
-        return stepBuilderFactory.get(TRIP_STEP_NAME)
+        return stepBuilderFactory.get(STOPTIME_STEP_NAME)
                 .chunk(gtfsFileProperties.getChunks())
                 .reader(buildGtfsFileReader(gtfsFileProperties.getSource(), GtfsStopTime.NAME, GtfsStopTime.class))
                 .writer(writer)
