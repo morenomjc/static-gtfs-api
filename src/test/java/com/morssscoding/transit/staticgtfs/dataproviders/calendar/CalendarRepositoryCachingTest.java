@@ -85,16 +85,4 @@ public class CalendarRepositoryCachingTest {
         verify(calendarJpaRepository, times(1)).findByServiceId(anyString());
     }
 
-    @Test @Ignore
-    public void testGetCalendar_ShouldUseCache_AfterSavingTheSameRecord(){
-        Mockito.clearInvocations(calendarJpaRepository);
-
-        CalendarEntity calendarEntity = TestDataProvider.buildCalendarEntity();
-        when(calendarJpaRepository.save(any(CalendarEntity.class))).thenReturn(calendarEntity);
-
-        calendarRepository.save(TestDataProvider.buildCalendar());
-        calendarRepository.getCalendar("1");
-
-        verify(calendarJpaRepository, times(0)).findByServiceId(anyString());
-    }
 }

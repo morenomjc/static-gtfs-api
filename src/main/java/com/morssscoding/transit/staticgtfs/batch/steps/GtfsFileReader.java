@@ -6,7 +6,7 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.StringUtils;
@@ -43,7 +43,7 @@ public class GtfsFileReader<T> extends FlatFileItemReader<T> {
                 e.printStackTrace();
             }
         }else{
-            resource = new ClassPathResource(fileName);
+            resource = new FileSystemResource(fileName);
         }
         log.info("resource=[{}]", fileName);
         setupFieldNames();

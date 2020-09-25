@@ -1,6 +1,5 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.frequency;
 
-import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.FrequencyEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.FrequencyJpaRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapper;
@@ -26,7 +25,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildEnumValueExactTimes;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -100,16 +98,4 @@ public class FrequencyRepositoryCachingTest {
         verify(frequencyJpaRepository, times(1)).findByTripId(anyString());
     }
 
-    @Test
-    public void testGetFrequency_ShouldUseCache_AfterSavingTheSameRecord(){
-        Mockito.clearInvocations(frequencyJpaRepository);
-
-        FrequencyEntity frequencyEntity = TestDataProvider.buildFrequencyEntity();
-        when(frequencyJpaRepository.save(any(FrequencyEntity.class))).thenReturn(frequencyEntity);
-
-        frequencyRepository.save(TestDataProvider.buildFrequency());
-        frequencyRepository.getFrequency("1");
-
-        verify(frequencyJpaRepository, times(0)).findByTripId(anyString());
-    }
 }
