@@ -62,7 +62,7 @@ public class FrequencyRepositoryTest {
         assertThat(frequency).isNotNull();
         assertThat(frequency.getTripId()).isEqualTo("1");
         assertThat(frequency.getStartTime()).isAfter(LocalTime.now().minusMinutes(1));
-        assertThat(frequency.getEndTime()).isAfter(LocalTime.now().minusMinutes(1));
+        assertThat(frequency.getEndTime()).isAfter(LocalTime.now());
         assertThat(frequency.getHeadwaySecs().get(ChronoUnit.SECONDS)).isEqualTo(300);
         assertThat(frequency.getExactTimes()).isEqualTo(exactTimes);
     }
