@@ -28,3 +28,18 @@ spring:
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS aa} [%X{x-request-id}] [%thread] %-5level %logger.%M - %msg%n"
+---
+server:
+  shutdown: GRACEFUL
+
+spring:
+  main:
+    cloud-platform: KUBERNETES
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
