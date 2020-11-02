@@ -3,8 +3,8 @@
 API for working on static-gtfs transit feed data
 
 ## How it works
-1. On startup it loads the gtfs data by parsing the gtfs files from the specified url
-2. GTFS data is store only on in-memory database: H2
+1. On startup it loads the gtfs data by parsing the gtfs files from the specified url. Defaults to github. See `application-github.yaml`.
+2. GTFS data is store only on in-memory database: `h2`
 3. Only read operations are supported
 
 ## Getting Started
@@ -14,10 +14,39 @@ API for working on static-gtfs transit feed data
 What things you need to install the software
 
 1. Java 1.8+
+2. Gradle 5.6.2
 
 ### Running locally
+
+#### From Source
+1. Modify the `gtfs.static.source` property to a local directory or URL.
+2. Run via gradle bootRun. Example below points to github repo.
 ```shell script
-SPRING_PROFILES_ACTIVE=local gradle clean bootRun
+SPRING_PROFILES_ACTIVE=github gradle clean bootRun
+```
+
+#### From Jar
+1. Build the jar file
+```shell script
+gradle clean build
+```
+2. Run the jar file
+```shell script
+java -jar -Dspring.profiles.include=github build/libs/static-gtfs-0.0.1-SNAPSHOT.jar
+```
+
+#### From Docker
+1. Build the jar file
+```shell script
+gradle clean build
+```
+2. Build the docker image
+```shell script
+docker build -t local/static-gtfs-api .
+```
+3. Run the docker image
+```shell script
+docker run -p 8080:8080 local/static-gtfs-api
 ```
 
 ## Running the tests
