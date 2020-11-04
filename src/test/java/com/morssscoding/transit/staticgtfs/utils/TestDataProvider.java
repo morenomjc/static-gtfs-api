@@ -5,6 +5,7 @@ import com.morssscoding.transit.staticgtfs.core.calendar.Calendar;
 import com.morssscoding.transit.staticgtfs.core.constants.EnumValue;
 import com.morssscoding.transit.staticgtfs.core.frequency.Frequency;
 import com.morssscoding.transit.staticgtfs.core.route.Route;
+import com.morssscoding.transit.staticgtfs.core.shape.Shape;
 import com.morssscoding.transit.staticgtfs.core.stop.Stop;
 import com.morssscoding.transit.staticgtfs.core.trip.StopTime;
 import com.morssscoding.transit.staticgtfs.core.trip.Trip;
@@ -13,6 +14,7 @@ import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.CalendarEnti
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.EnumValueEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.FrequencyEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
+import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.ShapeEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
@@ -131,6 +133,24 @@ public class TestDataProvider {
                 .wheelchairAccessible(buildEnumValueWheelchairAccessible())
                 .bikesAllowed(buildEnumValueBikesAllowed())
                 .build();
+    }
+
+    public static Shape buildShape(){
+        return Shape.builder()
+                .id("1")
+                .lat(15.5737673).lon(122.0481448)
+                .sequence(1)
+                .distanceTraveled(1.5).build();
+    }
+
+    public static ShapeEntity buildShapeEntity(){
+        ShapeEntity shapeEntity = new ShapeEntity();
+        shapeEntity.setShapeId("1");
+        shapeEntity.setLat(12.4);
+        shapeEntity.setLon(12.5);
+        shapeEntity.setSequence(1);
+        shapeEntity.setDistanceTraveled(0.1);
+        return shapeEntity;
     }
 
     public static Frequency buildFrequency(){

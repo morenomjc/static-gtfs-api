@@ -1,7 +1,9 @@
 package com.morssscoding.transit.staticgtfs.batch.steps;
 
+import com.morssscoding.transit.staticgtfs.batch.exception.GtfsFileNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -64,7 +66,6 @@ public class GtfsFileReader<T> extends FlatFileItemReader<T> {
 
     private void setupReader(){
         setResource(resource);
-        setStrict(false);
         setLinesToSkip(1);
         setLineMapper(new DefaultLineMapper<T>(){
             {

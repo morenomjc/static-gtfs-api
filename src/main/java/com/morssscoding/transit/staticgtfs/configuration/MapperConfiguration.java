@@ -4,6 +4,7 @@ import com.morssscoding.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.ShapePointDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
@@ -12,6 +13,7 @@ import com.morssscoding.transit.staticgtfs.dataproviders.repository.calendar.Cal
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.shape.ShapeEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
@@ -73,6 +75,16 @@ public class MapperConfiguration {
     }
 
     @Bean
+    public ShapePointDtoMapper shapeDtoMapper(){
+        return Mappers.getMapper(ShapePointDtoMapper.class);
+    }
+
+    @Bean
+    public ShapeEntityMapper shapeEntityMapper(){
+        return Mappers.getMapper(ShapeEntityMapper.class);
+    }
+
+    @Bean
     public StopTimeDtoMapper stopTimeDtoMapper(){
         return Mappers.getMapper(StopTimeDtoMapper.class);
     }
@@ -96,4 +108,6 @@ public class MapperConfiguration {
     public EnumValueEntityMapper enumValueEntityMapper(){
         return Mappers.getMapper(EnumValueEntityMapper.class);
     }
+
+
 }

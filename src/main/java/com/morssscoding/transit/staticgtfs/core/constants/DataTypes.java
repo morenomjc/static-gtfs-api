@@ -7,13 +7,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DataTypes {
     AGENCY("agencies"),
-    STOP("stops"),
-    ROUTE("routes"),
-    TRIP("trips"),
     CALENDAR("calendars"),
-    STOP_TIMES("stoptimes"),
     FREQUENCIES("frequencies"),
-
+    ROUTE("routes"),
+    SHAPE("shapes"),
+    STOP("stops"),
+    STOP_TIMES("stoptimes"),
+    TRIP("trips"),
     ;
 
     private String value;

@@ -4,15 +4,17 @@ gtfs:
     files:
       agency:
         file: agency.txt
-      route:
-        file: routes.txt
-      stop:
-        file: stops.txt
       calendar:
         file: calendar.txt
-      trip:
-        file: trips.txt
-      stoptime:
-        file: stop_times.txt
       frequency:
         file: frequencies.txt
+      route:
+        file: routes.txt
+      shape:
+        file: shapes.txt
+      stop:
+        file: stops.txt
+      stoptime:
+        file: stop_times.txt
+      trip:
+        file: trips.txt
