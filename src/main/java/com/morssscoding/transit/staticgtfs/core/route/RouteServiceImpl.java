@@ -24,9 +24,16 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> getRoutesByAgency(String agency) {
+    public List<Route> getByAgency(String agency) {
         List<Route> routes = routeRepository.getRoutesByAgency(agency);
         log.info("Found [{}] routes with agency: [{}]", routes.size(), agency);
+        return routes;
+    }
+
+    @Override
+    public List<Route> getByRouteType(String routeType) {
+        List<Route> routes = routeRepository.getRoutesByType(routeType);
+        log.info("Found [{}] routes with route_type: [{}]", routes.size(), routeType);
         return routes;
     }
 

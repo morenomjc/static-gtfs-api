@@ -46,6 +46,16 @@ public class RouteRepositoryJpaImpl implements RouteRepository {
                 }).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Route> getRoutesByType(String routeType) {
+        return routeJpaRepository.findByType(routeType).stream()
+                .map(routeEntity -> {
+                    Route route = routeEntityMapper.fromEntity(routeEntity);
+                    route.setType(findRouteType(routeEntity.getType()));
+                    return route;
+                }).collect(Collectors.toList());
+    }
+
     private EnumValue findRouteType(String type){
         return enumValueRepository.findEnumValue(Route.TYPE, Route.Fields.ROUTE_TYPE.getValue(), type);
     }

@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface RouteService {
     Route getRoute(String id);
-    List<Route> getRoutesByAgency(String agency);
+    List<Route> getByAgency(String agency);
+    List<Route> getByRouteType(String routeType);
     List<RouteType> getRouteTypes();
 }

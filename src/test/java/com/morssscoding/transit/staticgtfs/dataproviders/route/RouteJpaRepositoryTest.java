@@ -52,6 +52,17 @@ public class RouteJpaRepositoryTest {
     }
 
     @Test
+    public void testFindRoutesByTypeWhenExists(){
+        RouteEntity expected = buildRouteEntity();
+        givenExistingRoute(expected);
+
+        List<RouteEntity> routeEntities = routeJpaRepository.findByType("700");
+
+        assertThat(routeEntities).isNotEmpty();
+        assertThat(routeEntities.get(0)).isEqualTo(expected);
+    }
+
+    @Test
     public void testFindRouteTypeCounts(){
         RouteEntity route1 = buildRouteEntity();
         RouteEntity route2 = buildRouteEntity();

@@ -1,10 +1,10 @@
 package com.morssscoding.transit.staticgtfs.api.rest;
 
-import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import com.morssscoding.transit.staticgtfs.api.rest.controller.RouteController;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.morssscoding.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.morssscoding.transit.staticgtfs.core.route.RouteService;
+import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
@@ -99,25 +99,12 @@ public class RouteControllerTest {
         this.mockMvc.perform(get("/routes/1")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                status().isNotFound()
-        ).andExpect(
-                content()
-                        .json("{\n" +
-                                "    \"meta\": {\n" +
-                                "        \"api\": {\n" +
-                                "            \"version\": \"v1\"\n" +
-                                "        },\n" +
-                                "        \"gtfs\": {\n" +
-                                "            \"static\": \"v1.0\"\n" +
-                                "        }\n" +
-                                "    },\n" +
-                                "    \"error\": {\n" +
-                                "        \"status\": 404,\n" +
-                                "        \"code\": \"404.0\",\n" +
-                                "        \"title\": \"Resource Not Found\",\n" +
-                                "        \"detail\": \"Route not found.\"\n" +
-                                "    }\n" +
-                                "}")
+                matchAll(
+                        status().isNotFound(),
+                        jsonPath("$.error").exists(),
+                        jsonPath("$.error.status").value(404),
+                        jsonPath("$.error.title").value("Resource Not Found")
+                )
         );
     }
 
@@ -127,12 +114,28 @@ public class RouteControllerTest {
                 .param("agencyId", "testAgency")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                status().isOk()
+                matchAll(
+                        status().isOk(),
+                        jsonPath("$.data").isArray()
+                )
         );
     }
 
     @Test
-    public void testGetRoutesByAgencyEndpointWithNoRequestParam() throws Exception{
+    public void testGetRoutesByRouteTypeEndpoint() throws Exception{
+        this.mockMvc.perform(get("/routes")
+                .param("routeType", "2")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                matchAll(
+                        status().isOk(),
+                        jsonPath("$.data").isArray()
+                )
+        );
+    }
+
+    @Test
+    public void testGetRoutesByParamsEndpointWithNoRequestParam() throws Exception{
         this.mockMvc.perform(get("/routes")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(

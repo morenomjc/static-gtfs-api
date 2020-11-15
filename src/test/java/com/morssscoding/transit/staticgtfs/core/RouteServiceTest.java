@@ -47,7 +47,18 @@ public class RouteServiceTest {
         Route expected = TestDataProvider.buildRoute();
         when(routeRepository.getRoutesByAgency(anyString())).thenReturn(Collections.singletonList(expected));
 
-        List<Route> actual = routeService.getRoutesByAgency("test");
+        List<Route> actual = routeService.getByAgency("test");
+
+        assertThat(actual).isNotEmpty();
+        assertThat(actual.get(0)).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGetRoutesByType(){
+        Route expected = TestDataProvider.buildRoute();
+        when(routeRepository.getRoutesByType(anyString())).thenReturn(Collections.singletonList(expected));
+
+        List<Route> actual = routeService.getByRouteType("2");
 
         assertThat(actual).isNotEmpty();
         assertThat(actual.get(0)).isEqualTo(expected);

@@ -19,7 +19,8 @@ public interface RouteResource extends TypedResource{
     ResponseEntity<ApiDocument> getRoute(@PathVariable(name = "id") String id);
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ApiDocument> getRoutesByAgency(@RequestParam(value = "agencyId") String agencyId);
+    ResponseEntity<ApiDocument> getRoutesByParams(@RequestParam(value = "agencyId", required = false) String agencyId,
+                                                  @RequestParam(value = "routeType", required = false) String routeType);
 
     @Override
     default String getResourceType(){

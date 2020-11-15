@@ -131,6 +131,19 @@ public class RouteRepositoryTest {
     }
 
     @Test
+    public void testGetRouteByType() {
+        whenRoutesExists();
+        whenRouteTypeIsSearched();
+
+        List<Route> routes = routeRepository.getRoutesByType("2");
+
+        assertThat(routes).isNotEmpty();
+        assertThat(routes.size()).isEqualTo(1);
+        assertThat(routes.get(0)).isNotNull();
+        assertThat(routes.get(0).getType()).isNotNull();
+    }
+
+    @Test
     public void testWhenRouteNotFound(){
         expectedException.expect(DataNotFoundException.class);
         expectedException.expectMessage(equalTo("Route not found."));
@@ -165,6 +178,7 @@ public class RouteRepositoryTest {
 
     private void whenRoutesExists(){
         when(routeJpaRepository.findByAgency(anyString())).thenReturn(Collections.singletonList(buildRouteEntity()));
+        when(routeJpaRepository.findByType(anyString())).thenReturn(Collections.singletonList(buildRouteEntity()));
     }
 
     private void whenRouteTypeIsSearched(){

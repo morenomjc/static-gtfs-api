@@ -9,5 +9,6 @@ import java.util.List;
 public interface RouteRepository extends Repository<Route> {
     Route getRouteById(String id);
     List<Route> getRoutesByAgency(String agency);
+    List<Route> getRoutesByType(String routeType);
     List<RouteType> getRouteTypes();
 }
