@@ -1,13 +1,14 @@
 package com.morssscoding.transit.staticgtfs.api.rest.controller;
 
+import com.morssscoding.transit.staticgtfs.api.rest.dto.RouteDto;
+import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.resource.RouteResource;
 import com.morssscoding.transit.staticgtfs.api.spec.ApiData;
 import com.morssscoding.transit.staticgtfs.api.spec.ApiDocument;
 import com.morssscoding.transit.staticgtfs.api.spec.ApiResource;
 import com.morssscoding.transit.staticgtfs.api.spec.ApiResources;
 import com.morssscoding.transit.staticgtfs.core.route.RouteService;
-import com.morssscoding.transit.staticgtfs.api.rest.dto.RouteDto;
-import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
+import com.morssscoding.transit.staticgtfs.core.route.RouteType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
@@ -30,6 +31,16 @@ public class RouteController implements RouteResource {
 
     private RouteService routeService;
     private RouteDtoMapper routeDtoMapper;
+
+    @Override
+    public ResponseEntity<ApiDocument> getAvailableRoutes() {
+        List<?> data = routeService.getRouteTypes().stream()
+                .map(routeType -> new ApiData(
+                        RouteType.TYPE,
+                        routeDtoMapper.mapToDto(routeType)
+                )).collect(Collectors.toList());
+        return ResponseEntity.ok(new ApiResources<>(data, data.size()));
+    }
 
     @Override
     public ResponseEntity<ApiDocument> getRoute(String id) {

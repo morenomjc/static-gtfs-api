@@ -3,6 +3,7 @@ package com.morssscoding.transit.staticgtfs.dataproviders.route;
 import com.morssscoding.transit.staticgtfs.core.constants.EnumValue;
 import com.morssscoding.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.morssscoding.transit.staticgtfs.core.route.Route;
+import com.morssscoding.transit.staticgtfs.core.route.RouteType;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildEnumValueRouteType;
 import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildRouteEntity;
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildRouteType;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -83,6 +85,36 @@ public class RouteRepositoryTest {
         assertThat(route.getColor()).isEqualTo("blue");
         assertThat(route.getTextColor()).isEqualTo("white");
         assertThat(route.getSortOrder()).isEqualTo(1);
+    }
+
+    @Test
+    public void testGetRouteTypes() {
+        when(routeJpaRepository.findRouteTypeCounts()).thenReturn(Collections.singletonList(new RouteJpaRepository.RouteTypeStatistics() {
+
+            @Override
+            public String getType() {
+                return "2";
+            }
+
+            @Override
+            public Integer getCount() {
+                return 1;
+            }
+        }));
+
+        when(enumValueRepository.findEnumValue(anyString(), anyString(), eq("2")))
+                .thenReturn(buildRouteType().getType());
+
+        List<RouteType> result = routeRepository.getRouteTypes();
+
+        assertThat(result).isNotEmpty();
+        assertThat(result.get(0)).isNotNull();
+        assertThat(result.get(0).getCount()).isEqualTo(1);
+        assertThat(result.get(0).getType()).isNotNull();
+        assertThat(result.get(0).getType().getCode()).isEqualTo("2");
+        assertThat(result.get(0).getType().getName()).isEqualTo("Rail");
+        assertThat(result.get(0).getType().getFile()).isEqualTo("routes");
+        assertThat(result.get(0).getType().getField()).isEqualTo("route_type");
     }
 
     @Test

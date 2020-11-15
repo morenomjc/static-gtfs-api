@@ -1,5 +1,6 @@
 package com.morssscoding.transit.staticgtfs.core;
 
+import com.morssscoding.transit.staticgtfs.core.route.RouteType;
 import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import com.morssscoding.transit.staticgtfs.core.route.Route;
 import com.morssscoding.transit.staticgtfs.core.route.RouteService;
@@ -50,6 +51,22 @@ public class RouteServiceTest {
 
         assertThat(actual).isNotEmpty();
         assertThat(actual.get(0)).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGetRouteTypes(){
+        when(routeRepository.getRouteTypes()).thenReturn(Collections.singletonList(TestDataProvider.buildRouteType()));
+
+        List<RouteType> result = routeService.getRouteTypes();
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0)).isNotNull();
+        assertThat(result.get(0).getType()).isNotNull();
+        assertThat(result.get(0).getCount()).isEqualTo(1);
+        assertThat(result.get(0).getType().getCode()).isEqualTo("2");
+        assertThat(result.get(0).getType().getName()).isEqualTo("Rail");
+        assertThat(result.get(0).getType().getFile()).isEqualTo("routes");
+        assertThat(result.get(0).getType().getField()).isEqualTo("route_type");
     }
 
     private void givenARoute(Route route){

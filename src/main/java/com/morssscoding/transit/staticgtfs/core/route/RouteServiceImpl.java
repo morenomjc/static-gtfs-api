@@ -29,4 +29,9 @@ public class RouteServiceImpl implements RouteService {
         log.info("Found [{}] routes with agency: [{}]", routes.size(), agency);
         return routes;
     }
+
+    @Override
+    public List<RouteType> getRouteTypes() {
+        return routeRepository.getRouteTypes();
+    }
 }

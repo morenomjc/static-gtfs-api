@@ -5,6 +5,7 @@ import com.morssscoding.transit.staticgtfs.core.calendar.Calendar;
 import com.morssscoding.transit.staticgtfs.core.constants.EnumValue;
 import com.morssscoding.transit.staticgtfs.core.frequency.Frequency;
 import com.morssscoding.transit.staticgtfs.core.route.Route;
+import com.morssscoding.transit.staticgtfs.core.route.RouteType;
 import com.morssscoding.transit.staticgtfs.core.shape.Shape;
 import com.morssscoding.transit.staticgtfs.core.stop.Stop;
 import com.morssscoding.transit.staticgtfs.core.trip.StopTime;
@@ -64,6 +65,13 @@ public class TestDataProvider {
                 "white",
                 1
         );
+    }
+
+    public static RouteType buildRouteType(){
+        return RouteType.builder()
+                .count(1)
+                .type(EnumValue.builder().file("routes").field("route_type").code("2").name("Rail").build())
+                .build();
     }
 
     public static RouteEntity buildRouteEntity(){

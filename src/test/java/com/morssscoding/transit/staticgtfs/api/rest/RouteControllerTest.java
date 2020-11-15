@@ -18,10 +18,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildRouteType;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = { RouteController.class })
@@ -132,6 +137,25 @@ public class RouteControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 status().is4xxClientError()
+        );
+    }
+
+    @Test
+    public void testGetRoutesTypesEndpoint() throws Exception{
+        when(routeService.getRouteTypes()).thenReturn(Collections.singletonList(buildRouteType()));
+
+        this.mockMvc.perform(get("/routes/list")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                matchAll(
+                        status().isOk(),
+                        jsonPath("$.data").isArray(),
+                        jsonPath("$.data[0].type").value("route_types"),
+                        jsonPath("$.data[0].attributes").exists(),
+                        jsonPath("$.data[0].attributes.route_type.code").value("2"),
+                        jsonPath("$.data[0].attributes.route_type.desc").value("Rail"),
+                        jsonPath("$.data[0].attributes.count").value(1)
+                )
         );
     }
 }

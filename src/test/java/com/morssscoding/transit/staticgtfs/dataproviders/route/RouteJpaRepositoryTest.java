@@ -51,6 +51,22 @@ public class RouteJpaRepositoryTest {
         assertThat(routeEntities.get(0)).isEqualTo(expected);
     }
 
+    @Test
+    public void testFindRouteTypeCounts(){
+        RouteEntity route1 = buildRouteEntity();
+        RouteEntity route2 = buildRouteEntity();
+        route2.setRouteId("2");
+
+        entityManager.persistAndFlush(route1);
+        entityManager.persistAndFlush(route2);
+
+        List<RouteJpaRepository.RouteTypeStatistics> result = routeJpaRepository.findRouteTypeCounts();
+
+        assertThat(result).isNotEmpty().hasSize(1);
+        assertThat(result.get(0).getType()).isEqualTo("700");
+        assertThat(result.get(0).getCount()).isEqualTo(2);
+    }
+
     private void givenExistingRoute(RouteEntity entity){
         entityManager.persist(entity);
     }
