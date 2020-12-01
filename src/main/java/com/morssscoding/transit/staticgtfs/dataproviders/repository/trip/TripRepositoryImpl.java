@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -49,6 +50,7 @@ public class TripRepositoryImpl implements TripRepository {
         List<StopTimeEntity> stopTimeEntities = stopTimeJpaRepository.findAllByTripId(tripId);
         return stopTimeEntities.stream()
                 .map(this::buildStopTime)
+                .sorted(Comparator.comparing(StopTime::getStopSequence))
                 .collect(Collectors.toList());
     }
 

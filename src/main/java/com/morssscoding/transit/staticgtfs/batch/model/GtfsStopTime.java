@@ -25,5 +25,6 @@ public class GtfsStopTime {
     private Integer drop_off_type;
     private Double  shape_dist_traveled;
     private Integer timepoint;
-
+    private Integer continuous_pickup;
+    private Integer continuous_drop_off;
 }

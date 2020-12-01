@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -53,7 +54,9 @@ public class RouteRepositoryJpaImpl implements RouteRepository {
                     Route route = routeEntityMapper.fromEntity(routeEntity);
                     route.setType(findRouteType(routeEntity.getType()));
                     return route;
-                }).collect(Collectors.toList());
+                })
+                .sorted(Comparator.comparing(Route::getShortName))
+                .collect(Collectors.toList());
     }
 
     private EnumValue findRouteType(String type){
