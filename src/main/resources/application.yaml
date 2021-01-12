@@ -9,12 +9,6 @@ server:
     whitelabel:
       enabled: false
 ---
-management:
-  endpoint:
-    web:
-      exposure:
-        include: health,info
----
 spring:
   profiles:
     include: gtfs
@@ -30,6 +24,7 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS aa} [%X{x-request-id}] [%thread] %-5level %logger.%M - %msg%n"
 ---
 server:
+  port: 8080
   shutdown: GRACEFUL
 
 spring:
@@ -37,9 +32,11 @@ spring:
     cloud-platform: KUBERNETES
   lifecycle:
     timeout-per-shutdown-phase: 1m
-
+---
 management:
-  endpoints:
+  server:
+    port: 8081
+  endpoint:
     web:
       exposure:
-        include: "*"
+        include: health,info

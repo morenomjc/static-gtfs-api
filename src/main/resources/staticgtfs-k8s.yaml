@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staticgtfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staticgtfs
+  template:
+    metadata:
+      labels:
+        app: staticgtfs
+    spec:
+      containers:
+        - name: staticgtfs-app
+          image: ghcr.io/morssscoding/static-gtfs
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 8081
+              name: probe
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: probe
+            initialDelaySeconds: 60
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: probe
+            initialDelaySeconds: 60
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: ghcr
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: staticgtfs-svc
+spec:
+  selector:
+    app: staticgtfs
+  ports:
+    - protocol: TCP
+      targetPort: 8080
+      port: 8080
+      name: http
+    - protocol: TCP
+      targetPort: 8081
+      port: 8081
+      name: probe
+  type: LoadBalancer
