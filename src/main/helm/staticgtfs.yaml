@@ -1,0 +1,56 @@
+---
+# Source: staticgtfs/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: staticgtfs
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: probe
+  selector:
+    app: staticgtfs
+---
+# Source: staticgtfs/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staticgtfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staticgtfs
+  template:
+    metadata:
+      labels:
+        app: staticgtfs
+    spec:
+      imagePullSecrets:
+        - name: ghcr
+      containers:
+        - name: staticgtfs
+          image: "ghcr.io/morssscoding/static-gtfs:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: probe
+              containerPort: 8081
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: probe
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: probe
