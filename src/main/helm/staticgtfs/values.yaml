@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/morssscoding/static-gtfs
+  pullPolicy: Always
+  tag: "latest"
+
+imagePullSecrets:
+  - name: ghcr
+nameOverride: "staticgtfs"
+
+service:
+  type: LoadBalancer
+  http: 8080
+  probe: 8081
