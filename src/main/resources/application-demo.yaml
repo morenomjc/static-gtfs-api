@@ -9,6 +9,3 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
-
-  profiles:
-    include: github

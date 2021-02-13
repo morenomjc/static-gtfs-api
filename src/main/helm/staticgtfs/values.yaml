@@ -13,3 +13,8 @@ service:
   type: LoadBalancer
   http: 8080
   probe: 8081
+
+app:
+  gtfsRepo: https://github.com/morssscoding/gtfs
+  repoMount: /repo/rev-c3c093fd8a108e939f66bae9ad784ed41b45bf30/
+  activeProfiles: gtfs,demo,k8s

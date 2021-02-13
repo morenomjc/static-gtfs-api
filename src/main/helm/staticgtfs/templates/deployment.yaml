@@ -16,10 +16,35 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        # This container clones the desired git repo to the EmptyDir volume.
+        - name: git-sync
+          image: k8s.gcr.io/git-sync:v3.1.5
+          args:
+            - "--ssh"
+            - "--repo={{ .Values.app.gtfsRepo }}"
+            - "--branch=master"
+            - "--depth=1"
+            - "--one-time"
+          securityContext:
+            runAsUser: 65533 # git-sync user
+          volumeMounts:
+            - name: git-repo
+              mountPath: /tmp/git/
+            - name: git-secret
+              mountPath: /etc/git-secret
+              readOnly: true
+      securityContext:
+        fsGroup: 65533 # to make SSH key readable
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ACTIVE_PROFILES
+              value: "{{ .Values.app.activeProfiles }}"
+            - name: GTFS_STATIC_SOURCE
+              value: "{{ .Values.app.repoMount }}"
           ports:
             - name: http
               containerPort: 8080
@@ -27,6 +52,9 @@ spec:
             - name: probe
               containerPort: 8081
               protocol: TCP
+          volumeMounts:
+            - name: git-repo
+              mountPath: /repo/
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
@@ -35,3 +63,10 @@ spec:
             httpGet:
               path: /actuator/health/readiness
               port: probe
+      volumes:
+      - name: git-repo
+        emptyDir: {}
+      - name: git-secret
+        secret:
+          defaultMode: 256
+          secretName: git-creds
