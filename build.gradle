@@ -34,9 +34,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
+    implementation 'org.liquibase:liquibase-core:4.2.2'
+    implementation 'org.postgresql:postgresql:42.2.18'
+
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-validator:commons-validator:1.6'
-    implementation 'com.h2database:h2'
+    implementation 'com.h2database:h2' //TODO: move to test scope only
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 
     compileOnly 'org.projectlombok:lombok'
@@ -46,14 +49,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+    testImplementation "org.testcontainers:postgresql:1.15.2"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-
-    //TODO: Migrate to JUnit5
-    testImplementation("org.junit.vintage:junit-vintage-engine") {
-        exclude group: "org.hamcrest", module: "hamcrest-core"
-    }
 }
 
 bootJar {

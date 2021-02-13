@@ -1,0 +1,91 @@
+---
+# Source: staticgtfs/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: staticgtfs
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: probe
+  selector:
+    app: staticgtfs
+---
+# Source: staticgtfs/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staticgtfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staticgtfs
+  template:
+    metadata:
+      labels:
+        app: staticgtfs
+    spec:
+      imagePullSecrets:
+        - name: ghcr
+      initContainers:
+        # This container clones the desired git repo to the EmptyDir volume.
+        - name: git-sync
+          image: k8s.gcr.io/git-sync:v3.1.5
+          args:
+            - "--ssh"
+            - "--repo=https://github.com/morssscoding/gtfs"
+            - "--branch=master"
+            - "--depth=1"
+            - "--one-time"
+          securityContext:
+            runAsUser: 65533 # git-sync user
+          volumeMounts:
+            - name: git-repo
+              mountPath: /tmp/git/
+            - name: git-secret
+              mountPath: /etc/git-secret
+              readOnly: true
+      securityContext:
+        fsGroup: 65533 # to make SSH key readable
+      containers:
+        - name: staticgtfs
+          image: "ghcr.io/morssscoding/static-gtfs:latest"
+          imagePullPolicy: Always
+          env:
+            - name: ACTIVE_PROFILES
+              value: "gtfs,demo,k8s"
+            - name: GTFS_STATIC_SOURCE
+              value: "/repo/rev-c3c093fd8a108e939f66bae9ad784ed41b45bf30/"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: probe
+              containerPort: 8081
+              protocol: TCP
+          volumeMounts:
+            - name: git-repo
+              mountPath: /repo/
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: probe
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: probe
+      volumes:
+      - name: git-repo
+        emptyDir: {}
+      - name: git-secret
+        secret:
+          defaultMode: 256
+          secretName: git-creds

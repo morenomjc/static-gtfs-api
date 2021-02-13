@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    dataSourceClassName: org.postgresql.Driver
+    platform: postgresql
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
