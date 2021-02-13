@@ -1,6 +1,6 @@
 gtfs:
   static:
-    chunks: 100
+    chunks: 500
     files:
       agency:
         file: agency.txt

@@ -14,10 +14,14 @@ spring:
     include: gtfs,${ACTIVE_PROFILES}
   batch:
     enabled: false
-  datasource:
-    url: jdbc:h2:mem:staticgtfs;DB_CLOSE_ON_EXIT=FALSE;INIT=CREATE SCHEMA IF NOT EXISTS STATICGTFS
-    username: sa
-    driverClassName: org.h2.Driver
+    tablePrefix: staticgtfs.BATCH_ #points to schema
+---
+spring:
+  liquibase:
+    default-schema: staticgtfs
+    liquibase-schema: staticgtfs
+    change-log: classpath:/com.morssscoding.transit/db.changelog-master.xml
+    user: postgres
 ---
 logging:
   pattern:
