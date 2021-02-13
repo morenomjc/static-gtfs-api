@@ -5,6 +5,8 @@ spring:
       path: /h2-console
   datasource:
     initialization-mode: ALWAYS
+    datasource:
+      username: sa
   jpa:
     generate-ddl: false
     hibernate:

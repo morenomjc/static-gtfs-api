@@ -11,7 +11,7 @@ server:
 ---
 spring:
   profiles:
-    include: ${ACTIVE_PROFILES}
+    include: gtfs,${ACTIVE_PROFILES}
   batch:
     enabled: false
   datasource:
