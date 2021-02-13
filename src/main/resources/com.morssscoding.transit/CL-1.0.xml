@@ -5,6 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <changeSet id="0" author="morssscoding">
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS staticgtfs;
+        </sql>
+    </changeSet>
+
     <changeSet id="1" author="morssscoding">
         <sql>
             SET search_path TO staticgtfs;
