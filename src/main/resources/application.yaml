@@ -21,7 +21,6 @@ spring:
     default-schema: staticgtfs
     liquibase-schema: staticgtfs
     change-log: classpath:/com.morssscoding.transit/db.changelog-master.xml
-    user: postgres
 ---
 logging:
   pattern:

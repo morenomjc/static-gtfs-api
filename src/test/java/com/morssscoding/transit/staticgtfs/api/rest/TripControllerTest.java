@@ -33,6 +33,7 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -79,27 +80,19 @@ public class TripControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("routeId", "1")
         ).andExpect(
-                status().isOk()
-        ).andExpect(
-                jsonPath("$.data", hasSize(1))
-        ).andExpect(
-                jsonPath("$.data[0].trip").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data[0].trip.attributes").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data[0].schedule").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data[0].schedule.attributes").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data[0].stops").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data[0].stops", hasSize(1))
-        ).andExpect(
-                jsonPath("$.data[0].stops[0].attributes").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data[0].frequency").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data[0].frequency.attributes").isNotEmpty()
+                matchAll(
+                        status().isOk(),
+                        jsonPath("$.data", hasSize(1)),
+                        jsonPath("$.data[0].trip").isNotEmpty(),
+                        jsonPath("$.data[0].trip.attributes").isNotEmpty(),
+                        jsonPath("$.data[0].schedule").isNotEmpty(),
+                        jsonPath("$.data[0].schedule.attributes").isNotEmpty(),
+                        jsonPath("$.data[0].stops").isNotEmpty(),
+                        jsonPath("$.data[0].stops", hasSize(1)),
+                        jsonPath("$.data[0].stops[0].attributes").isNotEmpty(),
+                        jsonPath("$.data[0].frequency").isNotEmpty(),
+                        jsonPath("$.data[0].frequency.attributes").isNotEmpty()
+                )
         );
     }
 
