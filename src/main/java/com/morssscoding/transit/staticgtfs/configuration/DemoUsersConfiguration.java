@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Component;
 
-@Profile("demo")
+@Profile("demo_users")
 @Component
 @AllArgsConstructor
 public class DemoUsersConfiguration {
