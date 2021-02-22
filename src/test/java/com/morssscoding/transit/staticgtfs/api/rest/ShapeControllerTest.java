@@ -1,13 +1,14 @@
 package com.morssscoding.transit.staticgtfs.api.rest;
 
 import com.morssscoding.transit.staticgtfs.api.rest.controller.ShapeController;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.ShapeDto;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.ShapePointDtoMapper;
 import com.morssscoding.transit.staticgtfs.core.shape.ShapeService;
+import com.morssscoding.transit.staticgtfs.utils.JsonAssertionUtil;
 import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -21,9 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,16 +34,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = ShapeController.class)
 @RunWith(SpringRunner.class)
 @Import(ShapeControllerTest.TestConfig.class)
-public class ShapeControllerTest {
+public class ShapeControllerTest extends JsonAssertionUtil {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @MockBean
-    private ShapeService shapeService;
-
-    @Autowired
-    private ShapePointDtoMapper shapepointDtoMapper;
+    ShapeService shapeService;
 
     @Test
     public void testGetShapeEndpoint() throws Exception{
@@ -56,10 +53,9 @@ public class ShapeControllerTest {
                         status().isOk(),
                         jsonPath("$.data.attributes.shape_id").isString(),
                         jsonPath("$.data.attributes.points").isArray(),
-                        jsonPath("$.data.attributes.points[0].shape_pt_lat").isNumber(),
-                        jsonPath("$.data.attributes.points[0].shape_pt_lon").isNumber(),
-                        jsonPath("$.data.attributes.points[0].shape_pt_sequence").isNumber(),
-                        jsonPath("$.data.attributes.points[0].shape_dist_traveled").isNumber(),
+                        jsonPath("$.data.type", is("shapes")),
+                        assertHasJsonFields("$.data.attributes", ShapeDto.class),
+                        assertHasJsonFields("$.data.attributes.points[0]", ShapeDto.PointDto.class),
                         jsonPath("$.data.links[0].rel").value("self")
                 )
         );

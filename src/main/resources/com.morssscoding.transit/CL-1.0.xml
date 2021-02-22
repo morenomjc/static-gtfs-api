@@ -323,8 +323,8 @@
 
             CREATE TABLE ROUTES (
                 ID                  SERIAL PRIMARY KEY,
-                ROUTE_ID            VARCHAR(100),
-                AGENCY_ID           VARCHAR(50),
+                ROUTE_ID            VARCHAR(100) NOT NULL,
+                AGENCY_ID           VARCHAR(50) NOT NULL,
                 SHORT_NAME          VARCHAR(50) NOT NULL,
                 LONG_NAME           VARCHAR(255) NOT NULL,
                 DESCRIPTION         VARCHAR(255),

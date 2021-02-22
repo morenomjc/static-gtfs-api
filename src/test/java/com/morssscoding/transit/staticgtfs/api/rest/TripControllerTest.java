@@ -1,6 +1,10 @@
 package com.morssscoding.transit.staticgtfs.api.rest;
 
 import com.morssscoding.transit.staticgtfs.api.rest.controller.TripController;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.CalendarDto;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.FrequencyDto;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.StopTimeDto;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.TripDto;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
@@ -15,6 +19,7 @@ import com.morssscoding.transit.staticgtfs.core.route.RouteService;
 import com.morssscoding.transit.staticgtfs.core.stop.StopService;
 import com.morssscoding.transit.staticgtfs.core.trip.Trip;
 import com.morssscoding.transit.staticgtfs.core.trip.TripService;
+import com.morssscoding.transit.staticgtfs.utils.JsonAssertionUtil;
 import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,11 +36,11 @@ import java.util.Collections;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = { TripController.class })
 @Import(MapperConfiguration.class)
 @RunWith(SpringRunner.class)
-public class TripControllerTest {
+public class TripControllerTest extends JsonAssertionUtil {
 
     @Autowired
     private MockMvc mockMvc;
@@ -85,13 +90,17 @@ public class TripControllerTest {
                         jsonPath("$.data", hasSize(1)),
                         jsonPath("$.data[0].trip").isNotEmpty(),
                         jsonPath("$.data[0].trip.attributes").isNotEmpty(),
+                        assertHasJsonFields("$.data[0].trip.attributes", TripDto.class),
                         jsonPath("$.data[0].schedule").isNotEmpty(),
                         jsonPath("$.data[0].schedule.attributes").isNotEmpty(),
+                        assertHasJsonFields("$.data[0].schedule.attributes", CalendarDto.class),
                         jsonPath("$.data[0].stops").isNotEmpty(),
                         jsonPath("$.data[0].stops", hasSize(1)),
                         jsonPath("$.data[0].stops[0].attributes").isNotEmpty(),
+                        assertHasJsonFields("$.data[0].stops[0].attributes", StopTimeDto.class),
                         jsonPath("$.data[0].frequency").isNotEmpty(),
-                        jsonPath("$.data[0].frequency.attributes").isNotEmpty()
+                        jsonPath("$.data[0].frequency.attributes").isNotEmpty(),
+                        assertHasJsonFields("$.data[0].frequency.attributes", FrequencyDto.class)
                 )
         );
     }
@@ -112,48 +121,15 @@ public class TripControllerTest {
         this.mockMvc.perform(get("/trips/1")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                status().isOk()
-        ).andExpect(
-                jsonPath("$.data.relationships.route.attributes").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data.relationships.schedule.attributes").isNotEmpty()
-        ).andExpect(
-                jsonPath("$.data.links", hasSize(4))
-        ).andExpect(
-                content().json("{\n" +
-                        "    \"meta\": {\n" +
-                        "        \"api\": {\n" +
-                        "            \"version\": \"v1\"\n" +
-                        "        },\n" +
-                        "        \"gtfs\": {\n" +
-                        "            \"static\": \"v1.0\"\n" +
-                        "        }\n" +
-                        "    },\n" +
-                        "    \"data\": {\n" +
-                        "        \"type\": \"trips\",\n" +
-                        "        \"attributes\": {\n" +
-                        "            \"route_id\": \"1\",\n" +
-                        "            \"service_id\": \"1\",\n" +
-                        "            \"trip_id\": \"t1\",\n" +
-                        "            \"trip_headsign\": \"headsign\",\n" +
-                        "            \"trip_short_name\": \"shortName\",\n" +
-                        "            \"direction_id\": {\n" +
-                        "                \"code\": \"0\",\n" +
-                        "                \"desc\": \"Inbound\"\n" +
-                        "            },\n" +
-                        "            \"block_id\": \"blockId\",\n" +
-                        "            \"shape_id\": \"shapeId\",\n" +
-                        "            \"wheelchair_accessible\": {\n" +
-                        "                \"code\": \"1\",\n" +
-                        "                \"desc\": \"Possible For Only One\"\n" +
-                        "            },\n" +
-                        "            \"bikes_allowed\": {\n" +
-                        "                \"code\": \"2\",\n" +
-                        "                \"desc\": \"Possible For Only One\"\n" +
-                        "            }\n" +
-                        "        }\n" +
-                        "    }\n" +
-                        "}")
+                matchAll(
+                        status().isOk(),
+                        jsonPath("$.data.relationships.route.attributes").isNotEmpty(),
+                        jsonPath("$.data.relationships.schedule.attributes").isNotEmpty(),
+                        jsonPath("$.data.links", hasSize(4)),
+                        jsonPath("$.data.type", is("trips")),
+                        jsonPath("$.data.attributes").isNotEmpty(),
+                        assertHasJsonFields("$.data.attributes", TripDto.class)
+                )
         );
     }
 
@@ -164,24 +140,12 @@ public class TripControllerTest {
         this.mockMvc.perform(get("/trips/-1")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                status().isNotFound()
-        ).andExpect(
-                content().json("{\n" +
-                        "    \"meta\": {\n" +
-                        "        \"api\": {\n" +
-                        "            \"version\": \"v1\"\n" +
-                        "        },\n" +
-                        "        \"gtfs\": {\n" +
-                        "            \"static\": \"v1.0\"\n" +
-                        "        }\n" +
-                        "    },\n" +
-                        "    \"error\": {\n" +
-                        "        \"status\": 404,\n" +
-                        "        \"code\": \"404.0\",\n" +
-                        "        \"title\": \"Resource Not Found\",\n" +
-                        "        \"detail\": \"Trip not found\"\n" +
-                        "    }\n" +
-                        "}")
+                matchAll(
+                        status().isNotFound(),
+                        jsonPath("$.error").isNotEmpty(),
+                        jsonPath("$.error.status", is(404)),
+                        jsonPath("$.error.detail", is("Trip not found"))
+                )
         );
     }
 
@@ -192,48 +156,15 @@ public class TripControllerTest {
         this.mockMvc.perform(get("/trips/1/stops")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                status().isOk()
-        ).andExpect(
-                jsonPath("$.data", hasSize(1))
-        ).andExpect(
-                jsonPath("$.data[0].relationships.stop.attributes").isNotEmpty()
-        ).andExpect(
-                content().json("{\n" +
-                        "    \"meta\": {\n" +
-                        "        \"api\": {\n" +
-                        "            \"version\": \"v1\"\n" +
-                        "        },\n" +
-                        "        \"gtfs\": {\n" +
-                        "            \"static\": \"v1.0\"\n" +
-                        "        }\n" +
-                        "    },\n" +
-                        "    \"data\": [\n" +
-                        "        {\n" +
-                        "            \"type\": \"stoptimes\",\n" +
-                        "            \"attributes\": {\n" +
-                        "                \"trip_id\": \"1\",\n" +
-                        "                \"arrival_time\": \"08:00:00\",\n" +
-                        "                \"departure_time\": \"08:30:00\",\n" +
-                        "                \"stop_id\": \"1\",\n" +
-                        "                \"stop_sequence\": 1,\n" +
-                        "                \"stop_headsign\": \"headsign\",\n" +
-                        "                \"pickup_type\": {\n" +
-                        "                    \"code\": \"0\",\n" +
-                        "                    \"desc\": \"Regular\"\n" +
-                        "                },\n" +
-                        "                \"drop_off_type\": {\n" +
-                        "                    \"code\": \"1\",\n" +
-                        "                    \"desc\": \"None\"\n" +
-                        "                },\n" +
-                        "                \"shape_dist_traveled\": 1.5,\n" +
-                        "                \"timepoint\": {\n" +
-                        "                    \"code\": \"2\",\n" +
-                        "                    \"desc\": \"Exact\"\n" +
-                        "                }\n" +
-                        "            }\n" +
-                        "        }\n" +
-                        "    ]\n" +
-                        "}")
+                matchAll(
+                        status().isOk(),
+                        jsonPath("$.data", hasSize(1)),
+                        jsonPath("$.count", is(1)),
+                        jsonPath("$.data[0].type", is("stoptimes")),
+                        jsonPath("$.data[0].attributes").isNotEmpty(),
+                        jsonPath("$.data[0].relationships.stop.attributes").isNotEmpty(),
+                        assertHasJsonFields("$.data[0].attributes", StopTimeDto.class)
+                )
         );
     }
 

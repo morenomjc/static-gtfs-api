@@ -17,11 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,8 +57,8 @@ public class RouteController implements RouteResource {
     @Override
     public ResponseEntity<ApiDocument> getRoutesByParams(String agencyId, String routeType) {
         if (validateAtLeastOneRequestParams(agencyId, routeType)) {
-            List<ApiData<RouteDto>> data = new ArrayList<>();
-            if (!StringUtils.isEmpty(agencyId)) {
+            List<ApiData<RouteDto>> data;
+            if (!ObjectUtils.isEmpty(agencyId)) {
                 data = toApiResources(routeService.getByAgency(agencyId).stream()
                         .map(route -> routeDtoMapper.mapToDto(route)).collect(Collectors.toList()));
             } else {
@@ -86,7 +85,7 @@ public class RouteController implements RouteResource {
     }
 
     boolean validateAtLeastOneRequestParams(String... params) {
-        int validParam = (int) Arrays.stream(params).filter(s -> !StringUtils.isEmpty(s)).count();
+        int validParam = (int) Arrays.stream(params).filter(s -> !ObjectUtils.isEmpty(s)).count();
         return validParam > 0;
     }
 

@@ -2,6 +2,7 @@ package com.morssscoding.transit.staticgtfs.dataproviders.agency;
 
 import com.morssscoding.transit.staticgtfs.core.agency.Agency;
 import com.morssscoding.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
@@ -22,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collections;
 import java.util.List;
 
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildAgency;
 import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildAgencyEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -90,6 +92,14 @@ public class AgencyRepositoryTest {
         whenAgencyNotFound();
 
         agencyRepository.getAgency("1");
+    }
+
+    @Test
+    public void testIfMappedProperly(){
+        Agency agency = buildAgency();
+        AgencyEntity agencyEntity = agencyEntityMapper.toEntity(agency);
+
+        assertThat(agencyEntity.getAgencyId()).isEqualTo(agency.getId());
     }
 
     private void whenAgencyNotFound(){

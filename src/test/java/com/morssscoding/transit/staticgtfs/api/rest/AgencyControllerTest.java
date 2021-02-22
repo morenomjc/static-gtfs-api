@@ -1,10 +1,12 @@
 package com.morssscoding.transit.staticgtfs.api.rest;
 
-import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import com.morssscoding.transit.staticgtfs.api.rest.controller.AgencyController;
+import com.morssscoding.transit.staticgtfs.api.rest.dto.AgencyDto;
 import com.morssscoding.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
 import com.morssscoding.transit.staticgtfs.core.agency.Agency;
 import com.morssscoding.transit.staticgtfs.core.agency.AgencyService;
+import com.morssscoding.transit.staticgtfs.utils.JsonAssertionUtil;
+import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
@@ -21,26 +23,26 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WithMockUser
 @WebMvcTest(controllers = { AgencyController.class })
 @Import(AgencyControllerTest.AgencyTestConfiguration.class)
 @RunWith(SpringRunner.class)
-public class AgencyControllerTest {
+public class AgencyControllerTest extends JsonAssertionUtil {
 
     @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private AgencyDtoMapper agencyDtoMapper;
+    MockMvc mockMvc;
 
     @MockBean
-    private AgencyService agencyService;
+    AgencyService agencyService;
 
     @TestConfiguration
     static class AgencyTestConfiguration {
@@ -59,31 +61,13 @@ public class AgencyControllerTest {
         this.mockMvc.perform(get("/agencies/1")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                status().isOk()
-        ).andExpect(
-                content().json("{\n" +
-                        "    \"meta\": {\n" +
-                        "        \"api\": {\n" +
-                        "            \"version\": \"v1\"\n" +
-                        "        },\n" +
-                        "        \"gtfs\": {\n" +
-                        "            \"static\": \"v1.0\"\n" +
-                        "        }\n" +
-                        "    },\n" +
-                        "    \"data\": {\n" +
-                        "        \"type\": \"agencies\",\n" +
-                        "        \"attributes\": {\n" +
-                        "            \"agency_id\": \"agency1\",\n" +
-                        "            \"agency_name\": \"Test Agency\",\n" +
-                        "            \"agency_url\": \"test.com/agency\",\n" +
-                        "            \"agency_timezone\": \"Asia/Singapore\",\n" +
-                        "            \"agency_lang\": \"en\",\n" +
-                        "            \"agency_phone\": \"12345-677974\",\n" +
-                        "            \"agency_fare_url\": \"test.com/fares\",\n" +
-                        "            \"agency_email\": \"test@email.com\"\n" +
-                        "        }\n" +
-                        "    }\n" +
-                        "}")
+                matchAll(
+                        status().isOk(),
+                        jsonPath("$.data").isNotEmpty(),
+                        jsonPath("$.data.type", is("agencies")),
+                        jsonPath("$.data.attributes").isNotEmpty(),
+                        assertHasJsonFields("$.data.attributes", AgencyDto.class)
+                )
         );
     }
 
@@ -96,33 +80,14 @@ public class AgencyControllerTest {
         this.mockMvc.perform(get("/agencies")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                status().isOk()
-        ).andExpect(
-                content().json("{\n" +
-                        "    \"meta\": {\n" +
-                        "        \"api\": {\n" +
-                        "            \"version\": \"v1\"\n" +
-                        "        },\n" +
-                        "        \"gtfs\": {\n" +
-                        "            \"static\": \"v1.0\"\n" +
-                        "        }\n" +
-                        "    },\n" +
-                        "    \"data\": [\n" +
-                        "        {\n" +
-                        "            \"type\": \"agencies\",\n" +
-                        "            \"attributes\": {\n" +
-                        "                \"agency_id\": \"agency1\",\n" +
-                        "                \"agency_name\": \"Test Agency\",\n" +
-                        "                \"agency_url\": \"test.com/agency\",\n" +
-                        "                \"agency_timezone\": \"Asia/Singapore\",\n" +
-                        "                \"agency_lang\": \"en\",\n" +
-                        "                \"agency_phone\": \"12345-677974\",\n" +
-                        "                \"agency_fare_url\": \"test.com/fares\",\n" +
-                        "                \"agency_email\": \"test@email.com\"\n" +
-                        "            }\n" +
-                        "        }\n" +
-                        "    ]\n" +
-                        "}")
+                matchAll(
+                        status().isOk(),
+                        jsonPath("$.data", hasSize(1)),
+                        jsonPath("$.count", is(1)),
+                        jsonPath("$.data[0].type", is("agencies")),
+                        jsonPath("$.data[0].attributes").isNotEmpty(),
+                        assertHasJsonFields("$.data[0].attributes", AgencyDto.class)
+                )
         );
     }
 
