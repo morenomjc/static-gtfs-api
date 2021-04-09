@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.0'
+    id 'org.springframework.boot' version '2.4.4'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'net.ltgt.apt-idea' version '0.17'
     id 'org.owasp.dependencycheck' version '6.1.0'
@@ -27,7 +27,9 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+    implementation ('org.springframework.boot:spring-boot-starter-hateoas') {
+        exclude group: 'net.minidev', module: 'json-smart'
+    }
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -37,9 +39,10 @@ dependencies {
 
     implementation 'org.liquibase:liquibase-core:4.2.2'
     implementation 'org.postgresql:postgresql:42.2.18'
+    implementation 'net.minidev:json-smart:2.4.1'
 
     implementation 'commons-io:commons-io:2.6'
-    implementation 'commons-validator:commons-validator:1.6'
+    implementation 'commons-validator:commons-validator:1.7'
     implementation 'com.h2database:h2' //TODO: move to test scope only
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 
@@ -51,7 +54,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation ('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'net.minidev', module: 'json-smart'
+    }
     testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
