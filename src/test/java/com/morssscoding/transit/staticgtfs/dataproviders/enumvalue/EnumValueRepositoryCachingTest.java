@@ -1,18 +1,14 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.enumvalue;
 
-import com.morssscoding.transit.staticgtfs.configuration.CacheConfiguration;
-import com.morssscoding.transit.staticgtfs.configuration.MapperConfiguration;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.EnumValueJpaRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepositoryImpl;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
