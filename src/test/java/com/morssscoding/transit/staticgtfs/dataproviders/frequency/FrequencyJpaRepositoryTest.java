@@ -1,53 +1,54 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.frequency;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.FrequencyEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.FrequencyJpaRepository;
 import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class FrequencyJpaRepositoryTest {
+class FrequencyJpaRepositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
+  @Autowired
+  private TestEntityManager entityManager;
 
-    @Autowired
-    private FrequencyJpaRepository frequencyJpaRepository;
+  @Autowired
+  private FrequencyJpaRepository frequencyJpaRepository;
 
-    @After
-    public void cleanup(){
-        entityManager.clear();
-    }
+  @AfterEach
+  void cleanup() {
+    entityManager.clear();
+  }
 
-    @Test
-    public void testFindById(){
-        givenExistingFrequencyEntity();
-        Optional<FrequencyEntity> frequencyEntity = frequencyJpaRepository.findByTripId("1");
+  @Test
+  void testFindById() {
+    givenExistingFrequencyEntity();
+    Optional<FrequencyEntity> frequencyEntity = frequencyJpaRepository.findByTripId("1");
 
-        assertThat(frequencyEntity.isPresent()).isTrue();
-    }
+    assertThat(frequencyEntity.isPresent()).isTrue();
+  }
 
-    @Test
-    public void testFindByIdEmpty(){
-        Optional<FrequencyEntity> frequencyEntity = frequencyJpaRepository.findByTripId("-1");
+  @Test
+  void testFindByIdEmpty() {
+    Optional<FrequencyEntity> frequencyEntity = frequencyJpaRepository.findByTripId("-1");
 
-        assertThat(frequencyEntity.isPresent()).isFalse();
-    }
+    assertThat(frequencyEntity.isPresent()).isFalse();
+  }
 
-    private void givenExistingFrequencyEntity(){
-        entityManager.persist(TestDataProvider.buildFrequencyEntity());
-    }
+  private void givenExistingFrequencyEntity() {
+    entityManager.persist(TestDataProvider.buildFrequencyEntity());
+  }
 }

@@ -1,47 +1,49 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.stop;
 
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildStopEntity;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildStopEntity;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class StopJpaRepositoryTest {
+class StopJpaRepositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
+  @Autowired
+  private TestEntityManager entityManager;
 
-    @Autowired
-    private StopJpaRepository stopJpaRepository;
+  @Autowired
+  private StopJpaRepository stopJpaRepository;
 
-    @After
-    public void cleanup(){
-        entityManager.clear();
-    }
+  @AfterEach
+  void cleanup() {
+    entityManager.clear();
+  }
 
-    @Test
-    public void testFindById(){
-        StopEntity expected = buildStopEntity();
-        givenExistingStop(expected);
+  @Test
+  void testFindById() {
+    StopEntity expected = buildStopEntity();
+    givenExistingStop(expected);
 
-        StopEntity stopEntity = stopJpaRepository.findByStopId("1");
+    StopEntity stopEntity = stopJpaRepository.findByStopId("1");
 
-        assertThat(stopEntity).isEqualTo(expected);
-    }
+    assertThat(stopEntity).isEqualTo(expected);
+  }
 
-    private void givenExistingStop(StopEntity stopEntity){
-        entityManager.persist(stopEntity);
-    }
+  private void givenExistingStop(StopEntity stopEntity) {
+    entityManager.persist(stopEntity);
+  }
 
 }

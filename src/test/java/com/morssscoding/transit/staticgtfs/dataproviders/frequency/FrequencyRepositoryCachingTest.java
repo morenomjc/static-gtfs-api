@@ -1,15 +1,21 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.frequency;
 
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildEnumValueExactTimes;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.FrequencyJpaRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapper;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepository;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepositoryImpl;
 import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
-import org.junit.Test;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,82 +26,76 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
-
-import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildEnumValueExactTimes;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
-@RunWith(SpringRunner.class)
-public class FrequencyRepositoryCachingTest {
+class FrequencyRepositoryCachingTest {
 
-    @Autowired
-    private FrequencyRepository frequencyRepository;
+  @Autowired
+  private FrequencyRepository frequencyRepository;
 
-    @Autowired
-    private FrequencyJpaRepository frequencyJpaRepository;
+  @Autowired
+  private FrequencyJpaRepository frequencyJpaRepository;
 
-    @Autowired
-    private EnumValueRepository enumValueRepository;
+  @Autowired
+  private EnumValueRepository enumValueRepository;
 
-    @Autowired
-    private FrequencyEntityMapper frequencyEntityMapper;
+  @Autowired
+  private FrequencyEntityMapper frequencyEntityMapper;
 
-    @Autowired
-    private CacheManager cacheManager;
+  @Autowired
+  private CacheManager cacheManager;
 
-    @BeforeEach
-    public void setUp() {
-        cacheManager.getCache("frequencies").clear();
+  @BeforeEach
+  void setUp() {
+    cacheManager.getCache("frequencies").clear();
+  }
+
+  @Configuration
+  @EnableCaching
+  static class TestConfig {
+
+    @Bean
+    CacheManager cacheManager() {
+      return new ConcurrentMapCacheManager("frequencies");
     }
 
-    @Configuration
-    @EnableCaching
-    static class TestConfig {
-
-        @Bean
-        CacheManager cacheManager() {
-            return new ConcurrentMapCacheManager("frequencies");
-        }
-
-        @Bean
-        FrequencyJpaRepository frequencyJpaRepository() {
-            return Mockito.mock(FrequencyJpaRepository.class);
-        }
-
-        @Bean
-        FrequencyEntityMapper frequencyEntityMapper(){
-            return Mappers.getMapper(FrequencyEntityMapper.class);
-        }
-
-        @Bean
-        EnumValueRepository enumValueRepository(){
-            return Mockito.mock(EnumValueRepository.class);
-        }
-
-        @Bean
-        FrequencyRepository frequencyRepository(){
-            return new FrequencyRepositoryImpl(frequencyJpaRepository(), frequencyEntityMapper(), enumValueRepository());
-        }
+    @Bean
+    FrequencyJpaRepository frequencyJpaRepository() {
+      return Mockito.mock(FrequencyJpaRepository.class);
     }
 
-    @Test
-    public void testGetFrequency_ShouldUseCache_WhenCalledTwice(){
-        Mockito.clearInvocations(frequencyJpaRepository);
-
-        when(frequencyJpaRepository.findByTripId(anyString())).thenReturn(Optional.of(TestDataProvider.buildFrequencyEntity()));
-        when(enumValueRepository.findEnumValue(anyString(), anyString(), anyString())).thenReturn(buildEnumValueExactTimes());
-
-        frequencyRepository.getFrequency("1");
-        frequencyRepository.getFrequency("1");
-
-        verify(frequencyJpaRepository, times(1)).findByTripId(anyString());
+    @Bean
+    FrequencyEntityMapper frequencyEntityMapper() {
+      return Mappers.getMapper(FrequencyEntityMapper.class);
     }
+
+    @Bean
+    EnumValueRepository enumValueRepository() {
+      return Mockito.mock(EnumValueRepository.class);
+    }
+
+    @Bean
+    FrequencyRepository frequencyRepository() {
+      return new FrequencyRepositoryImpl(frequencyJpaRepository(), frequencyEntityMapper(),
+          enumValueRepository());
+    }
+  }
+
+  @Test
+    //TODO: fix
+  void testGetFrequency_ShouldUseCache_WhenCalledTwice() {
+    Mockito.clearInvocations(frequencyJpaRepository);
+
+    when(frequencyJpaRepository.findByTripId(anyString()))
+        .thenReturn(Optional.of(TestDataProvider.buildFrequencyEntity()));
+    when(enumValueRepository.findEnumValue(anyString(), anyString(), anyString()))
+        .thenReturn(buildEnumValueExactTimes());
+
+    frequencyRepository.getFrequency("1");
+    frequencyRepository.getFrequency("1");
+
+    verify(frequencyJpaRepository, times(1)).findByTripId(anyString());
+  }
 
 }

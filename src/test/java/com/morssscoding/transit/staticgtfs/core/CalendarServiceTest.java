@@ -1,44 +1,46 @@
 package com.morssscoding.transit.staticgtfs.core;
 
-import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
-import com.morssscoding.transit.staticgtfs.core.calendar.Calendar;
-import com.morssscoding.transit.staticgtfs.core.calendar.CalendarService;
-import com.morssscoding.transit.staticgtfs.core.calendar.CalendarServiceImpl;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-public class CalendarServiceTest {
+import com.morssscoding.transit.staticgtfs.core.calendar.Calendar;
+import com.morssscoding.transit.staticgtfs.core.calendar.CalendarService;
+import com.morssscoding.transit.staticgtfs.core.calendar.CalendarServiceImpl;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepository;
+import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-    private CalendarService calendarService;
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class CalendarServiceTest {
 
-    @MockBean
-    private CalendarRepository calendarRepository;
+  private CalendarService calendarService;
 
-    @Before
-    public void setup(){
-        this.calendarService = new CalendarServiceImpl(calendarRepository);
-    }
+  @MockBean
+  private CalendarRepository calendarRepository;
 
-    @Test
-    public void testGetCalendar(){
-        Calendar expected = TestDataProvider.buildCalendar();
-        givenCalendar(expected);
+  @BeforeAll
+  void setup() {
+    this.calendarService = new CalendarServiceImpl(calendarRepository);
+  }
 
-        Calendar result = calendarService.getCalendar("1");
-        assertThat(result).isEqualTo(expected);
-    }
+  @Test
+  void testGetCalendar() {
+    Calendar expected = TestDataProvider.buildCalendar();
+    givenCalendar(expected);
 
-    public void givenCalendar(Calendar calendar){
-        when(calendarRepository.getCalendar(anyString())).thenReturn(calendar);
-    }
+    Calendar result = calendarService.getCalendar("1");
+    assertThat(result).isEqualTo(expected);
+  }
+
+  void givenCalendar(Calendar calendar) {
+    when(calendarRepository.getCalendar(anyString())).thenReturn(calendar);
+  }
 
 }

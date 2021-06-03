@@ -60,8 +60,8 @@ dependencies {
     testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
-    //TODO: Migrate to JUnit5
-    testImplementation("org.junit.vintage:junit-vintage-engine") {
-        exclude group: "org.hamcrest", module: "hamcrest-core"
-    }
+}
+
+test {
+    useJUnitPlatform()
 }

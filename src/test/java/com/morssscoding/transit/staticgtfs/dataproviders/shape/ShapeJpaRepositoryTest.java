@@ -1,59 +1,60 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.shape;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.ShapeEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.ShapeJpaRepository;
 import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class ShapeJpaRepositoryTest {
+class ShapeJpaRepositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
+  @Autowired
+  private TestEntityManager entityManager;
 
-    @Autowired
-    private ShapeJpaRepository shapeJpaRepository;
+  @Autowired
+  private ShapeJpaRepository shapeJpaRepository;
 
-    @After
-    public void cleanup(){
-        entityManager.clear();
-    }
+  @AfterEach
+  void cleanup() {
+    entityManager.clear();
+  }
 
-    @Test
-    public void testFindByShapeId(){
-        ShapeEntity shapeEntity = TestDataProvider.buildShapeEntity();
-        givenExistingShape(shapeEntity);
+  @Test
+  void testFindByShapeId() {
+    ShapeEntity shapeEntity = TestDataProvider.buildShapeEntity();
+    givenExistingShape(shapeEntity);
 
-        List<ShapeEntity> shapeEntities = shapeJpaRepository.findByShapeId("1");
+    List<ShapeEntity> shapeEntities = shapeJpaRepository.findByShapeId("1");
 
-        assertThat(shapeEntities).hasSize(1);
-        assertThat(shapeEntities.get(0)).isEqualTo(shapeEntity);
-    }
+    assertThat(shapeEntities).hasSize(1);
+    assertThat(shapeEntities.get(0)).isEqualTo(shapeEntity);
+  }
 
-    @Test
-    public void testSave(){
-        ShapeEntity shapeEntity = TestDataProvider.buildShapeEntity();
+  @Test
+  void testSave() {
+    ShapeEntity shapeEntity = TestDataProvider.buildShapeEntity();
 
-        shapeEntity = shapeJpaRepository.save(shapeEntity);
+    shapeEntity = shapeJpaRepository.save(shapeEntity);
 
-        assertThat(shapeEntity.getId()).isNotNull();
-    }
+    assertThat(shapeEntity.getId()).isNotNull();
+  }
 
-    private void givenExistingShape(ShapeEntity shapeEntity){
-        entityManager.persist(shapeEntity);
-    }
+  private void givenExistingShape(ShapeEntity shapeEntity) {
+    entityManager.persist(shapeEntity);
+  }
 
 }

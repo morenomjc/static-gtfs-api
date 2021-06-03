@@ -1,50 +1,51 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.trip;
 
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildStopTimeEntity;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
-
-import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildStopTimeEntity;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class StopTimeJpaRepositoryTest {
+class StopTimeJpaRepositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
+  @Autowired
+  private TestEntityManager entityManager;
 
-    @Autowired
-    private StopTimeJpaRepository stopTimeJpaRepository;
+  @Autowired
+  private StopTimeJpaRepository stopTimeJpaRepository;
 
-    @After
-    public void cleanup(){
-        entityManager.clear();
-    }
+  @AfterEach
+  void cleanup() {
+    entityManager.clear();
+  }
 
-    @Test
-    public void testFindById(){
-        StopTimeEntity expected = buildStopTimeEntity();
-        givenExistingTrip(expected);
+  @Test
+  void testFindById() {
+    StopTimeEntity expected = buildStopTimeEntity();
+    givenExistingTrip(expected);
 
-        List<StopTimeEntity> stopTimes = stopTimeJpaRepository.findAllByTripId("1");
+    List<StopTimeEntity> stopTimes = stopTimeJpaRepository.findAllByTripId("1");
 
-        assertThat(stopTimes).hasSize(1);
-        assertThat(stopTimes).contains(expected);
-    }
+    assertThat(stopTimes).hasSize(1);
+    assertThat(stopTimes).contains(expected);
+  }
 
-    private void givenExistingTrip(StopTimeEntity stopTimeEntity){
-        entityManager.persist(stopTimeEntity);
-    }
+  private void givenExistingTrip(StopTimeEntity stopTimeEntity) {
+    entityManager.persist(stopTimeEntity);
+  }
 
 }
