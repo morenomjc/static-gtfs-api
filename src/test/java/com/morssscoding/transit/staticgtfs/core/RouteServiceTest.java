@@ -1,87 +1,91 @@
 package com.morssscoding.transit.staticgtfs.core;
 
-import com.morssscoding.transit.staticgtfs.core.route.RouteType;
-import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
-import com.morssscoding.transit.staticgtfs.core.route.Route;
-import com.morssscoding.transit.staticgtfs.core.route.RouteService;
-import com.morssscoding.transit.staticgtfs.core.route.RouteServiceImpl;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Collections;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-public class RouteServiceTest {
+import com.morssscoding.transit.staticgtfs.core.route.Route;
+import com.morssscoding.transit.staticgtfs.core.route.RouteService;
+import com.morssscoding.transit.staticgtfs.core.route.RouteServiceImpl;
+import com.morssscoding.transit.staticgtfs.core.route.RouteType;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
+import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
+import java.util.Collections;
+import java.util.List;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-    private RouteService routeService;
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class RouteServiceTest {
 
-    @Mock
-    private RouteRepository routeRepository;
+  private RouteService routeService;
 
-    @Before
-    public void setup(){
-        routeService = new RouteServiceImpl(routeRepository);
-    }
+  @Mock
+  private RouteRepository routeRepository;
 
-    @Test
-    public void testGetRouteById(){
-        Route expected = TestDataProvider.buildRoute();
-        givenARoute(expected);
+  @BeforeAll
+  void setup() {
+    routeService = new RouteServiceImpl(routeRepository);
+  }
 
-        Route result = routeService.getRoute("1");
+  @Test
+  void testGetRouteById() {
+    Route expected = TestDataProvider.buildRoute();
+    givenARoute(expected);
 
-        assertThat(result).isEqualTo(expected);
-    }
+    Route result = routeService.getRoute("1");
 
-    @Test
-    public void testGetRoutesByAgency(){
-        Route expected = TestDataProvider.buildRoute();
-        when(routeRepository.getRoutesByAgency(anyString())).thenReturn(Collections.singletonList(expected));
+    assertThat(result).isEqualTo(expected);
+  }
 
-        List<Route> actual = routeService.getByAgency("test");
+  @Test
+  void testGetRoutesByAgency() {
+    Route expected = TestDataProvider.buildRoute();
+    when(routeRepository.getRoutesByAgency(anyString()))
+        .thenReturn(Collections.singletonList(expected));
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(0)).isEqualTo(expected);
-    }
+    List<Route> actual = routeService.getByAgency("test");
 
-    @Test
-    public void testGetRoutesByType(){
-        Route expected = TestDataProvider.buildRoute();
-        when(routeRepository.getRoutesByType(anyString())).thenReturn(Collections.singletonList(expected));
+    assertThat(actual).isNotEmpty();
+    assertThat(actual.get(0)).isEqualTo(expected);
+  }
 
-        List<Route> actual = routeService.getByRouteType("2");
+  @Test
+  void testGetRoutesByType() {
+    Route expected = TestDataProvider.buildRoute();
+    when(routeRepository.getRoutesByType(anyString()))
+        .thenReturn(Collections.singletonList(expected));
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(0)).isEqualTo(expected);
-    }
+    List<Route> actual = routeService.getByRouteType("2");
 
-    @Test
-    public void testGetRouteTypes(){
-        when(routeRepository.getRouteTypes()).thenReturn(Collections.singletonList(TestDataProvider.buildRouteType()));
+    assertThat(actual).isNotEmpty();
+    assertThat(actual.get(0)).isEqualTo(expected);
+  }
 
-        List<RouteType> result = routeService.getRouteTypes();
+  @Test
+  void testGetRouteTypes() {
+    when(routeRepository.getRouteTypes())
+        .thenReturn(Collections.singletonList(TestDataProvider.buildRouteType()));
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0)).isNotNull();
-        assertThat(result.get(0).getType()).isNotNull();
-        assertThat(result.get(0).getCount()).isEqualTo(1);
-        assertThat(result.get(0).getType().getCode()).isEqualTo("2");
-        assertThat(result.get(0).getType().getName()).isEqualTo("Rail");
-        assertThat(result.get(0).getType().getFile()).isEqualTo("routes");
-        assertThat(result.get(0).getType().getField()).isEqualTo("route_type");
-    }
+    List<RouteType> result = routeService.getRouteTypes();
 
-    private void givenARoute(Route route){
-        when(routeRepository.getRouteById(anyString())).thenReturn(route);
-    }
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0)).isNotNull();
+    assertThat(result.get(0).getType()).isNotNull();
+    assertThat(result.get(0).getCount()).isEqualTo(1);
+    assertThat(result.get(0).getType().getCode()).isEqualTo("2");
+    assertThat(result.get(0).getType().getName()).isEqualTo("Rail");
+    assertThat(result.get(0).getType().getFile()).isEqualTo("routes");
+    assertThat(result.get(0).getType().getField()).isEqualTo("route_type");
+  }
+
+  private void givenARoute(Route route) {
+    when(routeRepository.getRouteById(anyString())).thenReturn(route);
+  }
 
 }

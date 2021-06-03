@@ -1,40 +1,42 @@
 package com.morssscoding.transit.staticgtfs.core;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
 import com.morssscoding.transit.staticgtfs.core.frequency.Frequency;
 import com.morssscoding.transit.staticgtfs.core.frequency.FrequencyService;
 import com.morssscoding.transit.staticgtfs.core.frequency.FrequencyServiceImpl;
 import com.morssscoding.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepository;
 import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class FrequencyServiceTest {
 
-@RunWith(SpringRunner.class)
-public class FrequencyServiceTest {
+  private FrequencyService frequencyService;
 
-    private FrequencyService frequencyService;
+  @MockBean
+  private FrequencyRepository frequencyRepository;
 
-    @MockBean
-    private FrequencyRepository frequencyRepository;
+  @BeforeAll
+  void setup() {
+    frequencyService = new FrequencyServiceImpl(frequencyRepository);
+  }
 
-    @Before
-    public void setup(){
-        frequencyService = new FrequencyServiceImpl(frequencyRepository);
-    }
+  @Test
+  void testGetFrequency() {
+    when(frequencyRepository.getFrequency(anyString()))
+        .thenReturn(TestDataProvider.buildFrequency());
 
-    @Test
-    public void testGetFrequency(){
-        when(frequencyRepository.getFrequency(anyString())).thenReturn(TestDataProvider.buildFrequency());
+    Frequency frequency = frequencyService.getFrequency("1");
 
-        Frequency frequency = frequencyService.getFrequency("1");
-
-        assertThat(frequency).isNotNull();
-    }
+    assertThat(frequency).isNotNull();
+  }
 }

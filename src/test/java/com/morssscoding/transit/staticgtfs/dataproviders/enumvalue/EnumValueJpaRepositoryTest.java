@@ -1,52 +1,50 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.enumvalue;
 
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildEnumValueEntity;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.EnumValueEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.EnumValueJpaRepository;
-import org.junit.After;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildEnumValueEntity;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class EnumValueJpaRepositoryTest {
+class EnumValueJpaRepositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
+  @Autowired
+  private TestEntityManager entityManager;
 
-    @Autowired
-    private EnumValueJpaRepository enumValueJpaRepository;
+  @Autowired
+  private EnumValueJpaRepository enumValueJpaRepository;
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+  @AfterEach
+  void cleanup() {
+    entityManager.clear();
+  }
 
-    @After
-    public void cleanup(){
-        entityManager.clear();
-    }
+  @Test
+  void testFindByFileFieldAndCode() {
+    EnumValueEntity expected = buildEnumValueEntity();
+    givenExistingEnumValue(expected);
 
-    @Test
-    public void testFindByFileFieldAndCode(){
-        EnumValueEntity expected = buildEnumValueEntity();
-        givenExistingEnumValue(expected);
+    EnumValueEntity enumValueEntity = enumValueJpaRepository
+        .findByFileAndFieldAndCode("stops", "location_type", "0");
 
-        EnumValueEntity enumValueEntity = enumValueJpaRepository.findByFileAndFieldAndCode("stops", "location_type", "0");
+    assertThat(enumValueEntity).isEqualTo(expected);
+  }
 
-        assertThat(enumValueEntity).isEqualTo(expected);
-    }
-
-    private void givenExistingEnumValue(EnumValueEntity enumValueEntity){
-        entityManager.persist(enumValueEntity);
-    }
+  private void givenExistingEnumValue(EnumValueEntity enumValueEntity) {
+    entityManager.persist(enumValueEntity);
+  }
 
 }

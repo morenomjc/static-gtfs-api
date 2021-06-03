@@ -1,61 +1,63 @@
 package com.morssscoding.transit.staticgtfs.core;
 
-import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
-import com.morssscoding.transit.staticgtfs.core.agency.Agency;
-import com.morssscoding.transit.staticgtfs.core.agency.AgencyService;
-import com.morssscoding.transit.staticgtfs.core.agency.AgencyServiceImpl;
-import com.morssscoding.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Collections;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-public class AgencyServiceTest {
+import com.morssscoding.transit.staticgtfs.core.agency.Agency;
+import com.morssscoding.transit.staticgtfs.core.agency.AgencyService;
+import com.morssscoding.transit.staticgtfs.core.agency.AgencyServiceImpl;
+import com.morssscoding.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
+import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
+import java.util.Collections;
+import java.util.List;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-    private AgencyService agencyService;
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class AgencyServiceTest {
 
-    @Mock
-    private AgencyRepository agencyRepository;
+  private AgencyService agencyService;
 
-    @Before
-    public void setup(){
-        agencyService = new AgencyServiceImpl(agencyRepository);
-    }
+  @Mock
+  private AgencyRepository agencyRepository;
 
-    @Test
-    public void testGetAgencyBydId(){
-        Agency expected = TestDataProvider.buildAgency();
-        givenAnAgency(expected);
+  @BeforeAll
+  void setup() {
+    agencyService = new AgencyServiceImpl(agencyRepository);
+  }
 
-        Agency result = agencyService.getAgency("1");
+  @Test
+  void testGetAgencyBydId() {
+    Agency expected = TestDataProvider.buildAgency();
+    givenAnAgency(expected);
 
-        assertThat(result).isEqualTo(expected);
-    }
+    Agency result = agencyService.getAgency("1");
 
-    @Test
-    public void testGetAgencies(){
-        givenAgencies();
+    assertThat(result).isEqualTo(expected);
+  }
 
-        List<Agency> result = agencyService.getAgencies();
+  @Test
+  void testGetAgencies() {
+    givenAgencies();
 
-        assertThat(result).hasSize(1);
-    }
+    List<Agency> result = agencyService.getAgencies();
 
-    private void givenAnAgency(Agency agency){
-        when(agencyRepository.getAgency(anyString())).thenReturn(agency);
-    }
+    assertThat(result).hasSize(1);
+  }
 
-    private void givenAgencies(){
-        when(agencyRepository.getAgencies()).thenReturn(Collections.singletonList(TestDataProvider.buildAgency()));
-    }
+  private void givenAnAgency(Agency agency) {
+    when(agencyRepository.getAgency(anyString())).thenReturn(agency);
+  }
+
+  private void givenAgencies() {
+    when(agencyRepository.getAgencies())
+        .thenReturn(Collections.singletonList(TestDataProvider.buildAgency()));
+  }
 
 }
