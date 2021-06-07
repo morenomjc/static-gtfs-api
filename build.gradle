@@ -37,13 +37,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation 'org.liquibase:liquibase-core:4.2.2'
     implementation 'org.postgresql:postgresql:42.2.18'
     implementation 'net.minidev:json-smart:2.4.1'
 
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-validator:commons-validator:1.7'
-    implementation 'com.h2database:h2' //TODO: move to test scope only
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 
     compileOnly 'org.projectlombok:lombok'
@@ -53,6 +51,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+    testImplementation 'com.h2database:h2'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation ('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'net.minidev', module: 'json-smart'

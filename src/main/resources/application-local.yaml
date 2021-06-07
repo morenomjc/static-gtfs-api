@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/staticgtfs
+    username: staticgtfs_user
+    password: superpassword
+    platform: postgresql
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  batch:
+    job:
+      enabled: false #toggle when populating the test data
