@@ -5,6 +5,7 @@ spring:
     url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=CREATE SCHEMA IF NOT EXISTS STATICGTFS
     driverClassName: org.h2.Driver
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
     generate-ddl: true
     hibernate:
       ddl-auto: update

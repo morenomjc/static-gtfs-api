@@ -1,6 +1,22 @@
 application:
   name: static-gtfs
 
+server:
+  port: 8080
+  shutdown: GRACEFUL
+spring:
+  main:
+    cloud-platform: KUBERNETES
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+management:
+  server:
+    port: 8081
+  endpoint:
+    web:
+      exposure:
+        include: health,info
+---
 spring:
   mvc:
     throw-exception-if-no-handler-found: true
@@ -13,33 +29,10 @@ spring:
   profiles:
     include: gtfs,${ACTIVE_PROFILES}
   batch:
-    enabled: false
-    tablePrefix: staticgtfs.BATCH_ #points to schema
----
-spring:
-  liquibase:
-    default-schema: staticgtfs
-    liquibase-schema: staticgtfs
-    change-log: classpath:/com.morssscoding.transit/db.changelog-master.xml
+    job:
+      enabled: false
+    table-prefix: staticgtfs.BATCH_
 ---
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS aa} [%X{x-request-id}] [%thread] %-5level %logger.%M - %msg%n"
----
-server:
-  port: 8080
-  shutdown: GRACEFUL
-
-spring:
-  main:
-    cloud-platform: KUBERNETES
-  lifecycle:
-    timeout-per-shutdown-phase: 1m
----
-management:
-  server:
-    port: 8081
-  endpoint:
-    web:
-      exposure:
-        include: health,info

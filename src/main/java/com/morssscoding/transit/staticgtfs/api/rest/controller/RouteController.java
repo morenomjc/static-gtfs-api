@@ -12,7 +12,7 @@ import com.morssscoding.transit.staticgtfs.api.spec.ApiResources;
 import com.morssscoding.transit.staticgtfs.api.spec.Error;
 import com.morssscoding.transit.staticgtfs.core.route.RouteService;
 import com.morssscoding.transit.staticgtfs.core.route.RouteType;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
@@ -27,16 +27,16 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RouteController implements RouteResource {
 
-    private RouteService routeService;
-    private RouteDtoMapper routeDtoMapper;
+    private final RouteService routeService;
+    private final RouteDtoMapper routeDtoMapper;
 
     @Override
     public ResponseEntity<ApiDocument> getAvailableRoutes() {
         List<?> data = routeService.getRouteTypes().stream()
-                .map(routeType -> new ApiData(
+                .map(routeType -> new ApiData<>(
                         RouteType.TYPE,
                         routeDtoMapper.mapToDto(routeType)
                 )).collect(Collectors.toList());
@@ -60,10 +60,10 @@ public class RouteController implements RouteResource {
             List<ApiData<RouteDto>> data;
             if (!ObjectUtils.isEmpty(agencyId)) {
                 data = toApiResources(routeService.getByAgency(agencyId).stream()
-                        .map(route -> routeDtoMapper.mapToDto(route)).collect(Collectors.toList()));
+                        .map(routeDtoMapper::mapToDto).collect(Collectors.toList()));
             } else {
                 data = toApiResources(routeService.getByRouteType(routeType).stream()
-                        .map(route -> routeDtoMapper.mapToDto(route)).collect(Collectors.toList()));
+                        .map(routeDtoMapper::mapToDto).collect(Collectors.toList()));
             }
             return ResponseEntity.ok(new ApiResources<>(data, data.size()));
         } else {

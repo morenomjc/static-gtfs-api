@@ -1,15 +1,9 @@
 spring:
   datasource:
-    dataSourceClassName: org.postgresql.Driver
-    platform: postgresql
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+    platform: postgresql
+    driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL82Dialect
-    generate-ddl: false
-    hibernate:
-      ddl-auto: none
-  liquibase:
-    user: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
