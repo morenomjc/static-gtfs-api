@@ -1,21 +1,19 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.agency;
 
-import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildAgencyEntity;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
-import java.util.List;
+import com.morssscoding.transit.staticgtfs.integration.AbstractDatabaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class AgencyJpaRepositoryTest {
+import java.util.List;
+
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildAgencyEntity;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class AgencyJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
 
   @Autowired
   private TestEntityManager entityManager;

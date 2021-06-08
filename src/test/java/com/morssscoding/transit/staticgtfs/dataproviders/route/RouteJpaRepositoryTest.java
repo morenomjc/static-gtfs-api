@@ -1,32 +1,39 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.route;
 
-import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildRouteEntity;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
-import java.util.List;
+import com.morssscoding.transit.staticgtfs.integration.AbstractDatabaseIntegrationTest;
+import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@DataJpaTest
+import java.util.List;
+
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildRouteEntity;
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class RouteJpaRepositoryTest {
+class RouteJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
 
   @Autowired
   private TestEntityManager entityManager;
 
   @Autowired
   private RouteJpaRepository routeJpaRepository;
+
+  @BeforeEach
+  void setup(){
+    entityManager.clear();
+    entityManager.persistAndFlush(TestDataProvider.buildAgencyEntity());
+  }
 
   @AfterEach
   void cleanup() {
@@ -48,7 +55,7 @@ class RouteJpaRepositoryTest {
     RouteEntity expected = buildRouteEntity();
     givenExistingRoute(expected);
 
-    List<RouteEntity> routeEntities = routeJpaRepository.findByAgency("agency");
+    List<RouteEntity> routeEntities = routeJpaRepository.findByAgency("1");
 
     assertThat(routeEntities).isNotEmpty();
     assertThat(routeEntities.get(0)).isEqualTo(expected);

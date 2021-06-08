@@ -1,25 +1,22 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.stop;
 
-import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildStopEntity;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
+import com.morssscoding.transit.staticgtfs.integration.AbstractDatabaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@DataJpaTest
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildStopEntity;
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class StopJpaRepositoryTest {
+class StopJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
 
   @Autowired
   private TestEntityManager entityManager;

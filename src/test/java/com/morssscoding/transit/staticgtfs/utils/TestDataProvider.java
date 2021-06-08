@@ -76,7 +76,7 @@ public class TestDataProvider {
   public static RouteEntity buildRouteEntity() {
     RouteEntity routeEntity = new RouteEntity();
     routeEntity.setRouteId("1");
-    routeEntity.setAgency("agency");
+    routeEntity.setAgency("1");
     routeEntity.setShortName("short");
     routeEntity.setLongName("long");
     routeEntity.setDesc("desc");
@@ -182,7 +182,7 @@ public class TestDataProvider {
 
   public static TripEntity buildTripEntity() {
     TripEntity tripEntity = new TripEntity();
-    tripEntity.setRouteId("101");
+    tripEntity.setRouteId("1");
     tripEntity.setServiceId("1");
     tripEntity.setTripId("1");
     tripEntity.setHeadsign("headsign");

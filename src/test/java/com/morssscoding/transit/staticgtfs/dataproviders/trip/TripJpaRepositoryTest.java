@@ -1,32 +1,41 @@
 package com.morssscoding.transit.staticgtfs.dataproviders.trip;
 
-import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildTripEntity;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
 import com.morssscoding.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
-import java.util.List;
+import com.morssscoding.transit.staticgtfs.integration.AbstractDatabaseIntegrationTest;
+import com.morssscoding.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@DataJpaTest
+import java.util.List;
+
+import static com.morssscoding.transit.staticgtfs.utils.TestDataProvider.buildTripEntity;
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TripJpaRepositoryTest {
+public class TripJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
 
   @Autowired
   private TestEntityManager entityManager;
 
   @Autowired
   private TripJpaRepository tripJpaRepository;
+
+  @BeforeEach
+  void setup(){
+    entityManager.clear();
+    entityManager.persistAndFlush(TestDataProvider.buildAgencyEntity());
+    entityManager.persistAndFlush(TestDataProvider.buildRouteEntity());
+    entityManager.persistAndFlush(TestDataProvider.buildCalendarEntity());
+  }
 
   @AfterEach
   public void cleanup() {
@@ -47,7 +56,7 @@ public class TripJpaRepositoryTest {
   public void testFindAllByRouteId() {
     givenExistingTrip(buildTripEntity());
 
-    List<TripEntity> tripEntities = tripJpaRepository.findAllByRouteId("101");
+    List<TripEntity> tripEntities = tripJpaRepository.findAllByRouteId("1");
 
     assertThat(tripEntities.size()).isEqualTo(1);
   }

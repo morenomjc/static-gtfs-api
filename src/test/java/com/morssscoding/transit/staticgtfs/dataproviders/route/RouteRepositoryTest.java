@@ -73,7 +73,7 @@ public class RouteRepositoryTest {
 
     assertThat(route).isNotNull();
     assertThat(route.getId()).isEqualTo("1");
-    assertThat(route.getAgency()).isEqualTo("agency");
+    assertThat(route.getAgency()).isEqualTo("1");
     assertThat(route.getShortName()).isEqualTo("short");
     assertThat(route.getLongName()).isEqualTo("long");
     assertThat(route.getDesc()).isEqualTo("desc");
