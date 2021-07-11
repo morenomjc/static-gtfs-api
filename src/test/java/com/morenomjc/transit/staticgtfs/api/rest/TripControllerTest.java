@@ -1,5 +1,37 @@
 package com.morenomjc.transit.staticgtfs.api.rest;
 
+import com.morenomjc.transit.staticgtfs.api.rest.controller.TripController;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.CalendarDto;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.FrequencyDto;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.StopTimeDto;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.TripDto;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.CalendarDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.CommonDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.RouteDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.StopDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.TripDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.core.calendar.CalendarService;
+import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.core.frequency.FrequencyService;
+import com.morenomjc.transit.staticgtfs.core.route.RouteService;
+import com.morenomjc.transit.staticgtfs.core.stop.StopService;
+import com.morenomjc.transit.staticgtfs.core.trip.Trip;
+import com.morenomjc.transit.staticgtfs.core.trip.TripService;
+import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Collections;
+
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -10,41 +42,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.morenomjc.transit.staticgtfs.api.rest.controller.TripController;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.CalendarDto;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.FrequencyDto;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
-import com.morenomjc.transit.staticgtfs.core.route.RouteService;
-import com.morenomjc.transit.staticgtfs.core.trip.Trip;
-import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.StopTimeDto;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.TripDto;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
-import com.morenomjc.transit.staticgtfs.configuration.MapperConfiguration;
-import com.morenomjc.transit.staticgtfs.core.calendar.CalendarService;
-import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
-import com.morenomjc.transit.staticgtfs.core.frequency.FrequencyService;
-import com.morenomjc.transit.staticgtfs.core.stop.StopService;
-import com.morenomjc.transit.staticgtfs.core.trip.TripService;
-
-import java.util.Collections;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
 @WithMockUser
 @WebMvcTest(controllers = {TripController.class})
-@Import(MapperConfiguration.class)
+@Import(value = {
+        CommonDtoMapperImpl.class, TripDtoMapperImpl.class, RouteDtoMapperImpl.class, CalendarDtoMapperImpl.class,
+        StopTimeDtoMapperImpl.class, StopDtoMapperImpl.class, FrequencyDtoMapperImpl.class
+})
 class TripControllerTest extends JsonAssertionUtil {
 
   @Autowired
@@ -60,19 +63,6 @@ class TripControllerTest extends JsonAssertionUtil {
   private StopService stopService;
   @MockBean
   private FrequencyService frequencyService;
-
-  @Autowired
-  private TripDtoMapper tripDtoMapper;
-  @Autowired
-  private RouteDtoMapper routeDtoMapper;
-  @Autowired
-  private CalendarDtoMapper calendarDtoMapper;
-  @Autowired
-  private StopTimeDtoMapper stopTimeDtoMapper;
-  @Autowired
-  private StopDtoMapper stopDtoMapper;
-  @Autowired
-  private FrequencyDtoMapper frequencyDtoMapper;
 
   @Test
   void testGetTripsByRouteIdEndpoint() throws Exception {

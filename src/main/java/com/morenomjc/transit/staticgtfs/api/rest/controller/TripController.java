@@ -1,11 +1,8 @@
 package com.morenomjc.transit.staticgtfs.api.rest.controller;
 
+import com.morenomjc.transit.staticgtfs.api.rest.dto.CalendarDto;
 import com.morenomjc.transit.staticgtfs.api.rest.dto.FrequencyDto;
 import com.morenomjc.transit.staticgtfs.api.rest.dto.FullTripDto;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
-import com.morenomjc.transit.staticgtfs.core.constants.DataTypes;
-import com.morenomjc.transit.staticgtfs.core.route.RouteService;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.CalendarDto;
 import com.morenomjc.transit.staticgtfs.api.rest.dto.StopTimeDto;
 import com.morenomjc.transit.staticgtfs.api.rest.dto.TripDto;
 import com.morenomjc.transit.staticgtfs.api.rest.mapper.CalendarDtoMapper;
@@ -13,17 +10,20 @@ import com.morenomjc.transit.staticgtfs.api.rest.mapper.FrequencyDtoMapper;
 import com.morenomjc.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
 import com.morenomjc.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
 import com.morenomjc.transit.staticgtfs.api.rest.mapper.StopTimeDtoMapper;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.TripDtoMapper;
 import com.morenomjc.transit.staticgtfs.api.rest.resource.TripResource;
 import com.morenomjc.transit.staticgtfs.api.spec.ApiData;
 import com.morenomjc.transit.staticgtfs.api.spec.ApiDocument;
 import com.morenomjc.transit.staticgtfs.api.spec.ApiResource;
 import com.morenomjc.transit.staticgtfs.api.spec.ApiResources;
 import com.morenomjc.transit.staticgtfs.core.calendar.CalendarService;
+import com.morenomjc.transit.staticgtfs.core.constants.DataTypes;
 import com.morenomjc.transit.staticgtfs.core.frequency.FrequencyService;
+import com.morenomjc.transit.staticgtfs.core.route.RouteService;
 import com.morenomjc.transit.staticgtfs.core.stop.StopService;
 import com.morenomjc.transit.staticgtfs.core.trip.StopTime;
 import com.morenomjc.transit.staticgtfs.core.trip.TripService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
@@ -37,20 +37,21 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TripController implements TripResource {
 
-    private TripService tripService;
-    private TripDtoMapper tripDtoMapper;
-    private RouteService routeService;
-    private RouteDtoMapper routeDtoMapper;
-    private CalendarService calendarService;
-    private CalendarDtoMapper calendarDtoMapper;
-    private StopTimeDtoMapper stopTimeDtoMapper;
-    private StopService stopService;
-    private StopDtoMapper stopDtoMapper;
-    private FrequencyService frequencyService;
-    private FrequencyDtoMapper frequencyDtoMapper;
+    private final TripService tripService;
+    private final TripDtoMapper tripDtoMapper;
+    private final RouteService routeService;
+    private final RouteDtoMapper routeDtoMapper;
+    private final CalendarService calendarService;
+
+    private final CalendarDtoMapper calendarDtoMapper;
+    private final StopTimeDtoMapper stopTimeDtoMapper;
+    private final StopService stopService;
+    private final StopDtoMapper stopDtoMapper;
+    private final FrequencyService frequencyService;
+    private final FrequencyDtoMapper frequencyDtoMapper;
 
     @Override
     public ResponseEntity<ApiDocument> getTripsByRouteId(String routeId) {

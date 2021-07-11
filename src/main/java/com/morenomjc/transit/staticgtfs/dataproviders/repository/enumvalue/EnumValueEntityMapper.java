@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 import java.util.Objects;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface EnumValueEntityMapper {
 
     EnumValue fromEntity(EnumValueEntity enumValueEntity);

@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.Objects;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CalendarEntityMapper {
 
     @Mapping(source = "monday", target = "monday", qualifiedByName = "mapToBoolean")

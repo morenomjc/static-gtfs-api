@@ -5,7 +5,7 @@ import com.morenomjc.transit.staticgtfs.core.trip.StopTime;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(uses = { CommonDtoMapper.class })
+@Mapper(componentModel = "spring", uses = { CommonDtoMapper.class })
 public interface StopTimeDtoMapper {
 
     @Mapping(target = "pickupType", source = "pickupType", qualifiedByName = "mapToDataType")

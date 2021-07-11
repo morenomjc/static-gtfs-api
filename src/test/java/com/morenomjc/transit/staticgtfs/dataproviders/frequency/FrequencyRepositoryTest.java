@@ -1,22 +1,14 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.frequency;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.FrequencyJpaRepository;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepositoryImpl;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.configuration.MapperConfiguration;
 import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
 import com.morenomjc.transit.staticgtfs.core.frequency.Frequency;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.FrequencyJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapper;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepository;
-
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Optional;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.frequency.FrequencyRepositoryImpl;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,9 +18,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(MapperConfiguration.class)
+@Import(FrequencyEntityMapperImpl.class)
 class FrequencyRepositoryTest {
 
   private FrequencyRepository frequencyRepository;

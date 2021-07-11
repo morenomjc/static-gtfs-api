@@ -1,20 +1,16 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.stop;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-
+import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.core.stop.Stop;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
-import com.morenomjc.transit.staticgtfs.core.stop.Stop;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stop.StopRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stop.StopRepositoryImpl;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -27,9 +23,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(StopRepositoryTest.StopTestConfiguration.class)
+@Import(StopEntityMapperImpl.class)
 public class StopRepositoryTest {
 
   private StopRepository stopRepository;

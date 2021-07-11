@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 
-@Mapper(uses = { EnumValueEntityMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = { EnumValueEntityMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RouteEntityMapper {
 
     @Mapping(target = "id", source = "routeId")

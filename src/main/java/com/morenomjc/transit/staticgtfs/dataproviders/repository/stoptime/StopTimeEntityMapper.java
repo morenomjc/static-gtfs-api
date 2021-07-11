@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(uses = {EnumValueEntityMapper.class, CommonCoreDataMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = {EnumValueEntityMapper.class, CommonCoreDataMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface StopTimeEntityMapper {
 
     @Mapping(target = "pickupType", ignore = true)

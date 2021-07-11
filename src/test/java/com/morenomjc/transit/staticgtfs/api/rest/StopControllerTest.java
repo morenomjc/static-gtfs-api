@@ -1,5 +1,24 @@
 package com.morenomjc.transit.staticgtfs.api.rest;
 
+import com.morenomjc.transit.staticgtfs.api.rest.controller.StopController;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.DataTypeDto;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.StopDto;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.CommonDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.StopDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.core.stop.Stop;
+import com.morenomjc.transit.staticgtfs.core.stop.StopService;
+import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -8,30 +27,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.morenomjc.transit.staticgtfs.api.rest.controller.StopController;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.DataTypeDto;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.StopDto;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.StopDtoMapper;
-import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
-import com.morenomjc.transit.staticgtfs.core.stop.Stop;
-import com.morenomjc.transit.staticgtfs.core.stop.StopService;
-import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
 @WithMockUser
 @WebMvcTest(controllers = {StopController.class})
-@Import(StopControllerTest.StopTestConfiguration.class)
+@Import(value = { CommonDtoMapperImpl.class, StopDtoMapperImpl.class })
 class StopControllerTest extends JsonAssertionUtil {
 
   @Autowired
@@ -39,15 +37,6 @@ class StopControllerTest extends JsonAssertionUtil {
 
   @MockBean
   StopService stopService;
-
-  @TestConfiguration
-  static class StopTestConfiguration {
-
-    @Bean
-    StopDtoMapper stopDtoMapper() {
-      return Mappers.getMapper(StopDtoMapper.class);
-    }
-  }
 
   @Test
   void testGetStopEndpoint() throws Exception {

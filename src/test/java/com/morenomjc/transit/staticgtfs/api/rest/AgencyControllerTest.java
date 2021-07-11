@@ -1,5 +1,23 @@
 package com.morenomjc.transit.staticgtfs.api.rest;
 
+import com.morenomjc.transit.staticgtfs.api.rest.controller.AgencyController;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.AgencyDto;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.AgencyDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.core.agency.Agency;
+import com.morenomjc.transit.staticgtfs.core.agency.AgencyService;
+import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Collections;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -9,30 +27,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.morenomjc.transit.staticgtfs.core.agency.AgencyService;
-import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.api.rest.controller.AgencyController;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.AgencyDto;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
-import com.morenomjc.transit.staticgtfs.core.agency.Agency;
-
-import java.util.Collections;
-import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
 @WithMockUser
 @WebMvcTest(controllers = {AgencyController.class})
-@Import(AgencyControllerTest.AgencyTestConfiguration.class)
+@Import(AgencyDtoMapperImpl.class)
 class AgencyControllerTest extends JsonAssertionUtil {
 
   @Autowired
@@ -40,15 +37,6 @@ class AgencyControllerTest extends JsonAssertionUtil {
 
   @MockBean
   AgencyService agencyService;
-
-  @TestConfiguration
-  static class AgencyTestConfiguration {
-
-    @Bean
-    public AgencyDtoMapper agencyDtoMapper() {
-      return Mappers.getMapper(AgencyDtoMapper.class);
-    }
-  }
 
   @Test
   void testGetAgencyEndpoint() throws Exception {

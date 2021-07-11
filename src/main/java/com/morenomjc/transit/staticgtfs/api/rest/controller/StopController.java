@@ -5,18 +5,18 @@ import com.morenomjc.transit.staticgtfs.api.rest.resource.StopResource;
 import com.morenomjc.transit.staticgtfs.api.spec.ApiDocument;
 import com.morenomjc.transit.staticgtfs.api.spec.ApiResource;
 import com.morenomjc.transit.staticgtfs.core.stop.StopService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class StopController implements StopResource {
 
-    private StopService stopService;
-    private StopDtoMapper stopDtoMapper;
+    private final StopService stopService;
+    private final StopDtoMapper stopDtoMapper;
 
     @Override
     public ResponseEntity<ApiDocument> getStop(String id) {

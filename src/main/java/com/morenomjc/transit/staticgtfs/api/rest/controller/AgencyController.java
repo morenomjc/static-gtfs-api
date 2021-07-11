@@ -1,14 +1,14 @@
 package com.morenomjc.transit.staticgtfs.api.rest.controller;
 
 import com.morenomjc.transit.staticgtfs.api.rest.dto.AgencyDto;
-import com.morenomjc.transit.staticgtfs.api.spec.ApiData;
-import com.morenomjc.transit.staticgtfs.api.spec.ApiDocument;
-import com.morenomjc.transit.staticgtfs.core.agency.AgencyService;
-import com.morenomjc.transit.staticgtfs.api.spec.ApiResource;
-import com.morenomjc.transit.staticgtfs.api.spec.ApiResources;
 import com.morenomjc.transit.staticgtfs.api.rest.mapper.AgencyDtoMapper;
 import com.morenomjc.transit.staticgtfs.api.rest.resource.AgencyResource;
-import lombok.AllArgsConstructor;
+import com.morenomjc.transit.staticgtfs.api.spec.ApiData;
+import com.morenomjc.transit.staticgtfs.api.spec.ApiDocument;
+import com.morenomjc.transit.staticgtfs.api.spec.ApiResource;
+import com.morenomjc.transit.staticgtfs.api.spec.ApiResources;
+import com.morenomjc.transit.staticgtfs.core.agency.AgencyService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,18 +18,18 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AgencyController implements AgencyResource {
 
-    private AgencyService agencyService;
-    private AgencyDtoMapper agencyDtoMapper;
+    private final AgencyService agencyService;
+    private final AgencyDtoMapper agencyDtoMapper;
 
     @Override
     public ResponseEntity<ApiDocument> getAgencies() {
         log.info("Action: getAgencies");
         List<ApiData<AgencyDto>> data = toApiResources(
                 agencyService.getAgencies().stream()
-                        .map(agency -> agencyDtoMapper.toDto(agency))
+                        .map(agencyDtoMapper::toDto)
                         .collect(Collectors.toList())
         );
         return ResponseEntity.ok(new ApiResources<>(data, data.size(), selfLink(getClass())));

@@ -1,5 +1,26 @@
 package com.morenomjc.transit.staticgtfs.api.rest;
 
+import com.morenomjc.transit.staticgtfs.api.rest.controller.RouteController;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.DataTypeDto;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.RouteDto;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.RouteTypeDto;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.CommonDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.RouteDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.core.route.RouteService;
+import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Collections;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -8,32 +29,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.morenomjc.transit.staticgtfs.api.rest.controller.RouteController;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.DataTypeDto;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.RouteDto;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.RouteTypeDto;
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.RouteDtoMapper;
-import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
-import com.morenomjc.transit.staticgtfs.core.route.RouteService;
-import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-
-import java.util.Collections;
-import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
 @WithMockUser
 @WebMvcTest(controllers = {RouteController.class})
-@Import(RouteControllerTest.RouteTestConfiguration.class)
+@Import(value = { CommonDtoMapperImpl.class, RouteDtoMapperImpl.class })
 class RouteControllerTest extends JsonAssertionUtil {
 
   @Autowired
@@ -41,15 +39,6 @@ class RouteControllerTest extends JsonAssertionUtil {
 
   @MockBean
   RouteService routeService;
-
-  @TestConfiguration
-  static class RouteTestConfiguration {
-
-    @Bean
-    RouteDtoMapper routeDtoMapper() {
-      return Mappers.getMapper(RouteDtoMapper.class);
-    }
-  }
 
   @Test
   void testGetRouteEndpoint() throws Exception {

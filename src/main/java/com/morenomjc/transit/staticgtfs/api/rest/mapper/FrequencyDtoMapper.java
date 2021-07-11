@@ -5,7 +5,7 @@ import com.morenomjc.transit.staticgtfs.core.frequency.Frequency;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(uses = { CommonDtoMapper.class })
+@Mapper(componentModel = "spring", uses = { CommonDtoMapper.class })
 public interface FrequencyDtoMapper {
 
     @Mapping(target = "exactTimes", source = "exactTimes", qualifiedByName = "mapToDataType")

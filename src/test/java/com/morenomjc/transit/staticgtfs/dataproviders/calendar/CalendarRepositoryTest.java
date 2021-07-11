@@ -1,31 +1,29 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.calendar;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-
 import com.morenomjc.transit.staticgtfs.core.calendar.Calendar;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.calendar.CalendarEntityMapper;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepository;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.CalendarJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.calendar.CalendarEntityMapper;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.calendar.CalendarEntityMapperImpl;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepositoryImpl;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(CalendarRepositoryTest.TestConfig.class)
+@Import(CalendarEntityMapperImpl.class)
 class CalendarRepositoryTest {
 
   private CalendarRepository calendarRepository;
@@ -39,15 +37,6 @@ class CalendarRepositoryTest {
   @BeforeAll
   void setup() {
     calendarRepository = new CalendarRepositoryImpl(calendarJpaRepository, calendarEntityMapper);
-  }
-
-  @TestConfiguration
-  static class TestConfig {
-
-    @Bean
-    CalendarEntityMapper calendarEntityMapper() {
-      return Mappers.getMapper(CalendarEntityMapper.class);
-    }
   }
 
   @Test

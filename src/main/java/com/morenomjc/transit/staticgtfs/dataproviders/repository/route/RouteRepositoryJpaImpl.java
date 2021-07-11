@@ -10,6 +10,7 @@ import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumV
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
+@Transactional
 @RequiredArgsConstructor
 public class RouteRepositoryJpaImpl implements RouteRepository {
 

@@ -1,38 +1,37 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.route;
 
+import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
+import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.core.route.Route;
+import com.morenomjc.transit.staticgtfs.core.route.RouteType;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapperImpl;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteRepositoryJpaImpl;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Collections;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
-import com.morenomjc.transit.staticgtfs.core.route.Route;
-import com.morenomjc.transit.staticgtfs.core.route.RouteType;
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteRepositoryJpaImpl;
-import java.util.Collections;
-import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(RouteRepositoryTest.RouteTestConfiguration.class)
+@Import(RouteEntityMapperImpl.class)
 public class RouteRepositoryTest {
 
   private RouteRepository routeRepository;
@@ -49,16 +48,6 @@ public class RouteRepositoryTest {
   public void setup() {
     routeRepository = new RouteRepositoryJpaImpl(routeJpaRepository, routeEntityMapper,
         enumValueRepository);
-  }
-
-  @TestConfiguration
-  static class RouteTestConfiguration {
-
-    @Bean
-    public RouteEntityMapper routeEntityMapper() {
-      return Mappers.getMapper(RouteEntityMapper.class);
-    }
-
   }
 
   @Test

@@ -7,7 +7,7 @@ import com.morenomjc.transit.staticgtfs.api.rest.dto.RouteDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(uses = { CommonDtoMapper.class })
+@Mapper(componentModel = "spring", uses = { CommonDtoMapper.class })
 public interface RouteDtoMapper {
 
     @Mapping(target = "type", source = "type", qualifiedByName = "mapToDataType")

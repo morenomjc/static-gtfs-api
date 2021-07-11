@@ -1,34 +1,32 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.shape;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.ShapeJpaRepository;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.shape.ShapeEntityMapper;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.shape.ShapeRepository;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
 import com.morenomjc.transit.staticgtfs.core.shape.Shape;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.ShapeEntity;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.ShapeJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.shape.ShapeEntityMapper;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.shape.ShapeEntityMapperImpl;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.shape.ShapeRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.shape.ShapeRepositoryImpl;
-
-import java.util.Collections;
-import java.util.List;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(ShapeRepositoryTest.TestConfig.class)
+@Import(ShapeEntityMapperImpl.class)
 class ShapeRepositoryTest {
 
   private ShapeRepository shapeRepository;
@@ -43,15 +41,6 @@ class ShapeRepositoryTest {
   @BeforeAll
   void setup() {
     shapeRepository = new ShapeRepositoryImpl(shapeJpaRepository, shapeEntityMapper);
-  }
-
-  @TestConfiguration
-  static class TestConfig {
-
-    @Bean
-    ShapeEntityMapper shapeEntityMapper() {
-      return Mappers.getMapper(ShapeEntityMapper.class);
-    }
   }
 
   @Test

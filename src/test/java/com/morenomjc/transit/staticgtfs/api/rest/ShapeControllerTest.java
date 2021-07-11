@@ -1,5 +1,22 @@
 package com.morenomjc.transit.staticgtfs.api.rest;
 
+import com.morenomjc.transit.staticgtfs.api.rest.controller.ShapeController;
+import com.morenomjc.transit.staticgtfs.api.rest.dto.ShapeDto;
+import com.morenomjc.transit.staticgtfs.api.rest.mapper.ShapePointDtoMapperImpl;
+import com.morenomjc.transit.staticgtfs.core.shape.ShapeService;
+import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Collections;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -8,29 +25,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.morenomjc.transit.staticgtfs.api.rest.mapper.ShapePointDtoMapper;
-import com.morenomjc.transit.staticgtfs.utils.JsonAssertionUtil;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.api.rest.controller.ShapeController;
-import com.morenomjc.transit.staticgtfs.api.rest.dto.ShapeDto;
-import com.morenomjc.transit.staticgtfs.core.shape.ShapeService;
-
-import java.util.Collections;
-import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
 @WithMockUser
 @WebMvcTest(controllers = ShapeController.class)
-@Import(ShapeControllerTest.TestConfig.class)
+@Import(ShapePointDtoMapperImpl.class)
 class ShapeControllerTest extends JsonAssertionUtil {
 
   @Autowired
@@ -59,12 +56,4 @@ class ShapeControllerTest extends JsonAssertionUtil {
     );
   }
 
-  @TestConfiguration
-  static class TestConfig {
-
-    @Bean
-    ShapePointDtoMapper shapeDtoMapper() {
-      return Mappers.getMapper(ShapePointDtoMapper.class);
-    }
-  }
 }

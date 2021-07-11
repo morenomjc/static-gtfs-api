@@ -1,35 +1,34 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.agency;
 
+import com.morenomjc.transit.staticgtfs.core.agency.Agency;
+import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapperImpl;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.agency.AgencyRepositoryJpaImpl;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Collections;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.core.agency.Agency;
-import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.agency.AgencyEntityMapper;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.agency.AgencyRepositoryJpaImpl;
-import java.util.Collections;
-import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(AgencyRepositoryTest.AgencyTestConfiguration.class)
+@Import(AgencyEntityMapperImpl.class)
 class AgencyRepositoryTest {
 
   private AgencyRepository agencyRepository;
@@ -43,15 +42,6 @@ class AgencyRepositoryTest {
   @BeforeAll
   void setup() {
     agencyRepository = new AgencyRepositoryJpaImpl(agencyJpaRepository, agencyEntityMapper);
-  }
-
-  @TestConfiguration
-  static class AgencyTestConfiguration {
-
-    @Bean
-    AgencyEntityMapper agencyEntityMapper() {
-      return Mappers.getMapper(AgencyEntityMapper.class);
-    }
   }
 
   @Test

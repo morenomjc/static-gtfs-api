@@ -8,10 +8,12 @@ import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepo
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
 @Repository
+@Transactional
 @RequiredArgsConstructor
 public class StopRepositoryImpl implements StopRepository{
 

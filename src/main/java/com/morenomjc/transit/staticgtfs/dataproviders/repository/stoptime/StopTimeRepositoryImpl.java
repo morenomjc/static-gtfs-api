@@ -4,8 +4,10 @@ import com.morenomjc.transit.staticgtfs.core.trip.StopTime;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 @RequiredArgsConstructor
 public class StopTimeRepositoryImpl implements StopTimeRepository {
 

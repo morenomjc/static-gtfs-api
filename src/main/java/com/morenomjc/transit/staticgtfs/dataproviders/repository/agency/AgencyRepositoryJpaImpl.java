@@ -1,12 +1,13 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.repository.agency;
 
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
 import com.morenomjc.transit.staticgtfs.core.agency.Agency;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
+@Transactional
 @RequiredArgsConstructor
 public class AgencyRepositoryJpaImpl implements AgencyRepository{
 
@@ -23,7 +25,7 @@ public class AgencyRepositoryJpaImpl implements AgencyRepository{
     @Override
     public List<Agency> getAgencies() {
         return agencyJpaRepository.findAll().stream()
-                .map(agencyEntity -> agencyEntityMapper.fromEntity(agencyEntity))
+                .map(agencyEntityMapper::fromEntity)
                 .collect(Collectors.toList());
     }
 

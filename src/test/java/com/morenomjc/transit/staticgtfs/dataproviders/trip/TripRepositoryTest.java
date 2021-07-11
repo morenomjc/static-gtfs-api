@@ -8,9 +8,12 @@ import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.trip.TripRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.trip.TripRepositoryImpl;
 import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
@@ -18,11 +21,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(TripRepositoryTest.TripTestConfiguration.class)
+@Import(value = { EnumValueEntityMapperImpl.class, TripEntityMapperImpl.class, StopTimeEntityMapperImpl.class } )
 class TripRepositoryTest {
 
   private TripRepository tripRepository;
@@ -60,20 +60,6 @@ class TripRepositoryTest {
   void setup() {
     tripRepository = new TripRepositoryImpl(tripJpaRepository, stopTimeJpaRepository, enumValueRepository,
             tripEntityMapper, stopTimeEntityMapper);
-  }
-
-  @TestConfiguration
-  static class TripTestConfiguration {
-
-    @Bean
-    TripEntityMapper tripEntityMapper() {
-      return Mappers.getMapper(TripEntityMapper.class);
-    }
-
-    @Bean
-    StopTimeEntityMapper stopTimeEntityMapper() {
-      return Mappers.getMapper(StopTimeEntityMapper.class);
-    }
   }
 
   @Test

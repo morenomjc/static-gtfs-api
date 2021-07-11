@@ -5,7 +5,7 @@ import com.morenomjc.transit.staticgtfs.core.stop.Stop;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(uses = { CommonDtoMapper.class })
+@Mapper(componentModel = "spring", uses = { CommonDtoMapper.class })
 public interface StopDtoMapper {
 
     @Mapping(target = "stopTimezone", source = "timezone")

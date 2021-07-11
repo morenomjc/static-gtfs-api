@@ -5,7 +5,7 @@ import com.morenomjc.transit.staticgtfs.core.trip.Trip;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(uses = { CommonDtoMapper.class })
+@Mapper(componentModel = "spring", uses = { CommonDtoMapper.class })
 public interface TripDtoMapper {
 
     @Mapping(target = "directionId", source = "directionId", qualifiedByName = "mapToDataType")
