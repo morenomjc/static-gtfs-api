@@ -1,27 +1,19 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.trip;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-
+import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.core.trip.StopTime;
 import com.morenomjc.transit.staticgtfs.core.trip.Trip;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
-import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
-import com.morenomjc.transit.staticgtfs.core.trip.StopTime;
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.trip.TripEntityMapper;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.trip.TripRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.trip.TripRepositoryImpl;
-import java.time.LocalTime;
-import java.util.Collections;
-import java.util.List;
+import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -33,6 +25,15 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.LocalTime;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -57,9 +58,8 @@ class TripRepositoryTest {
 
   @BeforeAll
   void setup() {
-    tripRepository = new TripRepositoryImpl(tripJpaRepository, tripEntityMapper,
-        stopTimeJpaRepository,
-        stopTimeEntityMapper, enumValueRepository);
+    tripRepository = new TripRepositoryImpl(tripJpaRepository, stopTimeJpaRepository, enumValueRepository,
+            tripEntityMapper, stopTimeEntityMapper);
   }
 
   @TestConfiguration

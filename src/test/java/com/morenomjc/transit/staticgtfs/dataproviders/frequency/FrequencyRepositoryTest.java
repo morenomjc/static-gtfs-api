@@ -42,8 +42,7 @@ class FrequencyRepositoryTest {
 
   @BeforeAll
   void setup() {
-    frequencyRepository = new FrequencyRepositoryImpl(frequencyJpaRepository, frequencyEntityMapper,
-        enumValueRepository);
+    frequencyRepository = new FrequencyRepositoryImpl(frequencyJpaRepository, frequencyEntityMapper, enumValueRepository);
   }
 
   @Test

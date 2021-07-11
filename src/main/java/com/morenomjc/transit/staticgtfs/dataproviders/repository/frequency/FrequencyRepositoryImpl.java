@@ -6,7 +6,7 @@ import com.morenomjc.transit.staticgtfs.core.frequency.Frequency;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.FrequencyEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.FrequencyJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -15,12 +15,12 @@ import java.util.Optional;
 
 @Slf4j
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FrequencyRepositoryImpl implements FrequencyRepository {
 
-    private FrequencyJpaRepository repository;
-    private FrequencyEntityMapper mapper;
-    private EnumValueRepository enumValueRepository;
+    private final FrequencyJpaRepository repository;
+    private final FrequencyEntityMapper mapper;
+    private final EnumValueRepository enumValueRepository;
 
     @Override
     @Cacheable(value = "frequencies")
@@ -30,7 +30,8 @@ public class FrequencyRepositoryImpl implements FrequencyRepository {
             throw new DataNotFoundException("Frequency not found.");
         }
         Frequency frequency = mapper.fromEntity(frequencyEntity.get());
-        EnumValue exactTimes = enumValueRepository.findEnumValue(Frequency.TYPE, Frequency.Fields.EXACT_TIMES.getValue(), String.valueOf(frequencyEntity.get().getExactTimes()));
+        EnumValue exactTimes = enumValueRepository.findEnumValue(Frequency.TYPE, Frequency.Fields.EXACT_TIMES.getValue(),
+                String.valueOf(frequencyEntity.get().getExactTimes()));
         frequency.setExactTimes(exactTimes);
         return frequency;
     }

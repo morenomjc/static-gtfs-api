@@ -1,7 +1,7 @@
 package com.morenomjc.transit.staticgtfs.core.shape;
 
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.shape.ShapeRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,10 @@ import java.util.List;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ShapeServiceImpl implements ShapeService {
 
-    private ShapeRepository shapeRepository;
+    private final ShapeRepository shapeRepository;
 
     @Override
     public List<Shape> getShapePoints(String shapeId) {

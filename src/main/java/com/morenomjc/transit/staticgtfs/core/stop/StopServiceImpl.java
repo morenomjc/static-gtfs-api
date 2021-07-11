@@ -1,18 +1,16 @@
 package com.morenomjc.transit.staticgtfs.core.stop;
 
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stop.StopRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class StopServiceImpl implements StopService{
 
-    private StopRepository stopRepository;
-
-    public StopServiceImpl(StopRepository stopRepository) {
-        this.stopRepository = stopRepository;
-    }
+    private final StopRepository stopRepository;
 
     @Override
     public Stop getStop(String id) {

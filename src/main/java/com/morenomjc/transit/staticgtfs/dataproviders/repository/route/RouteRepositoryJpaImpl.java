@@ -1,13 +1,13 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.repository.route;
 
+import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.morenomjc.transit.staticgtfs.core.route.Route;
 import com.morenomjc.transit.staticgtfs.core.route.RouteType;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
-import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
-import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
-import lombok.AllArgsConstructor;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RouteRepositoryJpaImpl implements RouteRepository {
 
-    private RouteJpaRepository routeJpaRepository;
-    private RouteEntityMapper routeEntityMapper;
-    private EnumValueRepository enumValueRepository;
+    private final RouteJpaRepository routeJpaRepository;
+    private final RouteEntityMapper routeEntityMapper;
+    private final EnumValueRepository enumValueRepository;
 
     @Override
     public Route getRouteById(String id) {

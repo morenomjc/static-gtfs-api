@@ -37,8 +37,7 @@ class EnumValueRepositoryTest {
 
   @BeforeAll
   void setup() {
-    enumValueRepository = new EnumValueRepositoryImpl(enumValueJpaRepository,
-        enumValueEntityMapper);
+    enumValueRepository = new EnumValueRepositoryImpl(enumValueJpaRepository, enumValueEntityMapper);
   }
 
   @TestConfiguration

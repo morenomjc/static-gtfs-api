@@ -1,16 +1,16 @@
 package com.morenomjc.transit.staticgtfs.core.calendar;
 
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.calendar.CalendarRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CalendarServiceImpl implements CalendarService{
 
-    private CalendarRepository calendarRepository;
+    private final CalendarRepository calendarRepository;
 
     @Override
     public Calendar getCalendar(String serviceId) {

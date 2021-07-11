@@ -1,7 +1,7 @@
 package com.morenomjc.transit.staticgtfs.core.trip;
 
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.trip.TripRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,10 @@ import java.util.List;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TripServiceImpl implements TripService{
 
-    private TripRepository tripRepository;
+    private final TripRepository tripRepository;
 
     @Override
     public Trip getTrip(String tripId) {

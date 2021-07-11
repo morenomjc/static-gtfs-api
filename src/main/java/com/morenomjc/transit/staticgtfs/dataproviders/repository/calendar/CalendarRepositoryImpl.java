@@ -4,7 +4,7 @@ import com.morenomjc.transit.staticgtfs.core.calendar.Calendar;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.CalendarEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.CalendarJpaRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -13,11 +13,11 @@ import java.util.Objects;
 
 @Slf4j
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CalendarRepositoryImpl implements CalendarRepository{
 
-    private CalendarJpaRepository calendarJpaRepository;
-    private CalendarEntityMapper calendarEntityMapper;
+    private final CalendarJpaRepository calendarJpaRepository;
+    private final CalendarEntityMapper calendarEntityMapper;
 
     @Override
     @Cacheable(value = "calendars")

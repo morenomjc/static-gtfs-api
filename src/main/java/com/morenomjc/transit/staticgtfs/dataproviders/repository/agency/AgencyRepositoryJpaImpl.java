@@ -4,6 +4,7 @@ import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.AgencyEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.AgencyJpaRepository;
 import com.morenomjc.transit.staticgtfs.core.agency.Agency;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -13,15 +14,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
+@RequiredArgsConstructor
 public class AgencyRepositoryJpaImpl implements AgencyRepository{
 
-    private AgencyJpaRepository agencyJpaRepository;
-    private AgencyEntityMapper agencyEntityMapper;
-
-    public AgencyRepositoryJpaImpl(AgencyJpaRepository agencyJpaRepository, AgencyEntityMapper agencyEntityMapper) {
-        this.agencyJpaRepository = agencyJpaRepository;
-        this.agencyEntityMapper = agencyEntityMapper;
-    }
+    private final AgencyJpaRepository agencyJpaRepository;
+    private final AgencyEntityMapper agencyEntityMapper;
 
     @Override
     public List<Agency> getAgencies() {

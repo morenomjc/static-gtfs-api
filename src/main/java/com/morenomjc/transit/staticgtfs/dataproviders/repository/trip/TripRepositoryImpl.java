@@ -6,11 +6,11 @@ import com.morenomjc.transit.staticgtfs.core.trip.StopTime;
 import com.morenomjc.transit.staticgtfs.core.trip.Trip;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.TripEntity;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.TripJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stoptime.StopTimeEntityMapper;
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -21,14 +21,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TripRepositoryImpl implements TripRepository {
 
-    private TripJpaRepository tripJpaRepository;
-    private TripEntityMapper tripEntityMapper;
-    private StopTimeJpaRepository stopTimeJpaRepository;
-    private StopTimeEntityMapper stopTimeEntityMapper;
-    private EnumValueRepository enumValueRepository;
+    private final TripJpaRepository tripJpaRepository;
+    private final StopTimeJpaRepository stopTimeJpaRepository;
+    private final EnumValueRepository enumValueRepository;
+    private final TripEntityMapper tripEntityMapper;
+    private final StopTimeEntityMapper stopTimeEntityMapper;
 
     @Override
     public Trip getTrip(String id) {

@@ -44,8 +44,7 @@ public class StopRepositoryTest {
 
   @BeforeAll
   public void setup() {
-    stopRepository = new StopRepositoryImpl(stopJpaRepository, stopEntityMapper,
-        enumValueRepository);
+    stopRepository = new StopRepositoryImpl(stopJpaRepository, enumValueRepository, stopEntityMapper);
   }
 
   @TestConfiguration

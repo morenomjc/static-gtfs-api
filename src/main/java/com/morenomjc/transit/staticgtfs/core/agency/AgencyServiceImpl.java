@@ -1,6 +1,7 @@
 package com.morenomjc.transit.staticgtfs.core.agency;
 
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.agency.AgencyRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +9,10 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AgencyServiceImpl implements AgencyService{
 
-    private AgencyRepository agencyRepository;
-
-    public AgencyServiceImpl(AgencyRepository agencyRepository) {
-        this.agencyRepository = agencyRepository;
-    }
+    private final AgencyRepository agencyRepository;
 
     @Override
     public List<Agency> getAgencies() {

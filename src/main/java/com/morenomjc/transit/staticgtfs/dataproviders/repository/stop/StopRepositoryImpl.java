@@ -1,23 +1,23 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.repository.stop;
 
+import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.morenomjc.transit.staticgtfs.core.stop.Stop;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
-import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
 
-@AllArgsConstructor
 @Repository
+@RequiredArgsConstructor
 public class StopRepositoryImpl implements StopRepository{
 
-    private StopJpaRepository stopJpaRepository;
-    private StopEntityMapper stopEntityMapper;
-    private EnumValueRepository enumValueRepository;
+    private final StopJpaRepository stopJpaRepository;
+    private final EnumValueRepository enumValueRepository;
+    private final StopEntityMapper stopEntityMapper;
 
     @Override
     public Stop getStop(String id) {

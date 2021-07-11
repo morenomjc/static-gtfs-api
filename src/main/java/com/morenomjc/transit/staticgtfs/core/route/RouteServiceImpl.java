@@ -1,6 +1,7 @@
 package com.morenomjc.transit.staticgtfs.core.route;
 
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +9,10 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class RouteServiceImpl implements RouteService {
 
-    private RouteRepository routeRepository;
-
-    public RouteServiceImpl(RouteRepository routeRepository) {
-        this.routeRepository = routeRepository;
-    }
+    private final RouteRepository routeRepository;
 
     @Override
     public Route getRoute(String id) {
