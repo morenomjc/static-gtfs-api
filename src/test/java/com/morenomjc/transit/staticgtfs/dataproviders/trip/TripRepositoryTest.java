@@ -2,6 +2,7 @@ package com.morenomjc.transit.staticgtfs.dataproviders.trip;
 
 import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
 import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
+import com.morenomjc.transit.staticgtfs.core.mapper.CommonCoreDataMapperImpl;
 import com.morenomjc.transit.staticgtfs.core.trip.StopTime;
 import com.morenomjc.transit.staticgtfs.core.trip.Trip;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
@@ -37,7 +38,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(value = { EnumValueEntityMapperImpl.class, TripEntityMapperImpl.class, StopTimeEntityMapperImpl.class } )
+@Import(value = {CommonCoreDataMapperImpl.class, EnumValueEntityMapperImpl.class, TripEntityMapperImpl.class, StopTimeEntityMapperImpl.class } )
 class TripRepositoryTest {
 
   private TripRepository tripRepository;

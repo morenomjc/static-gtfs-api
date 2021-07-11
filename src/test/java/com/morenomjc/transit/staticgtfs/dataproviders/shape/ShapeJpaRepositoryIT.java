@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ShapeJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
+class ShapeJpaRepositoryIT extends AbstractDatabaseIntegrationTest {
 
   @Autowired
   private TestEntityManager entityManager;

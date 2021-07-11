@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AgencyJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
+public class AgencyJpaRepositoryIT extends AbstractDatabaseIntegrationTest {
 
   @Autowired
   private TestEntityManager entityManager;

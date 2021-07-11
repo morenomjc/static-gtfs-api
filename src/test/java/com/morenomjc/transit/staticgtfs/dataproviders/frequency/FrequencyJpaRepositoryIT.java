@@ -1,9 +1,9 @@
-package com.morenomjc.transit.staticgtfs.dataproviders.trip;
+package com.morenomjc.transit.staticgtfs.dataproviders.frequency;
 
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopTimeEntity;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.FrequencyEntity;
+import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.FrequencyJpaRepository;
 import com.morenomjc.transit.staticgtfs.integration.AbstractDatabaseIntegrationTest;
 import com.morenomjc.transit.staticgtfs.utils.TestDataProvider;
-import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopTimeJpaRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,19 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class StopTimeJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
+class FrequencyJpaRepositoryIT extends AbstractDatabaseIntegrationTest {
 
   @Autowired
   private TestEntityManager entityManager;
 
   @Autowired
-  private StopTimeJpaRepository stopTimeJpaRepository;
+  private FrequencyJpaRepository frequencyJpaRepository;
 
   @BeforeEach
   void setup(){
@@ -34,7 +34,6 @@ class StopTimeJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
     entityManager.persistAndFlush(TestDataProvider.buildRouteEntity());
     entityManager.persistAndFlush(TestDataProvider.buildCalendarEntity());
     entityManager.persistAndFlush(TestDataProvider.buildTripEntity());
-    entityManager.persistAndFlush(TestDataProvider.buildStopEntity());
   }
 
   @AfterEach
@@ -44,17 +43,20 @@ class StopTimeJpaRepositoryTest extends AbstractDatabaseIntegrationTest {
 
   @Test
   void testFindById() {
-    StopTimeEntity expected = TestDataProvider.buildStopTimeEntity();
-    givenExistingTrip(expected);
+    givenExistingFrequencyEntity();
+    Optional<FrequencyEntity> frequencyEntity = frequencyJpaRepository.findByTripId("1");
 
-    List<StopTimeEntity> stopTimes = stopTimeJpaRepository.findAllByTripId("1");
-
-    assertThat(stopTimes).hasSize(1);
-    assertThat(stopTimes).contains(expected);
+    assertThat(frequencyEntity.isPresent()).isTrue();
   }
 
-  private void givenExistingTrip(StopTimeEntity stopTimeEntity) {
-    entityManager.persist(stopTimeEntity);
+  @Test
+  void testFindByIdEmpty() {
+    Optional<FrequencyEntity> frequencyEntity = frequencyJpaRepository.findByTripId("-1");
+
+    assertThat(frequencyEntity.isPresent()).isFalse();
   }
 
+  private void givenExistingFrequencyEntity() {
+    entityManager.persist(TestDataProvider.buildFrequencyEntity());
+  }
 }

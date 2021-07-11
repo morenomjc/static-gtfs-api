@@ -1,8 +1,11 @@
 package com.morenomjc.transit.staticgtfs.dataproviders.frequency;
 
 import com.morenomjc.transit.staticgtfs.core.constants.EnumValue;
+import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.morenomjc.transit.staticgtfs.core.frequency.Frequency;
+import com.morenomjc.transit.staticgtfs.core.mapper.CommonCoreDataMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.FrequencyJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapper;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.frequency.FrequencyEntityMapperImpl;
@@ -23,12 +26,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(FrequencyEntityMapperImpl.class)
+@Import(value = {CommonCoreDataMapperImpl.class, EnumValueEntityMapperImpl.class, FrequencyEntityMapperImpl.class})
 class FrequencyRepositoryTest {
 
   private FrequencyRepository frequencyRepository;
@@ -56,20 +60,21 @@ class FrequencyRepositoryTest {
     assertThat(frequency).isNotNull();
     assertThat(frequency.getTripId()).isEqualTo("1");
     assertThat(frequency.getStartTime()).isAfter(LocalTime.now().minusMinutes(1));
-//        assertThat(frequency.getEndTime()).isAfter(LocalTime.now());
     assertThat(frequency.getHeadwaySecs().get(ChronoUnit.SECONDS)).isEqualTo(300);
     assertThat(frequency.getExactTimes()).isEqualTo(exactTimes);
   }
 
-    /*@Test //TODO: fix
-    void testWhenFrequencyNotFound(){
-        expectedException.expect(DataNotFoundException.class);
-        expectedException.expectMessage(equalTo("Frequency not found."));
+  @Test
+  void testWhenFrequencyNotFound(){
+    whenFrequencyEntityNotFound();
 
-        whenFrequencyEntityNotFound();
+    DataNotFoundException exception = assertThrows(
+            DataNotFoundException.class,
+            () -> frequencyRepository.getFrequency("1")
+    );
 
-        frequencyRepository.getFrequency("1");
-    }*/
+    assertThat(exception.getMessage()).isEqualTo("Frequency not found.");
+  }
 
   private void whenFrequencyEntityNotFound() {
     when(frequencyJpaRepository.findByTripId(anyString())).thenReturn(Optional.empty());

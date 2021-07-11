@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -56,15 +57,17 @@ class CalendarRepositoryTest {
     assertThat(calendar.getSunday()).isFalse();
   }
 
-    /*@Test //TODO: fix
-    void testIfCalendarNotFound(){
-        expectedException.expect(DataNotFoundException.class);
-        expectedException.expectMessage(equalTo("Route not found"));
+  @Test
+  void testIfCalendarNotFound(){
+    whenCalendarNotFound();
 
-        whenCalendarNotFound();
+    DataNotFoundException exception = assertThrows(
+            DataNotFoundException.class,
+            () -> calendarRepository.getCalendar("1")
+    );
 
-        calendarRepository.getCalendar("1");
-    }*/
+    assertThat(exception.getMessage()).isEqualTo("Calendar not found.");
+  }
 
   void givenCalendar() {
     when(calendarJpaRepository.findByServiceId(anyString()))
@@ -72,7 +75,6 @@ class CalendarRepositoryTest {
   }
 
   void whenCalendarNotFound() {
-    when(calendarJpaRepository.findByServiceId(anyString()))
-        .thenThrow(new DataNotFoundException("Route not found"));
+    when(calendarJpaRepository.findByServiceId(anyString())).thenReturn(null);
   }
 }

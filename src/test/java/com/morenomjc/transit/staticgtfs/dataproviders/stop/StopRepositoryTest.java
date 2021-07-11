@@ -5,6 +5,7 @@ import com.morenomjc.transit.staticgtfs.core.exception.DataNotFoundException;
 import com.morenomjc.transit.staticgtfs.core.stop.Stop;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.StopEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.StopJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapper;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.stop.StopEntityMapperImpl;
@@ -15,22 +16,20 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(StopEntityMapperImpl.class)
+@Import(value = {EnumValueEntityMapperImpl.class, StopEntityMapperImpl.class})
 public class StopRepositoryTest {
 
   private StopRepository stopRepository;
@@ -46,15 +45,6 @@ public class StopRepositoryTest {
   @BeforeAll
   public void setup() {
     stopRepository = new StopRepositoryImpl(stopJpaRepository, enumValueRepository, stopEntityMapper);
-  }
-
-  @TestConfiguration
-  static class StopTestConfiguration {
-
-    @Bean
-    public StopEntityMapper stopEntityMapper() {
-      return Mappers.getMapper(StopEntityMapper.class);
-    }
   }
 
   @Test

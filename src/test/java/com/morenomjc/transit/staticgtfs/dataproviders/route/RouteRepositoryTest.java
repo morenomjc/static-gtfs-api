@@ -6,6 +6,7 @@ import com.morenomjc.transit.staticgtfs.core.route.Route;
 import com.morenomjc.transit.staticgtfs.core.route.RouteType;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.entity.RouteEntity;
 import com.morenomjc.transit.staticgtfs.dataproviders.jpa.repository.RouteJpaRepository;
+import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueEntityMapperImpl;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.enumvalue.EnumValueRepository;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapper;
 import com.morenomjc.transit.staticgtfs.dataproviders.repository.route.RouteEntityMapperImpl;
@@ -25,13 +26,14 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import(RouteEntityMapperImpl.class)
+@Import(value = {EnumValueEntityMapperImpl.class, RouteEntityMapperImpl.class })
 public class RouteRepositoryTest {
 
   private RouteRepository routeRepository;
@@ -128,26 +130,30 @@ public class RouteRepositoryTest {
     assertThat(routes.get(0).getType()).isNotNull();
   }
 
-    /*@Test //TODO: fix
-    public void testWhenRouteNotFound(){
-        expectedException.expect(DataNotFoundException.class);
-        expectedException.expectMessage(equalTo("Route not found."));
+  @Test
+  public void testWhenRouteNotFound(){
+    whenRouteNotFound();
 
-        whenRouteNotFound();
+    DataNotFoundException exception = assertThrows(
+            DataNotFoundException.class,
+            () -> routeRepository.getRouteById("1")
+    );
 
-        routeRepository.getRouteById("1");
-    }*/
+    assertThat(exception.getMessage()).isEqualTo("Route not found.");
+  }
 
-    /*@Test //TODO: fix
-    public void testWhenRouteTypeMappingFailed(){
-        expectedException.expect(DataNotFoundException.class);
-        expectedException.expectMessage(equalTo("Enum value not found."));
+  @Test
+  public void testWhenRouteTypeMappingFailed(){
+    whenRouteWithInvalidTypeFound();
+    whenInvalidRouteTypeIsSearched();
 
-        whenRouteWithInvalidTypeFound();
-        whenInvalidRouteTypeIsSearched();
+    DataNotFoundException exception = assertThrows(
+            DataNotFoundException.class,
+            () -> routeRepository.getRouteById("1")
+    );
 
-        routeRepository.getRouteById("1");
-    }*/
+    assertThat(exception.getMessage()).isEqualTo("Enum value not found.");
+  }
 
   private void whenRouteNotFound() {
     when(routeJpaRepository.findByRouteId(anyString())).thenReturn(null);
